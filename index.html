@@ -1,0 +1,208 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0">
+        <script src="scripts/jquery-3.3.1.min.js"></script>
+        <script src="scripts/Math.js" type="module"></script>
+        <script src="scripts/ui-globe.js"></script>
+        <script src="scripts/three-r124.min.js" type="module"></script>
+        <script src="scripts/GLTFLoader-r124.js" type="module"></script>
+        <script src="scripts/statistics.js" type="module"></script>
+        <script src="scripts/helper.js" type="module"></script>
+        <script src="scripts/MapManager.js" type="module"></script>
+        <script src="scripts/World.js" type="module"></script>
+        <script src="scripts/movement.js" type="module"></script>
+        <script src="scripts/game.js" type="module"></script>
+        <script src="scripts/combat.js" type="module"></script>
+        <script src="scripts/quests.js" type="module"></script>
+        <script src="scripts/combatAnimations.js" type="module"></script>
+
+        <link rel="stylesheet" type="text/css" href="scripts/main.css">
+    </head>
+    <body>
+        <canvas id="three_outputcanvas" width="600" height="400"></canvas>  
+        <div id="main">
+        </div>
+        <div class="startup_message_de message">
+            <h1>Der Zauberlehrer</h1>
+            <p class="level_introtext">Der Keller muss mal wieder in Ordnung gebracht werden. Schau mal rein und sorg f&uuml;r Ordnung. Das sollte f&uuml;r einen Lehrling mit deinen F&auml;higkeiten ja ein Kinderspiel sein.</p>
+            <div class="startup_progress">Lade Spieldaten ...</div>
+            <div class="startup_navigation">
+                <button data-id="" data-difficulty="1" class="play">
+                    <h2>Leicht</h2>
+                    <img src="./objects/symbol/blob5d.png">
+                    <p>Additionen bis 20<br><br>
+                    
+                        <br></p>
+                    <img class="play_icon" src="./objects/symbol/Play.svg">
+                </button>
+                <button data-id="" data-difficulty="2" class="play">
+                    <h2>Mittel</h2>
+                    <img src="./objects/symbol/Watcher_bonerig_b28_v2.png">
+                    <p>Additionen bis 60<br>
+                        Subtraktionen bis 60<br>
+                    
+                        <br></p>
+                    <img class="play_icon" src="./objects/symbol/Play.svg">    
+                </button>
+                <button data-id="" data-difficulty="3" class="play">
+                    <h2>Schwer</h2>
+                    <img src="./objects/symbol/Treeling.png">
+                    <p>Additionen bis 100<br>
+                        Subtraktionen bis 100<br>
+                        Multiplikationen bis 100</p>
+                    <img class="play_icon" src="./objects/symbol/Play.svg">
+                </button>                                
+                <br><br>
+                <button data-id="howto_message">Wie geht das nochmal mit dem zaubern?</button>
+                <button data-id="impressum_message">Wer bist du nochmal? (Impressum)</button>
+            </div>
+        </div>
+        <div class="startup_message_en message">
+            <h1>math riddle crawler</h1>
+            <p class="level_introtext">There's something crawling in our cellar. Could you be so kind a have a look? Should be quite easy for a wizard with your abilities.</p>
+            <div class="startup_progress">Loading assets ...</div>
+            <div class="startup_navigation">
+                <button data-id="" data-difficulty="1" class="play">
+                    <h2>Easy</h2>
+                    <img src="./objects/symbol/blob5d.png">
+                    <p>additions up to 20<br><br><br></p>
+                    <img class="play_icon" src="./objects/symbol/Play.svg">
+                </button>
+                <button data-id="" data-difficulty="2" class="play">
+                    <h2>Normal</h2>
+                    <img src="./objects/symbol/Watcher_bonerig_b28_v2.png">
+                    <p>additions up to 60<br>
+                        subtractions up to 60<br><br></p>
+                        <img class="play_icon" src="./objects/symbol/Play.svg">
+                </button>
+                <button data-id="" data-difficulty="3" class="play">
+                    <h2>Hard</h2>
+                    <img src="./objects/symbol/Treeling.png">
+                    <p>additions up to 100<br>
+                        subtractions up to 100<br>
+                        multiplications up to 100</p>
+                        <img class="play_icon" src="./objects/symbol/Play.svg">
+                </button>  
+                <br><br>
+                <button data-id="howto_message">howto</button>
+                <button data-id="impressum_message">impressum</button>
+            </div>
+        </div>    
+        <div class="impressum_message_de message">
+            <h1>Impressum</h1>
+            <p>Diese Homepage ist privat.<br>
+            Es werden keine personenbezogenen Daten von Besuchern gespeichert.<br>
+            Es werden keine Daten an Dritte weitergegeben.<br>
+            Es kommen keine Tracker zur Anwendung und es werden keine Fremdanbieterplugins eingebunden.<br>
+            Es wird keine Werbung geschalten.</p>
+            <p>Es werden keine Cookies verwendet.</p>
+            <p>Medieninhaber: Maurer Peter<br>
+            Wohnort: A-4190 Bad Leonfelden, Adalbert Stifter-Stra&szlig;e 23<br>
+            E-Mail Adresse: petermaurer6063@gmail.com<br>
+            Unternehmensgegenstand: privat, keine kommerziellen Interessen, keine Meinungsbildung</p>
+            <button data-id="">Loslegen</button>
+            <button data-id="startup_message">Was soll ich nochmal machen?</button>
+            <button data-id="howto_message">Wie geht das nochmal mit dem zaubern?</button>
+        </div>    
+        <div class="impressum_message_en message">
+            <h1>impressum</h1>
+            <p>This homepage is non-commercial.<br>
+            No personal data is sent or stored.<br>
+            There are no third party plugins or relations receiving data.<br>
+            There are no trackers on this site.<br>
+            This site is ad free.</p>
+            <p>I may use a cookie to save a language preference.</p>
+            <p>author: Maurer Peter<br>
+            location: Austria, A-4190 Bad Leonfelden, Adalbert Stifter-Stra&szlig;e 23<br>
+            email: petermaurer6063@gmail.com<br>
+            company: no company</p>
+            <button data-id="">let's play</button>
+            <button data-id="startup_message">intro</button>
+            <button data-id="howto_message">howto</button>
+        </div>
+        <div class="howto_message_de message">
+            <h1>Anleitung</h1>
+            <p>Lauf mit den Tasten W, A, S, D. Im Kampf l&ouml;se die angezeigte Aufgabe und w&auml;hle die richtige Antwort mit den Tasten 1, 2 und 3. </p>
+            <p>Pausieren kannst du mit ESC.</p>
+            <button data-id="">Loslegen</button>
+            <button data-id="startup_message">Was soll ich nochmal machen?</button>
+            <button data-id="impressum_message">Wer bist du nochmal? (Impressum)</button>
+        </div>
+        <div class="howto_message_en message">
+            <h1>howto</h1>
+            <p>run with keys W, A, S, D. in combat solve the calculation and answer with 1, 2 and 3 keys. </p>
+            <p>you can pause the game with ESC.</p>
+            <button data-id="">let's play</button>
+            <button data-id="startup_message">intro</button>
+            <button data-id="impressum_message">impressum</button>
+        </div>        
+        <div class="pause_message_de message">
+            <h1>Pause</h1>
+            <p>Das Spiel ist angehalten.</p>
+            <button data-id="">Weiter</button>
+            <button data-id="startup_message">Was soll ich nochmal machen?</button>
+            <button data-id="howto_message">Wie geht das nochmal mit dem zaubern?</button>            
+            <button data-id="impressum_message">Wer bist du nochmal? (Impressum)</button>            
+        </div>
+        <div class="pause_message_en message">
+            <h1>pause</h1>
+            <p>the game is paused.</p>
+            <button data-id="">play on</button>
+            <button data-id="startup_message">intro</button>
+            <button data-id="howto_message">howto</button>            
+            <button data-id="impressum_message">impressum</button>            
+        </div>        
+        <div class="death_message_de message">
+            <h1>Gl&uuml;ck gehabt</h1>
+            <p>Gut dass dein Lehrer auf dich schaut. Das war jetzt echt Rettung in letzter Sekunde.</p>
+            <button data-id="">Weiter</button>
+            <button data-id="startup_message">Was soll ich nochmal machen?</button>
+            <button data-id="howto_message">Wie geht das nochmal mit dem zaubern?</button>            
+            <button data-id="impressum_message">Wer bist du nochmal? (Impressum)</button>            
+        </div>  
+        <div class="death_message_en message">
+            <h1>saved</h1>
+            <p>Your magic teacher took care of you.</p>
+            <button data-id="">play on</button>
+            <button data-id="startup_message">intro</button>
+            <button data-id="howto_message">howto</button>            
+            <button data-id="impressum_message">impressum</button>            
+        </div>
+        <div class="success_message_de message">
+            <h1>Bravo</h1>
+            <p>Ich wusste dass du es schaffst. Lust auf die n&auml;chste Aufgabe?</p>
+            <p class="statistic_summary"></p>
+            <button data-id="nextMap">Zum n&auml;chsten Level</button>
+        </div>      
+        <div class="success_message_en message">
+            <h1>yeah</h1>
+            <p>You did it. I knew you could make it. Now let's get on to the next task.</p>
+            <button data-id="nextMap">Proceed to next Level</button>                      
+        </div>
+        <div class="language_ui">
+            <button class="language_en" data-lang="en">english</button>
+            <button class="language_de" data-lang="de">deutsch</button>
+        </div>
+        <div id="combat_ui">
+            <ui-globe id="player_life" class="player_life" value="10" max="10" color="#710808"></ui-globe>
+            <progress id="player_life_mobile" class="player_life" value="10" max="10"></progress>
+            <ui-globe id="mob_life" value="20" max="70" color="#710808"></ui-globe>
+        </div>
+        <div id="movement_ui">
+            <ul>
+                <li class="plate action arrow_left" data-id="turnLeft"></li><li class="plate action arrow_up" data-id="stepForward"></li><li class="plate action arrow_right" data-id="turnRight"></li>
+            </ul>
+        </div>
+        <div id="quest_ui">
+        </div>
+        <div id="quest_complete_de">
+            <p>Quest abgeschlossen!</p>
+        </div>
+        <div id="quest_complete_en">
+            <p>Quest complete!</p>
+        </div>        
+        <div id="difficulty_ui">
+            
+        </div>
+    </body>
+</html>

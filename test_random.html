@@ -1,0 +1,25 @@
+<html>
+	<body>
+		<div id="out"></div>
+
+		<script type="text/javascript">
+			function random(max) { return Math.floor(Math.random() * Math.floor(max+1)); }
+
+
+
+			max=40;
+			for (var i=1;i<100;i++) {
+				var sum=Math.floor(Math.random()*0.7*max)+1+0.3*max;
+				var a=Math.floor((sum-1)*Math.random())+1;
+				var b=sum-a;					
+
+//				var sum=random(0.5*max_sum)+random(0.5*max_sum);
+//				var a=random(sum*0.5-1)+random(sum*0.5-1)-1;
+//				var b=sum-a;					
+
+				console.log("my_rnd", sum, a, b);
+				document.getElementById("out").innerHTML+="my_rnd, "+sum+" "+a+" "+b;
+			}
+		</script>		
+	</body>
+</html>

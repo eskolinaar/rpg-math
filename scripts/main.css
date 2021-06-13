@@ -1,0 +1,467 @@
+canvas#three_outputcanvas {
+    position:absolute;
+    top:0px;
+    left:0px;
+}
+
+body, html {
+    overflow: hidden;
+}
+
+#combat_ui {
+	//display:none;
+}
+
+ui-globe#player_life {
+	height:120px;
+	width:120px;
+	position: absolute;
+	bottom:5vh;
+	left:25vw;
+	z-index:5;
+}
+
+ui-globe#mob_life {
+	height:80px;
+	width:80px;
+	position: absolute;
+	top:5vh;
+	left:calc(50vw - 40px);
+	z-index:10;	
+	display:none;
+}
+
+#main {
+    z-index: 10;
+    position: absolute;
+    width: 600px;
+    left: calc(50vw - 300px);
+    bottom: 0vh;
+    max-height: 60vh;
+}
+
+p.description {
+	display:none;
+}
+
+ul.instruction {
+	padding:0;
+	margin:5vh auto;
+	text-align: center;
+}
+
+ul.solution {
+	padding:0;
+	margin:5vh auto;
+	text-align: center;
+}
+
+ul li.plate {
+	display: inline-block;
+	margin:5px;
+	padding:15px;
+	border:1px solid #AAA;
+	min-width:60px;
+	height: 60px;
+	text-align: center;
+	font-size:24px;
+	background-color: #ddd;
+	box-sizing:border-box;
+	border-left-width: 5px;
+    border-radius: 7px;	
+}
+
+ul.instruction li.plate.empty {
+    border: 0px solid #000;
+    background-color: transparent;
+    width: 25px;
+    min-width: 0px;
+    padding: 0;
+}
+
+ul li.plate.placeholder {
+	box-shadow: 0 0 1px blue;
+	border:2px solid #888;
+	background-color: #eee;
+	cursor:pointer;
+}
+
+ul li.plate.placeholder.active {
+	box-shadow: 0 0 6px blue;
+	background-color: #fff;
+	border:2px solid #000;
+}
+
+ul li.plate.choice {
+	box-shadow: 0 0 3px green;
+	border:2px solid #888;
+	background-color: #eee;
+	cursor:pointer;
+	margin:20px;
+}
+
+ul li.plate.choice:hover {
+	box-shadow: 0 0 6px green;
+	background-color: #fff;
+	border:2px solid #000;
+}
+
+#main ul li.plate.choice.wrong {
+	box-shadow: 0 0 6px red;
+	opacity:0.5;
+}
+
+#main ul li.plate.choice.right {
+	box-shadow: 0 0 6px green;
+	opacity:1;
+	border: 2px solid #000;
+	background-color: #b6ffb6;
+}
+
+ul.index {
+	margin:0;
+	padding:0;
+}
+
+#main .index li {
+	background-color: #fff;
+	border:0px solid #888;
+	display: block;
+	margin:1vw;
+	padding:3vw;
+	cursor:pointer;
+	font-size:21px;
+	border-left-width:5px;
+}
+
+#main .index li:hover {
+	box-shadow: 0 0 6px #888;
+}
+
+.backlink_top {
+	display:none;	
+}
+
+.message {
+    position: absolute;
+    display: block;
+    text-align: center;
+    font-size: 21px;
+    top: 8vh;
+    bottom: 0;
+    left: 20vw;
+    right: 20vw;
+    z-index: 100;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-left: 15px solid rgba(0, 0, 90, 0.8);
+    color: #fff;
+    box-sizing: border-box;
+    padding: 7vh 8vw 5vw 8vw;
+    font-family: arial;
+}
+
+.message button {
+    padding: 10px 25px;
+    margin: 12px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 2px solid #888;
+    cursor:pointer;
+}
+
+button p {
+    color: #888;
+    font-size: 14px;
+    margin-bottom: 30px;
+}
+
+.statistic_summary {
+    max-width: 364px;
+    margin: auto;
+    text-align: left;
+    border: 1px solid;
+    padding: 20px 0 0 20px;
+    background-color: #000;
+    border-radius: 15px;
+}
+
+.weak {
+    font-style: italic;
+    opacity: 0.5;
+}
+
+.center {
+    text-align: center;
+}
+
+.digits3 {
+    display: inline-block;
+    min-width: 39px;
+    text-align: right;
+    padding-right: 5px;
+}
+
+#quest_ui {
+    z-index: 99;
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 24px;
+    color: #000;
+    text-shadow: 0 0 2px #333;
+    display: block;
+    background-color: #bbb;
+    padding: 1.5vw;
+    box-shadow: 0 0 20px #888;
+    border-bottom-left-radius: 40px;
+    cursor:pointer;
+}
+
+#movement_ui {
+    display: block;
+    position: absolute;
+    z-index: 99;
+    bottom: 5vh;
+    left: calc( 50vw - 185px );
+    width: 370px;
+}
+
+.plate.action {
+    font-size: 40px;
+    line-height: 30px;
+    cursor: pointer;
+    margin: 20px;
+    user-select: none;
+	box-shadow: 0 0 3px green;
+	border:2px solid #888;
+	border-left-width:2px;
+	background-color: #eee;    
+	opacity: 0.7;
+}
+
+ul li.plate.action:hover {
+	box-shadow: 0 0 6px green;
+	background-color: #fff;
+	border:2px solid #000;
+}
+
+#startup_difficulty {
+    padding: 5px;
+    border-width: 2px;
+    border-radius: 5px;
+    border-color: #888;
+    background-color: rgba(100, 100, 100, 0.5);
+    text-align: center;
+    scrollbar-width: none;
+}
+
+option {
+    padding: 10px 25px;
+    font-size: 14px;
+}
+
+#startup_navigation {
+	display: none;
+}
+
+.arrow_left {
+	background-image: url(../objects/symbol/ArrowLeft.svg);
+	background-repeat: no-repeat;
+	background-size: 40px;
+	background-position: center;
+}
+
+.arrow_up {
+	background-image: url(../objects/symbol/ArrowUp.svg);
+	background-repeat: no-repeat;
+	background-size: 40px;
+	background-position: center;
+}
+
+.arrow_right {
+	background-image: url(../objects/symbol/ArrowRight.svg);
+	background-repeat: no-repeat;
+	background-size: 40px;
+	background-position: center;
+}
+
+#difficulty_ui {
+	position:absolute;
+	z-index:101;
+	top:0;
+	left:0;
+	font-size: 24px;
+	color: #000;
+	text-shadow: 0 0 2px #333;
+	display: block;
+	background-color: #bbb;
+	padding: 1.5vw;
+	box-shadow: 0 0 20px #888;
+	border-bottom-right-radius: 40px;	
+	cursor:pointer;
+}
+
+#movement_ui ul {
+    padding: 0;
+    text-align: center;
+    margin-bottom: 0;
+}
+
+#player_life_mobile {
+    z-index: 10;
+    position: absolute;
+    bottom: 1vh;
+    height: 2vh;
+    width: 80vw;
+    left: 10vw;
+    border: 0px;
+    display: none;
+    border-radius: 5px;
+    appearance: none;
+    background-color: black;
+}
+
+progress[value]::-moz-progress-bar {
+    background-color: #710808;
+    box-shadow: 0 0 10px #fff inset;
+}
+
+button.play {
+    margin: 8px;
+    color: #000;
+    border-radius: 20px;
+    font-style: italic;
+    padding: 0px 0 26px 0;
+    width: 165px;
+}
+
+button.play img.play_icon {
+	width:50%;
+	opacity:0.5;
+}
+
+button.play:hover {
+	border-color:#000;
+	box-shadow: 0px 0px 8px #888 inset, 0px 0px 8px white;
+}
+
+button.play img {
+	width:200px;
+	max-width:100%;
+	max-height: 200px;
+}
+
+button.play:hover img.play_icon {
+	opacity:1;
+}
+
+
+
+.language_ui {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 100;
+    padding: 10px;
+}
+
+.language_ui button {
+    padding: 10px 25px;
+    margin: 12px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 2px solid #888;
+    cursor: pointer;
+    opacity:0.7;
+}
+
+.language_ui button.active {
+	opacity:1;
+}
+
+#quest_complete_de {
+    position: absolute;
+    top: 39vh;
+    color: white;
+    z-index: 20;
+    text-align: center;
+    width: 100%;
+    font-size: 64px;
+    text-shadow: 0 0 3px black;
+}
+
+#quest_complete_en {
+    position: absolute;
+    top: 39vh;
+    color: white;
+    z-index: 20;
+    text-align: center;
+    width: 100%;
+    font-size: 64px;
+    text-shadow: 0 0 3px black;
+}
+
+@media (orientation: portrait) {
+	.message {
+	    top: 0;
+	    bottom: 0;
+	    left: 0;
+	    right: 0;
+	    padding: 0px 2vw 4vw 2vw;
+	    font-size: 16px;
+	}
+
+	ui-globe#player_life {
+	    height: 5vh;
+	    width: 80vw;
+	    position: absolute;
+	    bottom: 1vh;
+	    left: 10vw;
+	    z-index: 5;
+	}	
+
+	#difficulty_ui {
+		display:none;
+	}
+
+	#quest_ui {
+		border-bottom-left-radius: 0px;
+	}
+
+	ui-globe#player_life {
+	    display:none;
+	}
+
+	#player_life_mobile {
+		display:block;
+	}	
+}
+
+@media (max-height : 700px){
+ 	.message {
+	    top: 0;
+	    bottom: 0;
+	    left: 0;
+	    right: 0;
+	    padding: 0px 2vw 4vw 2vw;
+	    font-size: 16px;
+	}
+
+	ui-globe#player_life {
+	    display:none;
+	}	
+
+	select option {
+	    padding: 5px 25px;
+	    font-size: 14px;
+	}
+
+	#player_life_mobile {
+	    height: 4vh;
+	    width: 40vw;
+	    left: 30vw;		
+		display:block;
+	}
+
+
+}
