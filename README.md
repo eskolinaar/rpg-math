@@ -9,6 +9,6 @@ Combat is done by solving simple arithmetical problems like adding 2 numbers.
 
 This project can be seen in action under https://rpg.maurer1108.at/
 
-Its ad free, cookie free, free of registration stuff, free of notifications and newsletter annoyances.
+Its ad free, tracking cookie free, free of registration stuff, free of notifications and newsletter annoyances.
 
 I decided to use the MIT license for this project.
