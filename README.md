@@ -33,3 +33,19 @@ You cant actually die. Instead you just get ported to the beginning. No penaltie
 Faster initial loadup. \
 Statistics shown at the end of the map.\
 More Info on the github page.
+
+<br><br>
+
+## Browser support
+
+rpg-math runs on modern browsers supporting WebGL, including Firefox, Chrome, Edge. 
+
+## Installation
+
+- extract/checkout repository to web server directory. \
+- call index.html from browser.
+
+## License
+
+MIT License
+
