@@ -69,7 +69,7 @@ p#savebutton {
     overflow: auto;
 }
 
-#options2, #options, #mobs, #char, #tools, #token {
+#options2, #options, #mobs, #char, #tools, #token, #intro, #quest {
     width: 20vw;
     padding: 10px;
     box-sizing: border-box;
@@ -79,6 +79,10 @@ p#savebutton {
     border-radius: 3px;
     box-shadow: 0 0 3px #888;
     background-color: #eee;
+}
+
+#quest input { 
+    width:100%;
 }
 
 label {
@@ -160,4 +164,8 @@ span {
 
 button {
 	cursor:pointer;
+}
+
+#introtext_en, #introtext_de {
+    width:100%;
 }

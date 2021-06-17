@@ -366,13 +366,24 @@
         $("button#savebutton").click(function () {
 
             console.log("saving...");
+            mapdata.introtext={};
+            mapdata.introtext.de=$("#introtext_de").val();
+            mapdata.introtext.en=$("#introtext_en").val();
+
+            mapdata.quest={};
+            mapdata.quest.event=$("#quest_event").val();
+            mapdata.quest.amount=$("#quest_event_amount").val();
+            mapdata.quest.template={};
+            mapdata.quest.template.en=$("#quest_text_en").val();
+            mapdata.quest.template.de=$("#quest_text_de").val();
+
             msg='{ \n"version":"21.01.001", \n"mapname":"'+$("#mapname").val()+'", \n"height": "30", \n"width": "30",';
             msg+='\n"x" : "'+parseInt($("#char_x").val())+'", \n"y" : "'+parseInt($("#char_y").val())+'", \n"direction" : "1", \n"fielddata":[';
             msg+=field.join(",");       
             msg+='], \n"mobs":'+JSON.stringify(mapdata.mobs);
             msg+=', \n"token":'+JSON.stringify(mapdata.token);
             msg+=', \n"quest":'+JSON.stringify(mapdata.quest);
-            msg+=', \n"introtext":'+JSON.stringify(mapdata.introtext);
+            msg+=', \n"introtext": '+JSON.stringify(mapdata.introtext);
             msg+='\n}';
 
             console.log("storing to textarea", msg);
@@ -386,6 +397,28 @@
                 field=mapdata.fielddata;
                 $("#char_x").val(mapdata.x);
                 $("#char_y").val(mapdata.y);
+                if (mapdata.introtext!=undefined && mapdata.introtext.en!=undefined) {
+                    $("#introtext_en").val(mapdata.introtext.en);
+                }
+                if (mapdata.introtext!=undefined && mapdata.introtext.en!=undefined) {
+                    $("#introtext_de").val(mapdata.introtext.de);
+                }
+                if (mapdata.quest!=undefined) {
+                    if (mapdata.quest.event!=undefined) {
+                        $("#quest_event").val(mapdata.quest.event);
+                    }
+                    if (mapdata.quest.amount!=undefined) {
+                        $("#quest_event_amount").val(mapdata.quest.amount);
+                    }   
+                    if (mapdata.quest.template!=undefined) {
+                        if (mapdata.quest.template.en!=undefined) {
+                            $("#quest_text_en").val(mapdata.quest.template.en);
+                        }
+                        if (mapdata.quest.template.de!=undefined) {
+                            $("#quest_text_de").val(mapdata.quest.template.de);
+                        }
+                    }                                      
+                }
                 updateMobList();
                 updateTokenList();
                 repaint();
@@ -511,6 +544,22 @@
     <br><br>
     <button id="update">Update</button>
 </div>
+<div id="intro">
+    <label>Intro Text EN</label>
+    <textarea id="introtext_en" placeholder="could you do that for me"></textarea>
+    <label>Intro Text DE</label>
+    <textarea id="introtext_de" placeholder="Kannst du das f&uuml;r mich machen?"></textarea>
+</div>
+<div id="quest">
+    <label>Quest event</label>
+    <input id="quest_event" type="text" placeholder="token, kill">
+    <label>Quest event amount</label>
+    <input id="quest_event_amount" type="text" placeholder="1+">
+    <label>Quest text EN</label>
+    <input id="quest_text_en" type="text" placeholder="{} of {} gathered/">
+    <label>Quest text DE</label>
+    <input id="quest_text_de" type="text" placeholder="{} von {} gesammelt/besiegt">
+
 </div>   
 </body>
 </html>         
