@@ -112,13 +112,24 @@ export class Statistic {
 	}
 
 	getSummaryHtml() {
-		return `<p class="center"><b>Zusammenfassung</b><br>
-				<span class="weak">(Schwierigkeit: ${this.difficulty()})</span></p>
-				<p><span class="digits3">${this.count()}</span> Rechnungen<br>
-				<span class="digits3">${this.wrongCount()}</span> Fehler<br>
-				<span class="digits3">${this.getWinCount()}</span> gewonnene Kämpfe<br>
-				<span class="digits3">${this.getDeathCount()}</span> verlorene Kämpfe<br>
-				<span class="digits3">${this.averageTime()}</span> Sekunden mittlere Rechenzeit</p>
-				<p class="center"><b>${this.getStars()} von 5 Sterne</b></p>`;
+		if (window.gamedata.language=="de") {
+			return `<p class="center"><b>Zusammenfassung</b><br>
+					<span class="weak">(Schwierigkeit: ${this.difficulty()})</span></p>
+					<p><span class="digits3">${this.count()}</span> Rechnungen<br>
+					<span class="digits3">${this.wrongCount()}</span> Fehler<br>
+					<span class="digits3">${this.getWinCount()}</span> gewonnene Kämpfe<br>
+					<span class="digits3">${this.getDeathCount()}</span> verlorene Kämpfe<br>
+					<span class="digits3">${this.averageTime()}</span> Sekunden mittlere Rechenzeit</p>
+					<p class="center"><b>${this.getStars()} von 5 Sterne</b></p>`;
+		}
+		// en & default
+		return `<p class="center"><b>Summary</b><br>
+				<span class="weak">(difficulty: ${this.difficulty()})</span></p>
+				<p><span class="digits3">${this.count()}</span> calculations<br>
+				<span class="digits3">${this.wrongCount()}</span> errors<br>
+				<span class="digits3">${this.getWinCount()}</span> won fights<br>
+				<span class="digits3">${this.getDeathCount()}</span> lost fights<br>
+				<span class="digits3">${this.averageTime()}</span> seconds average calculation time</p>
+				<p class="center"><b>${this.getStars()} of 5 stars</b></p>`;
 	}
 }

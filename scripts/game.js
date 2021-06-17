@@ -20,7 +20,6 @@ var world;
 var statistics;
 
 export function getLanguage() {
-    //return "de";
     let lang=navigator.language.substring(0, 2);;
     console.log("using language ", lang);
     return lang;

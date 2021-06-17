@@ -103,7 +103,7 @@ export function initWorld() {
     rad4=2 * Math.PI;
     rotationoffset=Math.PI;  
 
-    light2 = new THREE.AmbientLight( 0x444444, 3 );
+    light2 = new THREE.AmbientLight( 0x444444, 5 );
 
     damageLight = new THREE.AmbientLight( 0xaa0000, 0 );
 
@@ -125,9 +125,9 @@ function questComplete() {
     $(".statistic_summary").html(window.gamedata.statistics.getSummaryHtml());
     window.gamedata.statistics.resetAll();
 
-    $("#quest_complete_"+getLanguage()).fadeIn(400);
+    $("#quest_complete_"+window.gamedata.language).fadeIn(400);
     setTimeout(() => {
-        $("#quest_complete_"+getLanguage()).fadeOut(400);
+        $("#quest_complete_"+window.gamedata.language).fadeOut(400);
         showMessage("success_message");
     }, 1000);
     window.gamedata.lastMobId=0;
