@@ -163,4 +163,8 @@ export class MapManager {
 	removeToken(idx) {
 		this.token.splice(idx, 1);
 	}
+
+	getQuest() {
+		return this.quest;
+	}
 }

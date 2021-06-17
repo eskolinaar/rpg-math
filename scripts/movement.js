@@ -330,7 +330,11 @@ class Actions {
             paused=false;
         } else {
             console.log("game is paused");
-            showMessage("pause_message");
+            if (mapManager.getQuest().isComplete()) {
+                showMessage("success_message");
+            } else {
+                showMessage("pause_message");
+            }
             paused=true;
         }
     }

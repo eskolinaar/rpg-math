@@ -104,7 +104,7 @@ var game = {
         window.gamedata.direction=3;
         window.gamedata.lastMobId=0;
         window.gamedata.difficulty="1";
-        
+
         window.gamedata.canvas={};
         window.gamedata.camera={};
         window.gamedata.camera.deltaX=0;
@@ -149,7 +149,13 @@ var game = {
             $(".language_ui button").removeClass("active");
             $(this).addClass("active");
             mapManager.changeLanguage(window.gamedata.language);
-            showMessage("startup_message");
+            
+            if (mapManager.getQuest().isComplete()) {
+                $(".statistic_summary").html(window.gamedata.statistics.getSummaryHtml());
+                showMessage("success_message");
+            } else {
+                showMessage("startup_message");
+            }
         });
         $(".message button").on("click", function () {
             let did=$(this).attr("data-id");
@@ -179,8 +185,13 @@ var game = {
             } else if (did=="nextMap") {
                 $("body").trigger({ type:"nextMap" });
             } else {
-                console.log("showing, ."+did)
-                showMessage(did);
+                console.log("showing, ."+did);
+
+                if (mapManager.getQuest().isComplete()) {
+                    showMessage("success_message");
+                } else {
+                    showMessage(did);
+                }
             }
         });
         $("#difficulty_ui").on("click", () => {

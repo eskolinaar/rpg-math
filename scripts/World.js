@@ -122,8 +122,7 @@ export function initWorld() {
 function questComplete() {
     setPaused(true);
 
-    $(".statistic_summary").html(window.gamedata.statistics.getSummaryHtml());
-    window.gamedata.statistics.resetAll();
+    $(".statistic_summary").html(window.gamedata.statistics.getSummaryHtml());    
 
     $("#quest_complete_"+window.gamedata.language).fadeIn(400);
     setTimeout(() => {
@@ -135,6 +134,8 @@ function questComplete() {
     $("body").on("nextMap", () => {
         $("body").off("nextMap");
         showMessage("startup_message");
+
+        window.gamedata.statistics.resetAll();
 
         if (window.gamedata.direction==undefined) window.gamedata.direction=3;
         window.gamedata.canvas={};

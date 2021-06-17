@@ -10,6 +10,7 @@ export class Quest {
 		this.currentCount=0;
 		this.template=template;
 		this.container=container;
+		this.complete=false;
 
 		console.log("starting new quest, ", eventName, eventCount, template, container);
 		let tpl=this.template.split("{}");
@@ -25,6 +26,7 @@ export class Quest {
 				$("body").off(this.eventName);
 				$("body").trigger({ type:"quest_complete" });
 				this.currentCount=0;
+				this.complete=true;
 			}
 			console.log("quest progress "+this.currentCount+" / "+this.eventCount);			
 		});
@@ -35,5 +37,9 @@ export class Quest {
 		let tpl=this.template.split("{}");
 		$(this.container).html(tpl[0]+this.currentCount+tpl[1]+this.eventCount+tpl[2]);
 		console.log("quest change language "+this.currentCount+" / "+this.eventCount);	
+	}
+
+	isComplete() {
+		return (this.complete);
 	}
 }
