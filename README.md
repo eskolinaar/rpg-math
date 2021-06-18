@@ -10,9 +10,10 @@
 This is a free of charge, ad free **browser game, a 3d dungeon crawler** where you fight by solving arithmetical problems like adding or subtracting numbers.
 Its prime audience is aimed at children in the age of about 8 years.
 
-### Based on Three-js
+### Based on Three-js & jQuery
 
 Its based on a library called [ThreeJS](https://threejs.org/), which allows to show 3d environments in a browser through webgl.
+Furthermore on [jQuery](https://jquery.com/) for animations an conveniance.
 
 ### Interface
 
@@ -44,6 +45,11 @@ rpg-math runs on modern browsers supporting WebGL, including Firefox, Chrome, Ed
 
 - extract/checkout repository to web server directory. 
 - call index.html from browser.
+
+## Technical information
+
+Documentation will be here:
+https://github.com/eskolinaar/rpg-math/wiki
 
 ## License
 
