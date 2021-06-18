@@ -1,7 +1,7 @@
 "use strict";
 
 import { Vector, Position } from './helper.js';
-import { mapManager, partyPos, scene, setPartyPosition, getCameraDiff } from './World.js';
+import { mapManager, partyPos, scene, setPartyPosition, getCameraDiff, moveCameraTop } from './World.js';
 import { startCombat, damage, select, playerDeath } from './combat.js';
 import { showMessage } from './game.js';
 
@@ -35,7 +35,7 @@ var keyBindings = {
     65: "stepLeft",
     68: "stepRight",
     32: "idle",
-    163: "showMap",
+//    163: "showMap",
     49: "one",
     50: "two",
     51: "three",
@@ -354,16 +354,9 @@ class Actions {
     }
 
     static showMap() {
-        camera.rotation.x=-1.5;
-        camera.rotation.y=0;
-        camera.position.y=29;
-        camera.position.z=17;
-        camera.position.x=15;
+        moveCameraTop();
 
         if (onTop==0) {
-            light_all = new THREE.AmbientLight( 0x888888 ); // soft white light
-            light_all.intensity=3;
-            scene.add( light_all );
             onTop=1;
         }                
     }
@@ -372,7 +365,6 @@ class Actions {
         rad=90 * Math.PI / 180; 
         camera.rotation.y=window.gamedata.direction*rad+rotationoffset;
         camera.rotation.x=0;
-        scene.remove(light_all);
 
         camera.position.x=partyPos.x-1;
         camera.position.z=partyPos.y-1;

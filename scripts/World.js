@@ -565,3 +565,14 @@ function getActionByName(mixer, animations, animationname) {
 
     return undefined;
 }
+
+export function moveCameraTop() {
+    camera.rotation.x=-1.5;
+    camera.rotation.y=0;
+    camera.position.y=29;
+    camera.position.z=17;
+    camera.position.x=15;           
+
+    console.log(light2);  
+    light2.intensity=10;
+}
