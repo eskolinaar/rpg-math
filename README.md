@@ -2,7 +2,7 @@
 
 [![Banner](/objects/symbol/banner.jpg)](https://rpg.maurer1108.at)
 
-**Live preview: https://rpg.maurer1108.at**
+**Live Version: https://rpg.maurer1108.at**
 ---
 <br><br>
 ## What is it
