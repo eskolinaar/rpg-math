@@ -1,3 +1,9 @@
+/*
+	Maurer Peter (https://github.com/eskolinaar)
+	MIT-License
+	
+	HTML UI-Element to show Globes that indicate an amount of health.
+*/
 
 class UiGlobe extends HTMLElement {
 
@@ -5,12 +11,17 @@ class UiGlobe extends HTMLElement {
     	return ['value', 'max', 'color'];
   	}
 
+  	// a value should be between 0 and max.
+  	// it indicates the fill amount of the globe
 	get value() { return this.getAttribute('value'); }
 	set value(val) { if (val) { this.setAttribute('value', val); } else { this.removeAttribute('value'); } }
 
+	// the maximum value. this is needed to calculate 
+	// a relative percentage of value to max-value.
 	get max() { return this.getAttribute('max'); }
 	set max(val) { if (val) { this.setAttribute('max', val); } else { this.removeAttribute('max'); } }
 
+	// html color code that the filled amount should have
 	get color() { return this.getAttribute('color'); }
 	set color(val) { if (val) { this.setAttribute('color', val); } else { this.removeAttribute('color'); } }
 
@@ -29,6 +40,7 @@ class UiGlobe extends HTMLElement {
 		this._shadowRoot.innerHTML=out;				
 	}
 
+	// changing the value, max-value or color should immediately affect the visual representation
 	attributeChangedCallback(name, oldValue, newValue) {
 		if (name=="value") {
 			if (newValue==undefined) {
@@ -46,19 +58,25 @@ class UiGlobe extends HTMLElement {
 		this.updateContent();
 	}
 
+	// update visual when layout is done
 	connectedCallback() {
 		setTimeout(() => {
 			this.updateContent();
 		}, 100);
 	}
 
+
 	updateContent() {
 		if (this.max_==undefined) this.max_=100;
 		if (this.value_==undefined) this.value_=this.max_;
 		if (this.color_==undefined) this.color_="red";
 
+		// While globe-back and globe-front stay the same
+		// the globe-mask (with style overflow:hidden) shows only the percentage of 
+		// remaining value.
+		// The height depends on the height of the globe-html-element as a whole
+		// and the relative percentage between value and max-value.
 		let value_height=(this.clientHeight*parseInt(this.value_)/parseInt(this.max_));
-		//console.log("heights, ", this.clientHeight, parseInt(this.value_), parseInt(this.max_), value_height);
 
 		let color=this.color_;
 
