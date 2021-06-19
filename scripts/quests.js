@@ -32,6 +32,12 @@ export class Quest {
 		});
 	}
 
+	dispose() {
+		$("body").off(this.eventName);
+		this.currentCount=0;
+		this.complete=true;		
+	}
+
 	changeLanguage(newTemplate) {
 		this.template=newTemplate;
 		let tpl=this.template.split("{}");

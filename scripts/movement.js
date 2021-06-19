@@ -3,7 +3,7 @@
 import { Vector, Position } from './helper.js';
 import { mapManager, partyPos, scene, setPartyPosition, getCameraDiff, moveCameraTop } from './World.js';
 import { startCombat, damage, select, playerDeath } from './combat.js';
-import { showMessage } from './game.js';
+import { showMessage, isCheatingEnabled } from './game.js';
 
 var directions = {
     0: new Vector(0, -1),
@@ -39,6 +39,7 @@ var keyBindings = {
     49: "one",
     50: "two",
     51: "three",
+    75: "kill",
     77: "math",
     27: "pause",
     85: "levelchange"
@@ -79,6 +80,26 @@ export function registerKeyStrokes() {
         Actions[action]();
     });
 
+    $("body").on("move", (e, data) => {
+        if (!isCheatingEnabled) {
+            console.log("cheats not enabled");
+            return;
+        }    
+        console.log("teleport", data);
+        let newPos=new Position(data.x, data.y);
+
+        if (mapManager.isFloor(newPos.apply(mm)) && checkMobPositionByPosition(-1, newPos.apply(mm))) {
+            setPartyPosition(newPos);            
+            checkTokenPosition(partyPos.apply(mm), true);
+        } else {
+            console.log("teleport failed", data);
+        }
+
+    });
+
+    $("body").on("position", () => {
+        console.log(partyPos);
+    });
 
 }
 
@@ -308,6 +329,11 @@ class Actions {
         if (targetMob>-1) {
             damage(1);
         }        
+    }
+
+    static kill() {
+        if (isCheatingEnabled==false) return;
+        $("body").trigger("forceEndCombat");     
     }
 
     static resetPlayer() {

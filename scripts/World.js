@@ -3,8 +3,9 @@
 import { GLTFLoader } from './GLTFLoader-r124.js';
 import { parseJSON, Position } from './helper.js';
 import { MapManager } from './MapManager.js';
-import { onTop, setPaused } from './movement.js';
+import { onTop, setPaused, targetMob } from './movement.js';
 import { i18n, showMessage, getLanguage } from './game.js';
+import { damage } from './combat.js';
 
 var delta;
 var cr;
@@ -122,7 +123,7 @@ export function initWorld() {
 function questComplete() {
     setPaused(true);
 
-    $(".statistic_summary").html(window.gamedata.statistics.getSummaryHtml());    
+    $(".statistic_summary").html(window.gamedata.statistics.getSummaryHtml());  
 
     $("#quest_complete_"+window.gamedata.language).fadeIn(400);
     setTimeout(() => {
@@ -132,6 +133,9 @@ function questComplete() {
     window.gamedata.lastMobId=0;
 
     $("body").on("nextMap", () => {
+        // end combat if necessary
+        $("body").trigger("forceEndCombat");
+
         $("body").off("nextMap");
         showMessage("startup_message");
 

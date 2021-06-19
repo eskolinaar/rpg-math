@@ -18,6 +18,8 @@ var sufferTime;
 var walkerTime;
 var world;
 var statistics;
+export var isCheatingEnabled;
+export var isNoDamageEnabled;
 
 export function getLanguage() {
     let lang=navigator.language.substring(0, 2);;
@@ -101,6 +103,8 @@ var game = {
         window.gamedata.language=getLanguage();
         $(".language_ui button.language_"+window.gamedata.language).addClass("active");
         
+        isCheatingEnabled=false;
+
         window.gamedata.direction=3;
         window.gamedata.lastMobId=0;
         window.gamedata.difficulty="1";
@@ -201,6 +205,12 @@ var game = {
         $("#quest_ui").on("click", () => {
             setPaused(true);
             showMessage("startup_message");
+        });        
+        $("body").on("enableCheats", function () {
+            isCheatingEnabled=true;
+        });
+        $("body").on("noDamage", function () {
+            isNoDamageEnabled=true;
         });
 
         initWorld();

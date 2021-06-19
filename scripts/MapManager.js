@@ -151,6 +151,10 @@ export class MapManager {
 		return this.mobs.length;
 	}
 
+	disposeMobs() {
+		this.mobs=[];
+	}
+
 	getTokenData() {
 		return this.token;
 	}

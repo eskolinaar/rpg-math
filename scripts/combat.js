@@ -2,7 +2,7 @@
 
 import { mapManager, scene } from './World.js';
 import { targetMob, resetTargetMob, paused, setPaused, resetPlayerPosition } from './movement.js';
-import { showMessage } from './game.js';
+import { showMessage, isNoDamageEnabled } from './game.js';
 
 export function startCombat() {
     let m=mapManager.getMob(targetMob);
@@ -17,6 +17,7 @@ export function startCombat() {
 
     $("body").on("mistake", mistake);
     $("body").on("correct", correct);
+    $("body").on("forceEndCombat", forceEndCombat);
 
     $("body").trigger({ type:"stageLoaded", var: { type:"math_add", stage:[{ "type":"math_add", "limit": window.gamedata.difficulty }] }});
 }
@@ -29,6 +30,12 @@ function mistake() {
 function correct() {
     console.log("correct, do damage");
     damage(1);
+}
+
+function forceEndCombat() {
+    if (targetMob<0) return;
+    let m=mapManager.getMob(targetMob);
+    damage(m.current_life);
 }
 
 export function playerDeath() {
@@ -50,7 +57,7 @@ export function playerDeath() {
     $("#movement_ui").show();
 }
 
-function endCombat(m) {
+export function endCombat(m) {
     document.getElementById("mob_life").value=0;
     console.log("damage, mob dies ", m); 
     m.current_life=0;
@@ -84,6 +91,7 @@ export function damage(dmg) {
 }
 
 export function suffer(dmg) {
+    if (isNoDamageEnabled) return;
     if (targetMob<0) return;
 	if (dmg==undefined) dmg=1;
 
