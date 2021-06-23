@@ -21,7 +21,9 @@ export function startCombat() {
     $("body").on("correct", correct);
     $("body").on("forceEndCombat", forceEndCombat);
 
-    $("body").trigger({ type:"stageLoaded", var: { type:"math_add", stage:[{ "type":"math_add", "limit": window.gamedata.difficulty }] }});
+    setTimeout(() => {
+        $("body").trigger({ type:"stageLoaded", var: { type:"math_add", stage:[{ "type":"math_add", "limit": window.gamedata.difficulty }] }});
+    }, 1000);
 }
 
 function mistake() {
