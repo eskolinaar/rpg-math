@@ -8,12 +8,14 @@ export function startCombat() {
     let m=mapManager.getMob(targetMob);
     console.log("startCombat, combat started with ", m);
     console.log("startCombat, targetMob is ", targetMob);
-    document.getElementById("mob_life").max=m.life;
     if (m.current_life==undefined) m.current_life=m.life;
-    document.getElementById("mob_life").value=m.current_life;
-    $("#mob_life").fadeIn();
-    $("#movement_ui").hide();
+
+    $(".mob_life").attr("max", m.life);
+    $(".mob_life").attr("value", m.current_life);
+    $(".mob_life").fadeIn();
     $("#mob_life")[0].updateContent();
+
+    $("#movement_ui").hide();
 
     $("body").on("mistake", mistake);
     $("body").on("correct", correct);
@@ -53,7 +55,7 @@ export function playerDeath() {
 
     setPaused(true);
     showMessage("death_message");
-    $("#mob_life").fadeOut();
+    $(".mob_life").fadeOut();
     $("#movement_ui").show();
 }
 
@@ -67,7 +69,7 @@ export function endCombat(m) {
     scene.remove(m.object);
     mapManager.removeMob(targetMob);
     resetTargetMob(); 
-    $("#mob_life").fadeOut();   
+    $(".mob_life").fadeOut();   
     $("#movement_ui").show();
     $("#main").html("");
     $("body").off("mistake", mistake);
@@ -87,7 +89,8 @@ export function damage(dmg) {
         endCombat(m);
         return;   
     }
-    document.getElementById("mob_life").value=m.current_life;
+
+    $(".mob_life").attr("value", m.current_life);    
 }
 
 export function suffer(dmg) {
