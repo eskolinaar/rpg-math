@@ -480,7 +480,7 @@ button.play:hover img.play_icon {
 	.statistic_summary { padding:0 0 0 20px; }
 	div.success_message_de.message h1 + p, div.success_message_en.message h1 + p { display: none; }
 	.statistic_summary + button { margin-top: 5px; }
-	#movement_ui { left:0; width:auto; }
+	#movement_ui { left:35px; width:auto; }
 
 	#main {
 	    z-index: 10;
@@ -501,7 +501,7 @@ button.play:hover img.play_icon {
 	    width: 100%;
 	}
 	ul.solution {
-	    padding: 0;
+	    padding: 0 0 0 35px;
 	    margin: 5vh auto;
 	    text-align: left;
 	    bottom: 0;
