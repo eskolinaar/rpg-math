@@ -406,6 +406,19 @@ button.play:hover img.play_icon {
     text-shadow: 0 0 3px black;
 }
 
+
+button[data-id=fullscreen] img {
+    width: 38px;
+    height: 39px;
+}
+
+button[data-id=fullscreen] {
+    position: absolute;
+    top: 10px;
+    left: 0px;
+    padding: 0px;
+}
+
 @media (orientation: portrait) {
 	.message {
 	    top: 0;
@@ -518,6 +531,10 @@ button.play:hover img.play_icon {
 	ui-globe#mob_life {
 		opacity:0;
 	}
-
+	button[data-id=fullscreen] {
+	    top: 5px;
+	    left: 5px;
+	    margin: 0;
+	}
 
 }

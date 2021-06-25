@@ -188,6 +188,15 @@ var game = {
                 setPaused(false);
             } else if (did=="nextMap") {
                 $("body").trigger({ type:"nextMap" });
+            } else if (did=="fullscreen") {
+                console.log("fullscreen clicked");
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen();
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    }
+                }
             } else {
                 console.log("showing, ."+did);
 
