@@ -123,6 +123,7 @@ var game = {
         window.gamedata.maps=[
             //"m2021-04-17.map.json",  
             //"test-short.map.json",
+            "m2021-06-26.map.json",
             "m2021-05-22.map.json",
             "m2021-06-03.map.json",
             "m2021-01-30.map.json",

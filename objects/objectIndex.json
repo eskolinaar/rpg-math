@@ -224,5 +224,26 @@
         "mesh":"chest06-2021.glb",
         "symbol":"chest6.png",
         "type":"token"        
+    },
+    "37":{
+        "id":"37",
+        "name":"water",
+        "mesh":"Water.glb",
+        "symbol":"water.png",
+        "type":"wall"
+    },
+    "38":{
+        "id":"38",
+        "name":"waterway",
+        "mesh":"WaterWay.glb",
+        "symbol":"waterway.png",
+        "type":"floor"
+    },
+    "39":{
+        "id":"39",
+        "name":"swampwater",
+        "mesh":"SwampWater.glb",
+        "symbol":"swampwater.png",
+        "type":"wall"
     }
 }
