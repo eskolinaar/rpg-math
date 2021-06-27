@@ -86,147 +86,144 @@ export function i18n(key) {
     }
 }
 
-var game = {
-    init : function () {
-        mathLoader = new RandomMath();
-        statistics = new Statistic();
-        game.initModelAndScene();     
-        registerKeyStrokes();
-        initAnimations();
-        render(); // start render loop
-    },
+function initGame() {
+    mathLoader = new RandomMath();
+    statistics = new Statistic();
+    initModelAndScene();     
+    registerKeyStrokes();
+    initAnimations();
+    render(); // start render loop
+}
 
-    initModelAndScene : function () {
-        window.gamedata={};
-        window.gamedata.statistics=statistics;
+function initModelAndScene() {
+    window.gamedata={};
+    window.gamedata.statistics=statistics;
 
-        window.gamedata.language=getLanguage();
-        $(".language_ui button.language_"+window.gamedata.language).addClass("active");
+    window.gamedata.language=getLanguage();
+    $(".language_ui button.language_"+window.gamedata.language).addClass("active");
+    
+    isCheatingEnabled=false;
+
+    window.gamedata.direction=3;
+    window.gamedata.lastMobId=0;
+    window.gamedata.difficulty="1";
+
+    window.gamedata.canvas={};
+    window.gamedata.camera={};
+    window.gamedata.camera.deltaX=0;
+    window.gamedata.camera.deltaY=0;
+    window.gamedata.camera.deltaZ=1.58;      
+
+    window.gamedata.player={};
+    window.gamedata.player.life=10;
+    window.gamedata.player.current_life=10;
+
+    window.gamedata.currentmap=0;
+    window.gamedata.maps=[
+        //"m2021-04-17.map.json",  
+        //"test-short.map.json",
+        "m2021-06-26.map.json",
+        "m2021-05-22.map.json",
+        "m2021-06-03.map.json",
+        "m2021-01-30.map.json",
+        "m2021-03-08.map.json",
+        "m2021-03-09.map.json",
+        "m2021-02-19.map.json"
+    ];
+
+    activateRegenerationLoop(1000);  
+    clearInterval(sufferTime);
+    clearInterval(walkerTime);
+    sufferTime=setInterval(() => {
+        if (!paused) suffer();
+    }, 5000); 
+    walkerTime=setInterval(() => {
+        if (targetMob<0 && paused==false) {
+            mobWalk();
+        }
+    }, 1500); 
+
+    showMessage("startup_message");
+    $(".startup_navigation").hide();
+    $("#quest_complete_de").hide();
+    $("#quest_complete_en").hide();
+    $(".message button").off("click");
+    $(".language_ui button").on("click", function () {
+        window.gamedata.language=$(this).attr("data-lang");
+        $(".language_ui button").removeClass("active");
+        $(this).addClass("active");
+        mapManager.changeLanguage(window.gamedata.language);
         
-        isCheatingEnabled=false;
+        if (mapManager.getQuest().isComplete()) {
+            $(".statistic_summary").html(window.gamedata.statistics.getSummaryHtml());
+            showMessage("success_message");
+        } else {
+            showMessage("startup_message");
+        }
+    });
+    $(".message button").on("click", function () {
+        let did=$(this).attr("data-id");
 
-        window.gamedata.direction=3;
-        window.gamedata.lastMobId=0;
-        window.gamedata.difficulty="1";
-
-        window.gamedata.canvas={};
-        window.gamedata.camera={};
-        window.gamedata.camera.deltaX=0;
-        window.gamedata.camera.deltaY=0;
-        window.gamedata.camera.deltaZ=1.58;      
-
-        window.gamedata.player={};
-        window.gamedata.player.life=10;
-        window.gamedata.player.current_life=10;
-
-        window.gamedata.currentmap=0;
-        window.gamedata.maps=[
-            //"m2021-04-17.map.json",  
-            //"test-short.map.json",
-            "m2021-06-26.map.json",
-            "m2021-05-22.map.json",
-            "m2021-06-03.map.json",
-            "m2021-01-30.map.json",
-            "m2021-03-08.map.json",
-            "m2021-03-09.map.json",
-            "m2021-02-19.map.json"
-        ];
-
-        activateRegenerationLoop(1000);  
-        clearInterval(sufferTime);
-        clearInterval(walkerTime);
-        sufferTime=setInterval(() => {
-            if (!paused) suffer();
-        }, 5000); 
-        walkerTime=setInterval(() => {
-            if (targetMob<0 && paused==false) {
-                mobWalk();
+        if (did==undefined || did=="") {
+            console.log("messages closed. starting/resuming game.");
+            if ($(this).attr("data-difficulty")!=undefined && !isNaN($(this).attr("data-difficulty"))) {
+                window.gamedata.difficulty=$(this).attr("data-difficulty");//parseInt($(".startup_message_"+window.gamedata.language+" .startup_difficulty").val());
             }
-        }, 1500); 
+            if (isNaN(window.gamedata.difficulty)) {
+                console.log("no valid difficulty value. setting override value=1");
+                window.gamedata.difficulty="1";
+            }
+            console.log("setting difficulty to "+window.gamedata.difficulty);
+            $("#difficulty_ui").html(i18n("difficulty")+window.gamedata.difficulty);
+            $(".message").hide();
+            $(".language_ui").hide();
+            $("#combat_ui").show();
+            if (targetMob>-1) {
+                
+            } else {
+                $("#movement_ui").show();
+            }
+            $("#quest_ui").show();
+            $("#difficulty_ui").show();
+            setPaused(false);
+        } else if (did=="nextMap") {
+            $("body").trigger({ type:"nextMap" });
+        } else if (did=="fullscreen") {
+            console.log("fullscreen clicked");
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        } else {
+            console.log("showing, ."+did);
 
-        showMessage("startup_message");
-        $(".startup_navigation").hide();
-        $("#quest_complete_de").hide();
-        $("#quest_complete_en").hide();
-        $(".message button").off("click");
-        $(".language_ui button").on("click", function () {
-            window.gamedata.language=$(this).attr("data-lang");
-            $(".language_ui button").removeClass("active");
-            $(this).addClass("active");
-            mapManager.changeLanguage(window.gamedata.language);
-            
             if (mapManager.getQuest().isComplete()) {
-                $(".statistic_summary").html(window.gamedata.statistics.getSummaryHtml());
                 showMessage("success_message");
             } else {
-                showMessage("startup_message");
+                showMessage(did);
             }
-        });
-        $(".message button").on("click", function () {
-            let did=$(this).attr("data-id");
+        }
+    });
+    $("#difficulty_ui").on("click", () => {
+        setPaused(true);
+        showMessage("startup_message");
+    });
+    $("#quest_ui").on("click", () => {
+        setPaused(true);
+        showMessage("startup_message");
+    });        
+    $("body").on("enableCheats", function () {
+        isCheatingEnabled=true;
+    });
+    $("body").on("noDamage", function () {
+        isNoDamageEnabled=true;
+    });
 
-            if (did==undefined || did=="") {
-                console.log("messages closed. starting/resuming game.");
-                if ($(this).attr("data-difficulty")!=undefined && !isNaN($(this).attr("data-difficulty"))) {
-                    window.gamedata.difficulty=$(this).attr("data-difficulty");//parseInt($(".startup_message_"+window.gamedata.language+" .startup_difficulty").val());
-                }
-                if (isNaN(window.gamedata.difficulty)) {
-                    console.log("no valid difficulty value. setting override value=1");
-                    window.gamedata.difficulty="1";
-                }
-                console.log("setting difficulty to "+window.gamedata.difficulty);
-                $("#difficulty_ui").html(i18n("difficulty")+window.gamedata.difficulty);
-                $(".message").hide();
-                $(".language_ui").hide();
-                $("#combat_ui").show();
-                if (targetMob>-1) {
-                    
-                } else {
-                    $("#movement_ui").show();
-                }
-                $("#quest_ui").show();
-                $("#difficulty_ui").show();
-                setPaused(false);
-            } else if (did=="nextMap") {
-                $("body").trigger({ type:"nextMap" });
-            } else if (did=="fullscreen") {
-                console.log("fullscreen clicked");
-                if (!document.fullscreenElement) {
-                    document.documentElement.requestFullscreen();
-                } else {
-                    if (document.exitFullscreen) {
-                        document.exitFullscreen();
-                    }
-                }
-            } else {
-                console.log("showing, ."+did);
+    initWorld();
+    registerWindowResizeHandler();
+}
 
-                if (mapManager.getQuest().isComplete()) {
-                    showMessage("success_message");
-                } else {
-                    showMessage(did);
-                }
-            }
-        });
-        $("#difficulty_ui").on("click", () => {
-            setPaused(true);
-            showMessage("startup_message");
-        });
-        $("#quest_ui").on("click", () => {
-            setPaused(true);
-            showMessage("startup_message");
-        });        
-        $("body").on("enableCheats", function () {
-            isCheatingEnabled=true;
-        });
-        $("body").on("noDamage", function () {
-            isNoDamageEnabled=true;
-        });
-
-        initWorld();
-        registerWindowResizeHandler();
-    }
-
-};
-
-$(document).ready(game.init);
+$(document).ready(initGame);

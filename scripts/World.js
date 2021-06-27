@@ -7,6 +7,10 @@ import { onTop, setPaused, targetMob } from './movement.js';
 import { i18n, showMessage, getLanguage } from './game.js';
 import { damage } from './combat.js';
 
+export var partyPos;
+export var damageLight;
+export var mapManager;
+export var scene;
 var delta;
 var cr;
 var wr;
@@ -21,71 +25,13 @@ var rad;
 var rad4;
 var rotationoffset;
 var rotationspeed;
-export var partyPos;
 var light;
 var light2;
-export var damageLight;
 var diff_dir;
-export var mapManager;
 var renderer;
-export var scene;
 var meshQueue;
 var speed;
 var mobspeed;
-
-export function setPartyPosition(pos) {
-    partyPos=pos;
-}
-
-export function loadTexturesAndMaterials(data) {
-    var data_obj=parseJSON(data);
-    window.gamedata.objectIndex=data_obj;
-
-    loader = new GLTFLoader().setPath( 'objects/models/' );   
-    // loader = new THREE.JSONLoader();
-    meshQueue=[];
-    for (var i in window.gamedata.objectIndex) {
-        if (window.gamedata.objectIndex.hasOwnProperty(i)) {
-
-            meshQueue.push(i);
-        }
-    }
-
-    loadSky();
-    $(".startup_progress").html("<p>"+i18n("loading")+" "+meshQueue.length+" "+i18n("files")+"</p>");
-
-    console.log(meshQueue);
-    if (meshQueue.length>0) loadMeshObject(meshQueue[0]);
-}
-
-function loadSky() {
-    var skyloader = new THREE.TextureLoader();
-    skyloader.load(
-        "objects/sky.png",
-        texture => {
-            var objGeometry = new THREE.SphereBufferGeometry(60, 20, 20);
-            var objMaterial = new THREE.MeshPhongMaterial({
-              map: texture,
-              shading: THREE.FlatShading,
-              side: THREE.BackSide
-            });
-            scene.add(new THREE.Mesh(objGeometry, objMaterial));
-        },
-        undefined,
-        error => {
-            console.log("Error loading sky " + error);
-        }
-    );    
-}
-
-export function registerWindowResizeHandler() {
-    $(window).on("resize", () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-
-        renderer.setSize( window.innerWidth, window.innerHeight );       
-    });
-}
 
 export function initWorld() {
     partyPos=new Position(17, 13);
@@ -117,6 +63,131 @@ export function initWorld() {
     } else {
         mapManager.loadMap(window.gamedata.maps[window.gamedata.currentmap]);
     }
+}
+
+export function loadTexturesAndMaterials(data) {
+    if (data==undefined) {
+        console.log("not loading objectIndex as its already loaded");
+    } else {
+        var data_obj=parseJSON(data);
+        window.gamedata.objectIndex=data_obj;
+    }
+
+    loader = new GLTFLoader().setPath( 'objects/models/' );   
+    // loader = new THREE.JSONLoader();
+    meshQueue=[];
+    for (var i in window.gamedata.objectIndex) {
+        if (!window.gamedata.objectIndex.hasOwnProperty(i)) {
+            continue;
+        }
+        if (!mapManager.needsObject(i)) {
+            // skip loading if not needed in current map
+            continue;
+        }
+        if (window.gamedata.objectIndex[i].mesh_!=undefined) {
+            // skip if already loaded (maybe on another map)
+            continue;   
+        }
+        meshQueue.push(i);        
+    }
+
+    loadSky();
+    $(".startup_progress").html("<p>"+i18n("loading")+" "+meshQueue.length+" "+i18n("files")+"</p>");
+
+    console.log(meshQueue);
+    if (meshQueue.length>0) loadMeshObject(meshQueue[0]); else createScene();
+}
+
+function loadSky() {
+    var skyloader = new THREE.TextureLoader();
+    skyloader.load(
+        "objects/sky.png",
+        texture => {
+            var objGeometry = new THREE.SphereBufferGeometry(60, 20, 20);
+            var objMaterial = new THREE.MeshPhongMaterial({
+              map: texture,
+              shading: THREE.FlatShading,
+              side: THREE.BackSide
+            });
+            scene.add(new THREE.Mesh(objGeometry, objMaterial));
+        },
+        undefined,
+        error => {
+            console.log("Error loading sky " + error);
+        }
+    );    
+}
+
+export function registerWindowResizeHandler() {
+    $(window).on("resize", () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+
+        renderer.setSize( window.innerWidth, window.innerHeight );       
+    });
+}
+
+export function onMapLoaded() {
+    console.log("before", partyPos);
+    partyPos=mapManager.getCharPosition();
+    console.log("after", partyPos);
+
+    camera = new THREE.PerspectiveCamera( 60, (window.innerWidth)/window.innerHeight, 0.05, 1000 );
+    camera.position.x=partyPos.x+window.gamedata.camera.deltaX-1;
+    camera.position.z=partyPos.y+window.gamedata.camera.deltaY-1;
+    camera.position.y=window.gamedata.camera.deltaZ; 
+    camera.rotation.y=(window.gamedata.direction)*rad+rotationoffset;    
+
+    scene = new THREE.Scene();
+
+    renderer = new THREE.WebGLRenderer({
+        canvas : (document.getElementById("three_outputcanvas"))
+    });
+    renderer.setSize(window.innerWidth, window.innerHeight );
+    document.body.appendChild( renderer.domElement );    
+
+    $("#player_life")[0].max=window.gamedata.player.life;
+    $("#player_life")[0].value=window.gamedata.player.current_life;
+
+    if (window.gamedata.objectIndex==undefined) {
+        $.get("objects/objectIndex.json", loadTexturesAndMaterials);
+    } else {
+        loadTexturesAndMaterials();
+    }
+
+}
+
+function loadMeshObject(idx) {
+    console.log("loading "+window.gamedata.objectIndex[idx].mesh);
+    
+    loader.load( window.gamedata.objectIndex[idx].mesh, ( gltf ) => {
+        //window.gamedata.isMeshLoaded=true;
+        objidx=0;
+        for (var i=0;i<gltf.scene.children.length;i++) {
+            if (gltf.scene.children[i].type=="Mesh") {
+                objidx=i;
+            }
+        }
+
+        mesh = gltf.scene.children[ objidx ];
+        mesh.scale.x=mesh.scale.y=mesh.scale.z=0.17;
+       // console.log("mesh", mesh);
+
+        window.gamedata.objectIndex[idx].mesh_=mesh;
+
+        window.gamedata.objectIndex[idx].animations_=[];
+        if (gltf.animations!=undefined && gltf.animations.length>0) {
+            window.gamedata.objectIndex[idx].animations_=gltf.animations;        
+        }
+
+        meshQueue.shift();
+        //$("body").trigger({ type:"loadMeshes", var: meshQueue.length });
+        $(".startup_progress").html("<p>"+i18n("loading")+" "+meshQueue.length+" "+i18n("files")+"</p>");
+
+        if (meshQueue.length>0) loadMeshObject(meshQueue[0]); else createScene();        
+    }, undefined, ( e ) => {
+        console.error( e );
+    } );
 
 }
 
@@ -179,76 +250,6 @@ function questComplete() {
         }        
         initWorld();
     });
-
-}
-
-export function getCameraDiff() {
-    //console.log("getCameraDiff, ", camera.position.x, partyPos.x, camera.position.y, partyPos.y, camera.position.z);
-    return Math.abs(parseInt(camera.position.x)-parseInt(partyPos.x)+1)+Math.abs(parseInt(camera.position.z)-parseInt(partyPos.y)+1);
-}
-
-export function onMapLoaded() {
-    console.log("before", partyPos);
-    partyPos=mapManager.getCharPosition();
-    console.log("after", partyPos);
-
-    camera = new THREE.PerspectiveCamera( 60, (window.innerWidth)/window.innerHeight, 0.05, 1000 );
-    camera.position.x=partyPos.x+window.gamedata.camera.deltaX-1;
-    camera.position.z=partyPos.y+window.gamedata.camera.deltaY-1;
-    camera.position.y=window.gamedata.camera.deltaZ; 
-    camera.rotation.y=(window.gamedata.direction)*rad+rotationoffset;    
-
-    scene = new THREE.Scene();
-
-    renderer = new THREE.WebGLRenderer({
-        canvas : (document.getElementById("three_outputcanvas"))
-    });
-    renderer.setSize(window.innerWidth, window.innerHeight );
-    document.body.appendChild( renderer.domElement );    
-
-    $("#player_life")[0].max=window.gamedata.player.life;
-    $("#player_life")[0].value=window.gamedata.player.current_life;
-
-    if (window.gamedata.isMeshLoaded==undefined || window.gamedata.isMeshLoaded==null) {
-        $.get("objects/objectIndex.json", loadTexturesAndMaterials);
-    } else {
-        loadSky();
-        createScene();      
-    }
-}
-
-function loadMeshObject(idx) {
-    console.log("loading "+window.gamedata.objectIndex[idx].mesh);
-    
-    loader.load( window.gamedata.objectIndex[idx].mesh, ( gltf ) => {
-        window.gamedata.isMeshLoaded=true;
-        objidx=0;
-        for (var i=0;i<gltf.scene.children.length;i++) {
-            if (gltf.scene.children[i].type=="Mesh") {
-                objidx=i;
-            }
-        }
-
-        mesh = gltf.scene.children[ objidx ];
-        mesh.scale.x=mesh.scale.y=mesh.scale.z=0.17;
-       // console.log("mesh", mesh);
-
-        window.gamedata.objectIndex[idx].mesh_=mesh;
-
-        window.gamedata.objectIndex[idx].animations_=[];
-        if (gltf.animations!=undefined && gltf.animations.length>0) {
-            window.gamedata.objectIndex[idx].animations_=gltf.animations;        
-        }
-
-        meshQueue.shift();
-        //$("body").trigger({ type:"loadMeshes", var: meshQueue.length });
-        $(".startup_progress").html("<p>"+i18n("loading")+" "+meshQueue.length+" "+i18n("files")+"</p>");
-
-        if (meshQueue.length>0) loadMeshObject(meshQueue[0]); else createScene();        
-    }, undefined, ( e ) => {
-        console.error( e );
-    } );
-
 }
 
 export function render() {
@@ -321,8 +322,6 @@ export function render() {
         light.position.x=camera.position.x;
         light.position.z=camera.position.z;   
     } // onTop end
-
-
 
     //
     // animate mob position
@@ -417,12 +416,11 @@ export function render() {
             }
         }
     }
-    
-    
+     
     renderer.render(scene, camera);
 }
 
-function addCube(wall, x, y, rot) {
+function addFieldObject(wall, x, y, rot) {
     if (window.gamedata.objectIndex[wall]==undefined) {
         console.log("Unknown Index "+wall+". Omitting Object.");
         return;
@@ -438,8 +436,7 @@ function addCube(wall, x, y, rot) {
         cube.rotation.y=((x+y)%4)*rad;
     } else {
         cube.rotation.y=0;
-    }
-    
+    }  
     
     if (wall==13 || wall==14 || wall==15) {
         cube.position.y=1.05;
@@ -449,7 +446,6 @@ function addCube(wall, x, y, rot) {
 }
 
 function addToken(idx, wall, x, y, rot) {
-
     if (window.gamedata.objectIndex[wall]==undefined) {
         console.log("addToken; Unknown Index "+wall+". Omitting Object.");
         return;
@@ -481,7 +477,7 @@ function createScene() {
 
     for (var my=0;my<30;my++) {
         for (var mx=0;mx<30;mx++) {
-           addCube(mapManager.getMapData(mx, my), mx, my, 0);
+           addFieldObject(mapManager.getMapData(mx, my), mx, my, 0);
         }
     }
 
@@ -512,7 +508,6 @@ function loadMob(mob) {
         console.log("Unknown Index "+mob.id+". Omitting Object.");
         return;
     }
-
 
     loader.load( window.gamedata.objectIndex[mob.id].mesh, ( gltf ) => {
 
@@ -551,13 +546,10 @@ function loadMob(mob) {
                 mob.dieing=false;
                 mob.die.clampWhenFinished=true;
             }
-        }
-            
+        }          
     }, undefined, ( e ) => {
         console.error( e );
     } );
-
-
 }
 
 function getActionByName(mixer, animations, animationname) {
@@ -566,7 +558,6 @@ function getActionByName(mixer, animations, animationname) {
             return mixer.clipAction(animations[i]);
         }
     }
-
     return undefined;
 }
 
@@ -575,8 +566,16 @@ export function moveCameraTop() {
     camera.rotation.y=0;
     camera.position.y=29;
     camera.position.z=17;
-    camera.position.x=15;           
+    camera.position.x=15;    
 
     console.log(light2);  
     light2.intensity=10;
+}
+
+export function setPartyPosition(pos) {
+    partyPos=pos;
+}
+
+export function getCameraDiff() {
+    return Math.abs(parseInt(camera.position.x)-parseInt(partyPos.x)+1)+Math.abs(parseInt(camera.position.z)-parseInt(partyPos.y)+1);
 }

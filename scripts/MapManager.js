@@ -171,4 +171,19 @@ export class MapManager {
 	getQuest() {
 		return this.quest;
 	}
+
+	needsObject(idx) {
+		let searchIdx=parseInt(idx);
+		
+		for (var cell=0;cell<this.map.length;cell++) {
+			if (this.map[cell]==searchIdx) return true;
+		}
+		for (var mobIdx=0;mobIdx<this.mobs.length;mobIdx++) {
+			if (parseInt(this.mobs[mobIdx].id)==searchIdx) return true;
+		}
+		for (var tokenIdx=0;tokenIdx<this.token.length;tokenIdx++) {
+			if (parseInt(this.token[tokenIdx].id)==searchIdx) return true;
+		}		
+		return false;
+	}
 }
