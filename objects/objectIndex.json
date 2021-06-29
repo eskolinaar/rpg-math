@@ -4,7 +4,8 @@
         "name":"InsetStoneFloor",
         "mesh":"InsetStoneFloor2.glb",
         "symbol":"InsetStoneFloor.png",
-        "type":"floor"
+        "type":"floor",
+        "orientation":"calc"
     },
     "2":{
         "id":"2",
@@ -33,7 +34,8 @@
         "name":"SimpleGrassFloor",
         "mesh":"GrassFloor2_2021.glb",
         "symbol":"GrassFloor.png",
-        "type":"floor"
+        "type":"floor",
+        "orientation":"calc"
     },
     "6":{
         "id":"6",
@@ -48,21 +50,24 @@
         "name":"StoneFloor",
         "mesh":"StoneFloor.glb",
         "symbol":"StoneFloor.jpg",
-        "type":"floor"
+        "type":"floor",
+        "orientation":"calc"
     },
     "8":{
         "id":"8",
         "name":"CrissCrossFloor",
         "mesh":"CrissCrossFloor.glb",
         "symbol":"CrissCrossFloor_.png",
-        "type":"floor"
+        "type":"floor",
+        "orientation":"calc"
     },
     "10":{
         "id":"10",
         "name":"EarthFloor2",       
         "mesh":"EarthFloor5-2021.glb",
         "symbol":"EarthFloor2.png",
-        "type":"floor"
+        "type":"floor",
+        "orientation":"calc"
     },
     "11":{
         "id":"11",
@@ -124,14 +129,16 @@
         "name":"WoodEarthFloor",
         "mesh":"WoodEarthFloor.glb",
         "symbol":"WoodEarthFloor.png",
-        "type":"floor"
+        "type":"floor",
+        "orientation":"calc"
     },
     "23":{
         "id":"23",
         "name":"HedgeWall",
         "mesh":"HedgeWall.glb",
         "symbol":"HedgeWall.png",
-        "type":"wall"
+        "type":"wall",
+        "orientation":"calc"
     },
     "24":{
         "id":"24",
@@ -209,14 +216,16 @@
         "name":"lava",
         "mesh":"lava.glb",
         "symbol":"lava.png",
-        "type":"wall"
+        "type":"wall",
+        "orientation":"calc"
     }, 
     "35":{
         "id":"35",
         "name":"stonemosswall",
         "mesh":"StoneMossWall2.glb",
         "symbol":"StoneMossWall.png",
-        "type":"wall"        
+        "type":"wall",
+        "orientation":"calc"        
     }, 
     "36":{
         "id":"36",
@@ -230,20 +239,23 @@
         "name":"water",
         "mesh":"Water.glb",
         "symbol":"water.png",
-        "type":"wall"
+        "type":"wall",
+        "orientation":"calc"
     },
     "38":{
         "id":"38",
         "name":"waterway",
         "mesh":"WaterWay.glb",
         "symbol":"waterway.png",
-        "type":"floor"
+        "type":"floor",
+        "orientation":"calc"
     },
     "39":{
         "id":"39",
         "name":"swampwater",
         "mesh":"SwampWater.glb",
         "symbol":"swampwater.png",
-        "type":"wall"
+        "type":"wall",
+        "orientation":"calc"
     }
 }
