@@ -419,6 +419,25 @@ button[data-id=fullscreen] {
     padding: 0px;
 }
 
+.message a {
+    color: #000;
+    text-decoration: none;
+    border: 2px solid #888;
+    background-color: #fff;
+    display: inline-block;
+    padding: 5px 18px;
+    border-radius: 5px;
+    font-size: 18px;
+}
+
+input[type="file"] {
+    background-color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    width: 110px;
+    border: 2px solid #888;
+}
+
 @media (orientation: portrait) {
 	.message {
 	    top: 0;

@@ -23,51 +23,61 @@ export class MapManager {
 	    for (var i=0;i<30*30;i++) { this.map.push(0); }
 	    console.log("loadMap, loading ", mapName);
 
-	    $.get( "maps/"+this.mapName, (data) => {
-
-	        var data_obj=parseJSON(data);
-	        if (this.map==undefined) this.map=[];
-	        
-	        this.map=data_obj.fielddata;
-	        
-	        if (data_obj.mobs!=undefined) this.mobs=data_obj.mobs; else this.mobs=new Array();
-	        if (data_obj.token!=undefined) this.token=data_obj.token; else this.token=new Array();
-
-	        window.gamedata.direction=3;
-	        if (data_obj.direction!=undefined) window.gamedata.direction=parseInt(data_obj.direction);
-
-	        this.charPos=new Position(parseInt(data_obj.x), parseInt(data_obj.y));
-
-	        this.questTemplates=data_obj.quest.template;
-	        this.quest=new Quest(
-	        	data_obj.quest.event, 
-	        	data_obj.quest.amount,
-	        	this.chooseTemplate(data_obj.quest.template),
-	        	"#quest_ui"
-	        	);
-
-	        console.log("new introtext = ", data_obj, data_obj.introtext);
-
-	        this.intro=data_obj.introtext;
-	        let intro_i18n="";
-	        if (this.intro[window.gamedata.language] == undefined) {
-				if (this.intro["en"] == undefined) {
-					if (this.intro["de"] == undefined) {
-						// try tpl as is
-	        		} else {
-		        		intro_i18n=this.intro["de"];
-	        		}
-	        	} else {
-	        		intro_i18n=this.intro["en"];
-	        	}
-	        } else {
-	        	intro_i18n=this.intro[window.gamedata.language];
-	        }
-			$(".level_introtext").text(intro_i18n);			
-
-	        onMapLoaded();
-	    });
+	    $.get( "maps/"+this.mapName, (data) => { this.loadMapInternal(data); });
 	}
+
+	loadMapFromData(rawMapData) {
+		this.mapName="uploaded_file.map.json";
+	    this.map=[];
+	    for (var i=0;i<30*30;i++) { this.map.push(0); }
+	    console.log("loadMap, loading from data");
+
+		this.loadMapInternal(rawMapData);
+	}
+
+	loadMapInternal(data) {
+        var data_obj=parseJSON(data);
+        if (this.map==undefined) this.map=[];
+        
+        this.map=data_obj.fielddata;
+        
+        if (data_obj.mobs!=undefined) this.mobs=data_obj.mobs; else this.mobs=new Array();
+        if (data_obj.token!=undefined) this.token=data_obj.token; else this.token=new Array();
+
+        window.gamedata.direction=3;
+        if (data_obj.direction!=undefined) window.gamedata.direction=parseInt(data_obj.direction);
+
+        this.charPos=new Position(parseInt(data_obj.x), parseInt(data_obj.y));
+
+        this.questTemplates=data_obj.quest.template;
+        this.quest=new Quest(
+        	data_obj.quest.event, 
+        	data_obj.quest.amount,
+        	this.chooseTemplate(data_obj.quest.template),
+        	"#quest_ui"
+        	);
+
+        console.log("new introtext = ", data_obj, data_obj.introtext);
+
+        this.intro=data_obj.introtext;
+        let intro_i18n="";
+        if (this.intro[window.gamedata.language] == undefined) {
+			if (this.intro["en"] == undefined) {
+				if (this.intro["de"] == undefined) {
+					// try tpl as is
+        		} else {
+	        		intro_i18n=this.intro["de"];
+        		}
+        	} else {
+        		intro_i18n=this.intro["en"];
+        	}
+        } else {
+        	intro_i18n=this.intro[window.gamedata.language];
+        }
+		$(".level_introtext").text(intro_i18n);			
+
+        onMapLoaded();
+    }
 
 	chooseTemplate(tpl) {
 		let out="";

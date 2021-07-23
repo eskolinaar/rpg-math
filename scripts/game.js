@@ -221,6 +221,31 @@ function initModelAndScene() {
     $("body").on("noDamage", function () {
         isNoDamageEnabled=true;
     });
+    $("body").on("change", ".map_editor_file_upload", (e) => {        
+        console.log("file upload triggered", e);
+        console.log("file upload triggered", e.target);
+        console.log(e.target.files[0]);
+        let file=e.target.files[0];
+        if (file.type!="application/json") {
+            console.log("wrong file type for upload");
+            return;
+        }
+        if (file.size>20000) {
+            console.log("untypical file size");
+            return;
+        }
+        let reader = new FileReader();
+        reader.onload=(evt) => {
+            console.log("read file ended ...");
+            console.log(evt.target.result);
+
+            $("body").trigger("forceEndCombat");     
+            mapManager.disposeMobs();
+            mapManager.quest.dispose();
+            mapManager.loadMapFromData(evt.target.result);
+        }
+        reader.readAsText(file);
+    });
 
     initWorld();
     registerWindowResizeHandler();
