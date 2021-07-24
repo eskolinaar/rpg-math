@@ -9,8 +9,13 @@ var mousedown;
 var char_pos_indicator;
 var mapdata;
 var objectIndex;
+var singular;
 
 function initarray() {
+    singular=[];
+    singular["mobs"]="mob";
+    singular["token"]="token";
+
     fields_x=30;
     fields_y=30;
     size_y=Math.floor(window.innerHeight/fields_y);
@@ -52,6 +57,11 @@ function repaint() {
     }        
 }
 
+function clearActive() {
+    $("#mobs ul li").removeClass("active");
+    $("#token ul li").removeClass("active");
+}
+
 function getFieldTile(idx) {
     if (tiles[field[idx]]==undefined) { console.log("invalid index "+field[idx]+" in field. cannot load map."); return tiles[0]; }
     return tiles[field[idx]];
@@ -84,13 +94,8 @@ function moveActiveInstance(entityName, x, y) {
 }
 
 function createNewInstance(entityName, x, y) {
-    let singular=(vn) => (vn=="mobs"?"mob":(vn=="token"?"token":"not_in_list"));
-    if (objectIndex[selected_tile_index].type==singular(entityName)) {
-        for (var i = 0; i < mapdata[entityName].length; ++i) {
-            if (mapdata[entityName][i].x==field_x && mapdata[entityName][i].y==field_y) {
-                return;                    
-            }                     
-        }
+    if (objectIndex[selected_tile_index].type==singular[entityName]) {
+        if (checkCollision(mapdata[entityName], field_x, field_y)) return true;
         let el={};
         el.id=selected_tile_index;
         el.x=field_x;
@@ -176,15 +181,16 @@ $(document).ready(function () {
         $("div#selection_indicator img:eq(0)").attr("src", src);
 
         selected_tile_index=$(this).attr("data-id");
+        clearActive();
     });
 
     $("#mobs").on("click", "ul li", function () {
-        $("#mobs ul li").removeClass("active");
+        clearActive();
         $(this).addClass("active");
     });
 
     $("#token").on("click", "ul li", function () {
-        $("#token ul li").removeClass("active");
+        clearActive();
         $(this).addClass("active");
     });        
 
