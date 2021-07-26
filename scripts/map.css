@@ -69,11 +69,11 @@ p#savebutton {
     overflow: auto;
 }
 
-#options2, #options, #mobs, #char, #tools, #token, #intro, #quest {
+.section {
     width: 20vw;
     padding: 10px;
     box-sizing: border-box;
-    float: right;
+    
     border: 1px solid #888;
     margin: 10px;
     border-radius: 3px;
@@ -81,8 +81,26 @@ p#savebutton {
     background-color: #eee;
 }
 
-#quest input { 
-    width:100%;
+.feedback_message {
+    display: none;
+    z-index: 100;
+    position: absolute;
+    text-align: center;
+    width: 100vw;
+    background-color: #d6ffd5;
+    padding: 5px;
+    box-sizing: border-box;
+    font-style: italic;
+    font-weight: bold;
+}
+
+#char, #tools, #mobs, #token {
+    float:right;
+}
+
+.section input {
+    padding: 7px;
+    width: 100%;
 }
 
 label {
@@ -91,11 +109,6 @@ label {
     font-size: 12px;
     color: #444;
     margin-bottom:12px;
-}
-
-#options input, button, #options2 input {
-    padding: 7px;
-    width: 100%;
 }
 
 #maincanvas {

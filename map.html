@@ -3,70 +3,170 @@
     <script type="text/javascript" src="./scripts/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="./scripts/MapEditor.js"></script>
     <link rel="stylesheet" type="text/css" href="scripts/map.css">
+    <style>
+        ul#menu {
+            display:block;
+            position:absolute;
+            left:0;
+            top:0;
+            bottom:0;
+            width:300px;
+            background-color:#bbb;
+            margin:0;
+            padding:0;
+        }
+
+        ul#menu li {
+            text-align: left;
+            padding: 20px;      
+            list-style-type: none;
+            margin: 0;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 15px #eee inset;
+            margin: 1px;
+            color: #444;
+            font-family: arial;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        ul#menu li:hover {
+            box-shadow: 0 0 15px #fff inset;
+            color: #000;
+            background-color: #ccc;
+            border: 1px solid #fff;
+        }
+
+        ul#menu li.chosen {
+            box-shadow: 0 0 15px #fff inset;
+            color: #000;
+            background-color: #ddd;
+            border: 1px solid #fff;         
+        }
+
+        div#mainview {
+            left: 300px;
+        }
+
+        #maincanvas {
+            background-color:#fff;
+        }
+
+        body {
+            background-color:#eee;  
+        }
+
+        textarea {
+            height: 200px;
+        }
+
+        #right { display:none; }
+    </style>
+    <title>rpg-math - Map Editor</title>
 </head>
 <body> 
-<div id="mainview"><canvas id="maincanvas" height="900" width="1000"></canvas></div>
+    <ul id="menu">
+        <li data-target="overview" class="chosen">Overview</li><!-- New/Load/Save/Import/Export -->
+        <li data-target="basedata">Basic data</li>
+        <li data-target="introduction">Introduction</li>
+        <li data-target="fielddata">Fielddata</li>
+        <li data-target="mobs">Mobs</li>
+        <li data-target="token">Token</li>
+        <li data-target="start">Start</li>
+        <li data-target="quest">Quest</li>
+        <li data-target="export">Export</li>
+    </ul>
+    <div id="mainview">
+        <div class="pane" data-pane="overview">
+            <div id="options2" class="section">
+                <label>Load from File</label>
+                <p><input type="text" placeholder="Project-Folder" id="mapname2" value="/htdocs_2020/rpg_math/webroot/maps/m2021-01-30.map.json"></p>
+                <button id="loadbutton">Load</button>
+            </div>
+            <div class="section">
+                <input type="file" class="map_editor_file_upload" name="map_editor_file_upload"></p>
+            </div>
+        </div>
+        <div class="pane" data-pane="basedata">
+            <div id="base" class="section">
+                <label>Map-Name</label>
+                <input type="text" name="mapname_descriptive" value="m2021-07-25">
+                <label>Version</label>
+                <input type="text" name="version" value="v210725.001">
+                <label>Height</label>
+                <input type="text" disabled="disabled" name="height" value="30">
+                <label>Width</label>
+                <input type="text" disabled="disabled" name="width" value="30">
+            </div>
+        </div>
+        <div class="pane" data-pane="introduction">
+            <div id="intro" class="section">
+                <label>Intro Text EN</label>
+                <textarea id="introtext_en" placeholder="could you do that for me"></textarea>
+                <label>Intro Text DE</label>
+                <textarea id="introtext_de" placeholder="Kannst du das f&uuml;r mich machen?"></textarea>
+            </div>
+        </div>        
+        <div class="pane" data-pane="fielddata,mobs,token,start">
+            <canvas id="maincanvas" height="900" width="1000"></canvas>
+            <!-- rest right -->
+            <div id="imagepreload" data-pane="fielddata,mobs,token">
+                <label>Images</label>
+            </div>
+            <div id="selection_indicator" data-pane="fielddata,mobs,token">
+                <label>Selection</label>
+                <img id="selected_tile" src="assets/empty.jpg">
+            </div>
+            <!-- rest by pane -->
+            <div id="tools" class="section" data-pane="fielddata">
+                <button id="fill">F&uuml;llen</button>
+                <button id="optimize">Optimieren</button>
+            </div>
+            <div id="mobs" class="section" data-pane="mobs">
+                <label>Mobs</label>
+                <ul><li>empty</li></ul>
+                <button class="remove">Entfernen</button>
+            </div>
+            <div id="token" class="section" data-pane="token">
+                <label>Token</label>
+                <ul><li>empty</li></ul>
+                <button class="remove">Entfernen</button>
+            </div>
+            <div id="char" class="section" data-pane="start">
+                <label>Char</label>
+                <span>X</span>
+                <input id="char_x" type="text" placeholder="x">
+                <span>Y</span>
+                <input id="char_y" type="text" placeholder="y">
+                <br><br>
+                <button id="update">Update</button>
+            </div>            
+        </div>
+        <div class="pane" data-pane="quest">
+            <div class="section">
+                <label>Quest event</label>
+                <input id="quest_event" type="text" placeholder="token, kill">
+                <label>Quest event amount</label>
+                <input id="quest_event_amount" type="text" placeholder="1+">
+                <label>Quest text EN</label>
+                <input id="quest_text_en" type="text" placeholder="{} of {} gathered/">
+                <label>Quest text DE</label>
+                <input id="quest_text_de" type="text" placeholder="{} von {} gesammelt/besiegt">
+            </div> 
+        </div>      
+        <div class="pane" data-pane="export">
+            <div id="save2file" class="section">
+                <label>Save To File</label>
+                <button id="savefilebutton">Download Map</button>
+            </div>
+            <div id="save2text" class="section">
+                <label>Save To Textarea</label>
+                <button id="savebutton">Generate Map JSON</button>
+                <textarea id="output">...</textarea>
+            </div>            
+        </div> 
+    </div>
 <div id="right">
-<div id="imagepreload">
-    <label>Images</label>
 </div>
-<div id="selection_indicator">
-    <label>Selection</label>
-    <img id="selected_tile" src="assets/empty.jpg">
-</div>
-
-    <img id="tile0" style="opacity:0.05" data-id="0" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAyADIDASIAAhEBAxEB/8QAGwABAQADAQEBAAAAAAAAAAAAAAUDBAcGCAH/xAAvEAEAAQMCAggHAAMBAAAAAAABAgMEBQARITYGEhZVdJSy0RQzc3WztOMjMVJx/8QAGQEAAwEBAQAAAAAAAAAAAAAAAgMEAAEF/8QAKxEAAQIBCwQCAwAAAAAAAAAAAQACMQMREiEyQWFxscHwM1FysjThQqHi/9oADAMBAAIRAxEAPwDtGAw2MxWCx15fY6yucZcW1OrWr1qEZztJyiMpSkm7SVVXjTX/AI+X6zs5g+5sb5WHtp0T5Vw3gqPoNa/Lf2H9D+H4/p/LCzlz9aZQpAEuJhb1+/bytbHZzB9zY3ysPbTs5g+5sb5WHtqrpo1MpXZzB9zY3ysPbUm+w+Ku7qeOxWJxsKsNvibotKci2E3Igx2lVREi7kRJSEYxnVvruvd3U8dip9SrDb4m6AkWwm5EHhKqiJF3IiSkIxjPfsbShYWsLa1h1KUN9hWSq7sleMpKqyVVVVXQE0qhznMKGtEkKTo3Dc7C+Jqj82Z+1pWWdyNpbRY0KFzUpU4smSRjJA3eLwP9vHTWbpZzVmfG1vW6aNIJJM5Xf+ifKuG8FR9BqrqV0T5Vw3gqPoNVdZcULlv7D+h/D8f0/l5767r3d1PHYqfUqw2+JugJFsJuRB4SqoiRdyIkpCMYzX13Xu7qeOxU+pVht8TdASLYTciDwlVREi7kRJSEYxnoWNpQ6G2sLa1h1OjkN9hWTYq7sleMqSqslWCqrB/xpJmqEOcw09FrQ8UndS4d8Tj2H5RPZ96xtKFhawtrWHUpQ32FZKruyV4ykqrJVVVVdZ9NNOAmqC89zi4zmK+a+lnNWZ8bW9bpp0s5qzPja3rdNZcXf+ifKuG8FR9Br8vruvd3U8dip9SrDb4m6AkWwm5EHhKqiJF3IiSkIxjOVgbuvd4DE47FT6lWFlQ+JugJFsNOKRB4SqoiRdyIkpCMYz9JY2lCwtYW1rDqUob7CslV3ZK8ZSVVkqqqqugJpVDnOYUNaJIUnRuG52F8TVFY2lCwtYW1rDqUob7CslV3ZK8ZSVVkqqqqus+mmjAmqCQ5xcZzFQuW/sP6H8Px/T+Xd01C5b+w/ofw/H9P5YWMtPrTKFHyPP2/r28rXCOlnNWZ8bW9bpp0s5qzPja3rdNGplhs8zk7K3jb2WRvbehFWNOlXlCIqrsDtxVf/XWbtHnO+cl5qfvppoWwCbLdR2ZTtHnO+cl5qfvp2jznfOS81P3000SUnaPOd85LzU/fTtHnO+cl5qfvpprLKTGJCJGIRiGwBsBpppoWwCbLdR2ZX//Z">
-
-<div id="options2">
-    <label>Load from File</label>
-    <p><input type="text" placeholder="Project-Folder" id="mapname2" value="/maps/m2021-01-30.map.json"></p>
-    <button id="loadbutton">Load</button>
-</div>
-<div id="tools">
-    <button id="fill">F&uuml;llen</button>
-    <button id="optimize">Optimieren</button>
-</div>
-<div id="options">
-    <label>Save To File</label>
-    <p><input type="text" placeholder="Project-Folder" id="mapname" value="/maps/m02b.map.json"></p>
-    <button id="savebutton">Save</button>
-    <textarea id="output">...</textarea>
-</div>
-<div id="mobs">
-    <label>Mobs</label>
-    <ul><li>empty</li></ul>
-    <button class="remove">Entfernen</button>
-</div>
-<div id="token">
-    <label>Token</label>
-    <ul><li>empty</li></ul>
-    <button class="remove">Entfernen</button>
-</div>
-<div id="char">
-    <label>Char</label>
-    <span>X</span>
-    <input id="char_x" type="text" placeholder="x">
-    <span>Y</span>
-    <input id="char_y" type="text" placeholder="y">
-    <br><br>
-    <button id="update">Update</button>
-</div>
-<div id="intro">
-    <label>Intro Text EN</label>
-    <textarea id="introtext_en" placeholder="could you do that for me"></textarea>
-    <label>Intro Text DE</label>
-    <textarea id="introtext_de" placeholder="Kannst du das f&uuml;r mich machen?"></textarea>
-</div>
-<div id="quest">
-    <label>Quest event</label>
-    <input id="quest_event" type="text" placeholder="token, kill">
-    <label>Quest event amount</label>
-    <input id="quest_event_amount" type="text" placeholder="1+">
-    <label>Quest text EN</label>
-    <input id="quest_text_en" type="text" placeholder="{} of {} gathered/">
-    <label>Quest text DE</label>
-    <input id="quest_text_de" type="text" placeholder="{} von {} gesammelt/besiegt">
-
-</div>   
 </body>
 </html>         

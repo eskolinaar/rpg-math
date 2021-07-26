@@ -35,6 +35,12 @@ function initarray() {
     mapdata.token=[];
 }
 
+function feedback(message) {
+    $("body").append("<div class='feedback_message'>"+message+"</div>");
+    $(".feedback_message").fadeIn(300).delay(650).fadeOut(300);
+    setTimeout(function () { $(".feedback_message").remove(); }, 2000);
+}
+
 function repaint() {
     var canvas = document.getElementById('maincanvas');
     var ctx = canvas.getContext('2d');
@@ -46,15 +52,26 @@ function repaint() {
 
     ctx.drawImage(char_pos_indicator, (parseInt(mapdata.x)-1)*size_x, (parseInt(mapdata.y)-1)*size_y, size_x, size_y);
 
-    for (var i = 0; i < mapdata.mobs.length; ++i) {
-        mob=mapdata.mobs[i];
-        ctx.drawImage(tiles[parseInt(mob.id)], mob.x*size_x, mob.y*size_y, size_x, size_y);
+    let activePane=$("#menu li.chosen").attr("data-target");
+    if (activePane=="token") {
+        for (var i = 0; i < mapdata.mobs.length; ++i) {
+            mob=mapdata.mobs[i];
+            ctx.drawImage(tiles[parseInt(mob.id)], mob.x*size_x, mob.y*size_y, size_x, size_y);
+        }
+        for (var i = 0; i < mapdata.token.length; ++i) {
+            tok=mapdata.token[i];
+            ctx.drawImage(tiles[parseInt(tok.id)], tok.x*size_x, tok.y*size_y, size_x, size_y);
+        }        
+    } else {
+        for (var i = 0; i < mapdata.token.length; ++i) {
+            tok=mapdata.token[i];
+            ctx.drawImage(tiles[parseInt(tok.id)], tok.x*size_x, tok.y*size_y, size_x, size_y);
+        }        
+        for (var i = 0; i < mapdata.mobs.length; ++i) {
+            mob=mapdata.mobs[i];
+            ctx.drawImage(tiles[parseInt(mob.id)], mob.x*size_x, mob.y*size_y, size_x, size_y);
+        }
     }
-
-    for (var i = 0; i < mapdata.token.length; ++i) {
-        tok=mapdata.token[i];
-        ctx.drawImage(tiles[parseInt(tok.id)], tok.x*size_x, tok.y*size_y, size_x, size_y);
-    }        
 }
 
 function clearActive() {
@@ -124,7 +141,94 @@ function updateList(entityName) {
     $("#"+entityName+" ul").html(out);    
 }
 
+function loadFromFile(filename) {
+    $.get(filename, function (data) {
+        loadFromData(data);
+    });    
+}
+
+function loadFromData(data) {
+    mapdata=data;//JSON.parse(data);
+    field=mapdata.fielddata;
+    $("#char_x").val(mapdata.x);
+    $("#char_y").val(mapdata.y);
+    if (mapdata.introtext!=undefined && mapdata.introtext.en!=undefined) {
+        $("#introtext_en").val(mapdata.introtext.en);
+    }
+    if (mapdata.introtext!=undefined && mapdata.introtext.en!=undefined) {
+        $("#introtext_de").val(mapdata.introtext.de);
+    }
+    if (mapdata.quest!=undefined) {
+        if (mapdata.quest.event!=undefined) {
+            $("#quest_event").val(mapdata.quest.event);
+        }
+        if (mapdata.quest.amount!=undefined) {
+            $("#quest_event_amount").val(mapdata.quest.amount);
+        }   
+        if (mapdata.quest.template!=undefined) {
+            if (mapdata.quest.template.en!=undefined) {
+                $("#quest_text_en").val(mapdata.quest.template.en);
+            }
+            if (mapdata.quest.template.de!=undefined) {
+                $("#quest_text_de").val(mapdata.quest.template.de);
+            }
+        }                                      
+    }
+    updateList("mobs");
+    updateList("token");
+    repaint();
+    feedback("File was successfully loaded!");    
+}
+
+function downloadFile(filedata) {// , filename
+  var lnk = document.createElement("a");
+  let today = (new Date()).toISOString().substr(0, 10);
+  let ms = (new Date()).toISOString().substr(20, 3);
+  lnk.download = "m"+today+"-"+ms+".map.json";
+  lnk.href = "data:application/json,"+filedata;
+  $("body")[0].appendChild(lnk);
+  lnk.click();
+  $("body")[0].removeChild(lnk);
+}
+
+function createJSONStringFromMap() {
+    console.log("saving...");
+    mapdata.introtext={};
+    mapdata.introtext.de=$("#introtext_de").val();
+    mapdata.introtext.en=$("#introtext_en").val();
+
+    mapdata.quest={};
+    mapdata.quest.event=$("#quest_event").val();
+    mapdata.quest.amount=$("#quest_event_amount").val();
+    mapdata.quest.template={};
+    mapdata.quest.template.en=$("#quest_text_en").val();
+    mapdata.quest.template.de=$("#quest_text_de").val();
+
+    msg='{ \n"version":"21.01.001", \n"mapname":"'+$("#mapname").val()+'", \n"height": "30", \n"width": "30",';
+    msg+='\n"x" : "'+parseInt($("#char_x").val())+'", \n"y" : "'+parseInt($("#char_y").val())+'", \n"direction" : "'+mapdata.direction+'", \n"fielddata":[';
+    msg+=field.join(",");       
+    msg+='], \n"mobs":'+JSON.stringify(mapdata.mobs);
+    msg+=', \n"token":'+JSON.stringify(mapdata.token);
+    msg+=', \n"quest":'+JSON.stringify(mapdata.quest);
+    msg+=', \n"introtext": '+JSON.stringify(mapdata.introtext);
+    msg+='\n}';
+
+    return msg;
+}
+
 $(document).ready(function () {
+    $(".pane").hide();
+    $(".pane[data-pane=overview]").show();
+
+    $("#menu li[data-target]").on("click", function (){
+        tar=$(this).attr("data-target");
+        $("#menu li").removeClass("chosen");
+        $(this).addClass("chosen");
+        $("*[data-pane]").hide();
+        $("*[data-pane*="+tar+"]").show();
+        repaint();
+    });
+
     $("canvas").attr("height", window.innerHeight);
     $("canvas").attr("width", window.innerHeight);
     
@@ -137,31 +241,38 @@ $(document).ready(function () {
         tiles=[];
         initarray();
 
+        imagepreload="";
+
+        imagepreload+="<div data-pane='fielddata'>";
         for (var i in objectIndex) {
             if (objectIndex.hasOwnProperty(i)) {
                 // id, mesh, symbol, texture, type
                 if (objectIndex[i].type=="wall" || objectIndex[i].type=="floor")
-                $("div#imagepreload").append("<img id='tile"+objectIndex[i].id+"' data-id='"+objectIndex[i].id+"' src='objects/symbol/"+objectIndex[i].symbol+"'>");
+                imagepreload+="<img id='tile"+objectIndex[i].id+"' data-id='"+objectIndex[i].id+"' src='objects/symbol/"+objectIndex[i].symbol+"'>";
             }
         }
-        $("div#imagepreload").append("<img id='tile0' data-id='0' src='objects/symbol/empty.png'><br><br>");
+        imagepreload+="<img id='tile0' data-id='0' src='objects/symbol/empty.png'>";
+        imagepreload+="</div><div data-pane='mobs'>";
 
         for (var i in objectIndex) {
             if (objectIndex.hasOwnProperty(i)) {
                 // id, mesh, symbol, texture, type
                 if (objectIndex[i].type=="mob")
-                $("div#imagepreload").append("<img id='tile"+objectIndex[i].id+"' data-id='"+objectIndex[i].id+"' src='objects/symbol/"+objectIndex[i].symbol+"'>");
+                imagepreload+="<img id='tile"+objectIndex[i].id+"' data-id='"+objectIndex[i].id+"' src='objects/symbol/"+objectIndex[i].symbol+"'>";
             }
         }
-        $("div#imagepreload").append("<img id='x' style='display:none' data-id='x' src='objects/symbol/x.png'><br><br>");
+        imagepreload+="<img id='x' style='display:none' data-id='x' src='objects/symbol/x.png'>";
+        imagepreload+="</div><div data-pane='token'>";
 
         for (var i in objectIndex) {
             if (objectIndex.hasOwnProperty(i)) {
                 // id, mesh, symbol, texture, type
                 if (objectIndex[i].type=="token")
-                $("div#imagepreload").append("<img id='tile"+objectIndex[i].id+"' data-id='"+objectIndex[i].id+"' src='objects/symbol/"+objectIndex[i].symbol+"'>");
+                imagepreload+="<img id='tile"+objectIndex[i].id+"' data-id='"+objectIndex[i].id+"' src='objects/symbol/"+objectIndex[i].symbol+"'>";
             }
         }
+        imagepreload+="</div>";
+        $("div#imagepreload").append(imagepreload);
 
         for (var i in objectIndex) {
             if (objectIndex.hasOwnProperty(i)) {
@@ -212,7 +323,7 @@ $(document).ready(function () {
         if (mousedown==1) {
             if (objectIndex[selected_tile_index].type=="mob") return;
             if (objectIndex[selected_tile_index].type=="token") return;
-            var relativeX = e.pageX - this.offsetLeft;
+            var relativeX = e.pageX - $(this).parent().parent()[0].offsetLeft;
             var relativeY = e.pageY - this.offsetTop;
 
             field_x=Math.floor(relativeX/size_x);
@@ -243,7 +354,7 @@ $(document).ready(function () {
 
     $("canvas#maincanvas").mousedown(function (e) {
         if ($("#mobs ul li.active").length<1 && $("#token ul li.active").length<1) {
-            let relativeX = e.pageX - this.offsetLeft;
+            var relativeX = e.pageX - $(this).parent().parent()[0].offsetLeft;
             let relativeY = e.pageY - this.offsetTop;
 
             let field_x=Math.floor(relativeX/size_x);
@@ -259,7 +370,12 @@ $(document).ready(function () {
                     $("#token ul li").eq(i).addClass("active");
                     return;
                 }
-            }                
+            }        
+            if (objectIndex[selected_tile_index].type=="mob") return;
+            if (objectIndex[selected_tile_index].type=="token") return;
+            let activePane=$("#menu li.chosen").attr("data-target");
+            if (activePane!="fielddata") return;
+
             mousedown=1;
         }
     });
@@ -269,85 +385,79 @@ $(document).ready(function () {
     });
 
     $("canvas#maincanvas").click(function (e) {
-        var relativeX = e.pageX - this.offsetLeft;
+        var relativeX = e.pageX - $(this).parent().parent()[0].offsetLeft;
         var relativeY = e.pageY - this.offsetTop;
 
         field_x=Math.floor(relativeX/size_x);
         field_y=Math.floor(relativeY/size_y);
 
-        if (moveActiveInstance("mobs", field_x, field_y)) return;
-        if (moveActiveInstance("token", field_x, field_y)) return;
+        let activePane=$("#menu li.chosen").attr("data-target");
 
-        if (createNewInstance("mobs", field_x, field_y)) return;
-        if (createNewInstance("token", field_x, field_y)) return;
+        if (activePane=="mobs") {
+            if (moveActiveInstance("mobs", field_x, field_y)) return;
+            if (createNewInstance("mobs", field_x, field_y)) return;
+            return;
+        }
 
-        field[field_y*fields_x+field_x]=selected_tile_index;
+        if (activePane=="token") {
+            if (moveActiveInstance("token", field_x, field_y)) return;    
+            if (createNewInstance("token", field_x, field_y)) return;
+            return;
+        }
+
+        if (activePane=="fielddata") {
+            if (objectIndex[selected_tile_index].type=="mob") return;
+            if (objectIndex[selected_tile_index].type=="token") return;
+            field[field_y*fields_x+field_x]=selected_tile_index;
+        }
+
+        if (activePane=="start") {
+            console.log("changing starting position via click nyi");
+            mapdata.x=field_x+1;
+            mapdata.y=field_y+1; 
+            $("#char_x").val(field_x+1);
+            $("#char_y").val(field_y+1);
+            repaint();   
+
+        }
 
         repaint();                      
     });
 
+    $("button#savefilebutton").click(function () {       
+        downloadFile(encodeURIComponent(createJSONStringFromMap()));
+    });
+
     $("button#savebutton").click(function () {
-
-        console.log("saving...");
-        mapdata.introtext={};
-        mapdata.introtext.de=$("#introtext_de").val();
-        mapdata.introtext.en=$("#introtext_en").val();
-
-        mapdata.quest={};
-        mapdata.quest.event=$("#quest_event").val();
-        mapdata.quest.amount=$("#quest_event_amount").val();
-        mapdata.quest.template={};
-        mapdata.quest.template.en=$("#quest_text_en").val();
-        mapdata.quest.template.de=$("#quest_text_de").val();
-
-        msg='{ \n"version":"21.01.001", \n"mapname":"'+$("#mapname").val()+'", \n"height": "30", \n"width": "30",';
-        msg+='\n"x" : "'+parseInt($("#char_x").val())+'", \n"y" : "'+parseInt($("#char_y").val())+'", \n"direction" : "1", \n"fielddata":[';
-        msg+=field.join(",");       
-        msg+='], \n"mobs":'+JSON.stringify(mapdata.mobs);
-        msg+=', \n"token":'+JSON.stringify(mapdata.token);
-        msg+=', \n"quest":'+JSON.stringify(mapdata.quest);
-        msg+=', \n"introtext": '+JSON.stringify(mapdata.introtext);
-        msg+='\n}';
-
-        console.log("storing to textarea", msg);
-        $("textarea#output").html(msg);
+        $("textarea#output").html(createJSONStringFromMap());
     });
     
     $("button#loadbutton").click(function () {
         console.log("loading...");
-        $.get($("#mapname2").val(), function (data) {
-            mapdata=data;//JSON.parse(data);
-            field=mapdata.fielddata;
-            $("#char_x").val(mapdata.x);
-            $("#char_y").val(mapdata.y);
-            if (mapdata.introtext!=undefined && mapdata.introtext.en!=undefined) {
-                $("#introtext_en").val(mapdata.introtext.en);
-            }
-            if (mapdata.introtext!=undefined && mapdata.introtext.en!=undefined) {
-                $("#introtext_de").val(mapdata.introtext.de);
-            }
-            if (mapdata.quest!=undefined) {
-                if (mapdata.quest.event!=undefined) {
-                    $("#quest_event").val(mapdata.quest.event);
-                }
-                if (mapdata.quest.amount!=undefined) {
-                    $("#quest_event_amount").val(mapdata.quest.amount);
-                }   
-                if (mapdata.quest.template!=undefined) {
-                    if (mapdata.quest.template.en!=undefined) {
-                        $("#quest_text_en").val(mapdata.quest.template.en);
-                    }
-                    if (mapdata.quest.template.de!=undefined) {
-                        $("#quest_text_de").val(mapdata.quest.template.de);
-                    }
-                }                                      
-            }
-            updateList("mobs");
-            updateList("token");
-            repaint();
-        });
-        
+        loadFromFile($("#mapname2").val());       
     });
+
+    $("body").on("change", ".map_editor_file_upload", (e) => {        
+        console.log("file upload triggered", e);
+        console.log("file upload triggered", e.target);
+        console.log(e.target.files[0]);
+        let file=e.target.files[0];
+        if (file.type!="application/json") {
+            feedback("wrong file type for upload");
+            return;
+        }
+        if (file.size>20000) {
+            feedback("untypical file size");
+            return;
+        }
+        let reader = new FileReader();
+        reader.onload=(evt) => {
+            feedback("read file ended ...");
+            console.log(evt.target.result);
+            loadFromData(JSON.parse(evt.target.result));
+        }
+        reader.readAsText(file);
+    });    
 
     $("button#update").on("click", function () {
         console.log("updating char position ...");
