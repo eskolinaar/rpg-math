@@ -110,10 +110,10 @@
         <div class="pane" data-pane="fielddata,mobs,token,start">
             <canvas id="maincanvas" height="900" width="1000"></canvas>
             <!-- rest right -->
-            <div id="imagepreload" data-pane="fielddata,mobs,token">
+            <div id="imagepreload" class="section" data-pane="fielddata,mobs,token">
                 <label>Images</label>
             </div>
-            <div id="selection_indicator" data-pane="fielddata,mobs,token">
+            <div id="selection_indicator" class="section" data-pane="fielddata,mobs,token">
                 <label>Selection</label>
                 <img id="selected_tile" src="assets/empty.jpg">
             </div>
@@ -138,6 +138,8 @@
                 <input id="char_x" type="text" placeholder="x">
                 <span>Y</span>
                 <input id="char_y" type="text" placeholder="y">
+                <span>Direction</span>
+                <input id="char_direction" type="text" placeholder="direction" value="1">
                 <br><br>
                 <button id="update">Update</button>
             </div>            
@@ -156,14 +158,19 @@
         </div>      
         <div class="pane" data-pane="export">
             <div id="save2file" class="section">
-                <label>Save To File</label>
+                <label>Save to file</label>
                 <button id="savefilebutton">Download Map</button>
             </div>
             <div id="save2text" class="section">
-                <label>Save To Textarea</label>
+                <label>Save to textarea</label>
                 <button id="savebutton">Generate Map JSON</button>
                 <textarea id="output">...</textarea>
-            </div>            
+            </div>  
+            <div id="broadcast" class="section">
+                <label>Broadcast to game instance</label>
+                <a class="buttonlink" href="./index.html" target="_blank">Open game tab</a>
+                <button id="broadcastbutton">Send to browser tab</button>
+            </div>                       
         </div> 
     </div>
 <div id="right">

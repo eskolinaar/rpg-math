@@ -10,6 +10,7 @@ var char_pos_indicator;
 var mapdata;
 var objectIndex;
 var singular;
+var maptransfer;
 
 function initarray() {
     singular=[];
@@ -152,6 +153,7 @@ function loadFromData(data) {
     field=mapdata.fielddata;
     $("#char_x").val(mapdata.x);
     $("#char_y").val(mapdata.y);
+    $("#char_direction").val(mapdata.direction);
     if (mapdata.introtext!=undefined && mapdata.introtext.en!=undefined) {
         $("#introtext_en").val(mapdata.introtext.en);
     }
@@ -205,7 +207,7 @@ function createJSONStringFromMap() {
     mapdata.quest.template.de=$("#quest_text_de").val();
 
     msg='{ \n"version":"21.01.001", \n"mapname":"'+$("#mapname").val()+'", \n"height": "30", \n"width": "30",';
-    msg+='\n"x" : "'+parseInt($("#char_x").val())+'", \n"y" : "'+parseInt($("#char_y").val())+'", \n"direction" : "'+mapdata.direction+'", \n"fielddata":[';
+    msg+='\n"x" : "'+parseInt($("#char_x").val())+'", \n"y" : "'+parseInt($("#char_y").val())+'", \n"direction" : "'+parseInt($("#char_direction").val())+'", \n"fielddata":[';
     msg+=field.join(",");       
     msg+='], \n"mobs":'+JSON.stringify(mapdata.mobs);
     msg+=', \n"token":'+JSON.stringify(mapdata.token);
@@ -217,6 +219,8 @@ function createJSONStringFromMap() {
 }
 
 $(document).ready(function () {
+    maptransfer = new BroadcastChannel('maptransfer');
+
     $(".pane").hide();
     $(".pane[data-pane=overview]").show();
 
@@ -247,11 +251,19 @@ $(document).ready(function () {
         for (var i in objectIndex) {
             if (objectIndex.hasOwnProperty(i)) {
                 // id, mesh, symbol, texture, type
-                if (objectIndex[i].type=="wall" || objectIndex[i].type=="floor")
+                if (objectIndex[i].type=="floor")
                 imagepreload+="<img id='tile"+objectIndex[i].id+"' data-id='"+objectIndex[i].id+"' src='objects/symbol/"+objectIndex[i].symbol+"'>";
             }
         }
-        imagepreload+="<img id='tile0' data-id='0' src='objects/symbol/empty.png'>";
+        imagepreload+="<br><br>";        
+        for (var i in objectIndex) {
+            if (objectIndex.hasOwnProperty(i)) {
+                // id, mesh, symbol, texture, type
+                if (objectIndex[i].type=="wall")
+                imagepreload+="<img id='tile"+objectIndex[i].id+"' data-id='"+objectIndex[i].id+"' src='objects/symbol/"+objectIndex[i].symbol+"'>";
+            }
+        }
+        //imagepreload+="<img id='tile0' data-id='0' src='objects/symbol/empty.png'>";
         imagepreload+="</div><div data-pane='mobs'>";
 
         for (var i in objectIndex) {
@@ -431,6 +443,23 @@ $(document).ready(function () {
     $("button#savebutton").click(function () {
         $("textarea#output").html(createJSONStringFromMap());
     });
+
+    $("button#broadcastbutton").click(function () {
+        let maptransfer = new BroadcastChannel('maptransfer');
+        maptransfer.postMessage({
+            type: "transfer_map",
+            map: createJSONStringFromMap()
+        });
+    });
+
+    maptransfer.onmessage=function (ev) { 
+        console.log("receiving map from editor ...");
+        console.log(ev.data);
+
+        if (ev.data.type=="transfer_map_ack") {
+            feedback("Map was opened in other browser tab");
+        }    
+    }
     
     $("button#loadbutton").click(function () {
         console.log("loading...");

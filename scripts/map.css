@@ -15,8 +15,6 @@ div#imagepreload {
     margin: 10px;
     border-radius: 3px;
     box-shadow: 0 0 3px #888;
-    background-color: #eee;
-
 }
 
 div#selection_indicator {
@@ -28,7 +26,6 @@ div#selection_indicator {
     margin: 10px;
     border-radius: 3px;
     box-shadow: 0 0 3px #888;
-    background-color: #eee;
 }
     
 div#imagepreload img {
@@ -78,7 +75,7 @@ p#savebutton {
     margin: 10px;
     border-radius: 3px;
     box-shadow: 0 0 3px #888;
-    background-color: #eee;
+    background-color: #d5d5d5;
 }
 
 .feedback_message {
@@ -181,4 +178,24 @@ button {
 
 #introtext_en, #introtext_de {
     width:100%;
+}
+
+.buttonlink {
+    border: 1px solid;
+        border-top-color: currentcolor;
+        border-right-color: currentcolor;
+        border-bottom-color: currentcolor;
+        border-left-color: currentcolor;
+    background-color: #eee;
+    text-decoration: none;
+    padding: 3px 7px;
+    border-radius: 3px;
+    border-color: #888;
+    color: #444;
+    font-family: arial;
+    font-size: 12px;
+}
+
+.buttonlink:hover {
+    background-color: #bbb;
 }
