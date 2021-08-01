@@ -57,11 +57,18 @@ export function initWorld() {
     $("body").off("quest_complete");
     $("body").on("quest_complete", questComplete);
 
-    if (mapManager==undefined || mapManager==null) {
-        mapManager=new MapManager(window.gamedata.maps[window.gamedata.currentmap]);
-        window.gamedata.mapManager=mapManager;
+    if (window.location.hash=="#bc_map") {
+        window.location.hash="";
+        mapManager=new MapManager();
+        console.log("checking for map editor map");
+        $("body").trigger({ type:"checkMapEditor" });
     } else {
-        mapManager.loadMap(window.gamedata.maps[window.gamedata.currentmap]);
+        if (mapManager==undefined || mapManager==null) {
+            mapManager=new MapManager(window.gamedata.maps[window.gamedata.currentmap]);
+            window.gamedata.mapManager=mapManager;
+        } else {
+            mapManager.loadMap(window.gamedata.maps[window.gamedata.currentmap]);
+        }
     }
 }
 
@@ -128,9 +135,7 @@ export function registerWindowResizeHandler() {
 }
 
 export function onMapLoaded() {
-    console.log("before", partyPos);
     partyPos=mapManager.getCharPosition();
-    console.log("after", partyPos);
 
     camera = new THREE.PerspectiveCamera( 60, (window.innerWidth)/window.innerHeight, 0.05, 1000 );
     camera.position.x=partyPos.x+window.gamedata.camera.deltaX-1;

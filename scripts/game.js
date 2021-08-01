@@ -249,13 +249,13 @@ function initModelAndScene() {
         reader.readAsText(file);
     });
     maptransfer.onmessage=function (ev) { 
-        console.log("receiving map from editor ...");
+        console.log("receiving map from editor ...", ev.data.type);
         console.log(ev.data);
 
         if (ev.data.type=="transfer_map") {
             $("body").trigger("forceEndCombat");     
             mapManager.disposeMobs();
-            mapManager.quest.dispose();
+            if (mapManager.quest!=null) mapManager.quest.dispose();
             mapManager.loadMapFromData(ev.data.map);
             setPaused(true);
             showMessage("startup_message");    
@@ -265,6 +265,11 @@ function initModelAndScene() {
             });
         }    
     }
+    $("body").on("checkMapEditor", function () {
+        maptransfer.postMessage({
+            type: "transfer_map_check"
+        });        
+    });
 
     initWorld();
     registerWindowResizeHandler();

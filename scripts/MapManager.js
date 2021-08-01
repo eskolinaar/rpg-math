@@ -18,6 +18,7 @@ export class MapManager {
 	}
 
 	loadMap(mapName) {
+		if (mapName==undefined || mapName==null) return;
 		this.mapName=mapName;
 	    this.map=[];
 	    for (var i=0;i<30*30;i++) { this.map.push(0); }

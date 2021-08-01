@@ -445,7 +445,6 @@ $(document).ready(function () {
     });
 
     $("button#broadcastbutton").click(function () {
-        let maptransfer = new BroadcastChannel('maptransfer');
         maptransfer.postMessage({
             type: "transfer_map",
             map: createJSONStringFromMap()
@@ -453,12 +452,19 @@ $(document).ready(function () {
     });
 
     maptransfer.onmessage=function (ev) { 
-        console.log("receiving map from editor ...");
-        console.log(ev.data);
+        console.log("getting message from game ...", ev.data.type);
 
         if (ev.data.type=="transfer_map_ack") {
             feedback("Map was opened in other browser tab");
         }    
+        if (ev.data.type=="transfer_map_check") {
+            feedback("Game has checked for pending map transfer");
+            console.log("sending map ... transfer_map");
+            maptransfer.postMessage({
+                type: "transfer_map",
+                map: createJSONStringFromMap()
+            });
+        }
     }
     
     $("button#loadbutton").click(function () {
