@@ -257,5 +257,12 @@
         "symbol":"swampwater.png",
         "type":"wall",
         "orientation":"calc"
+    },
+    "40":{
+        "id":"40",
+        "name":"travel",
+        "mesh":"TravelIndicator.glb",
+        "symbol":"TravelIndicator.png",
+        "type":"token"
     }
 }
