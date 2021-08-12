@@ -100,6 +100,7 @@ export class MapManager {
 	}
 
 	changeLanguage(new_lang) {
+		if (this.intro==undefined) return;
 		$(".level_introtext").text(this.intro[new_lang]);	
 		this.quest.changeLanguage(this.chooseTemplate(this.questTemplates));	
 	}

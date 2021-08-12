@@ -249,9 +249,23 @@ function checkMobPositionByPosition(idx, position) {
 function checkTokenPosition(position, trigger) {
     for (var i=0;i<mapManager.getTokenDataLength();i++) {
         let token=mapManager.getTokenData()[i];
-        if (token.x==position.x && token.y==position.y) {
+        if (token.x==position.x && token.y==position.y) {// && (token.action==undefined || token.action.type==undefined || token.action.type=="pick")) {
             if (trigger==true) {
-                pickToken(token.object, i);
+                if (token.action==undefined || token.action.type==undefined || token.action.type=="pick") {
+                    pickToken(token.object, i);
+                } else
+                if (token.action.type=="travel") {
+                    if (token.action.map==undefined) {
+                        setPartyPosition(new Position(parseInt(token.action.x), parseInt(token.action.y)));
+                    } else {
+                        // map change
+                        mapManager.disposeMobs();
+                        if (mapManager.quest!=undefined) mapManager.quest.dispose();
+                        mapManager.loadMap(token.action.map);
+
+                        console.log("map change nyi");
+                    }
+                }
             }
             return true;
         }

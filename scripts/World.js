@@ -63,12 +63,16 @@ export function initWorld() {
         console.log("checking for map editor map");
         $("body").trigger({ type:"checkMapEditor" });
     } else {
-        if (mapManager==undefined || mapManager==null) {
-            mapManager=new MapManager(window.gamedata.maps[window.gamedata.currentmap]);
-            window.gamedata.mapManager=mapManager;
-        } else {
-            mapManager.loadMap(window.gamedata.maps[window.gamedata.currentmap]);
-        }
+        mapManager=new MapManager();
+        window.gamedata.mapManager=mapManager;
+        // load by clicking a link
+
+        // if (mapManager==undefined || mapManager==null) {
+        //     mapManager=new MapManager(window.gamedata.maps[window.gamedata.currentmap]);
+        //     window.gamedata.mapManager=mapManager;
+        // } else {
+        //     mapManager.loadMap(window.gamedata.maps[window.gamedata.currentmap]);
+        // }
     }
 }
 

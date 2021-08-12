@@ -1,0 +1,9 @@
+{
+	"mode":"mapChangeOnQuestComplete",
+	"maps":[
+        "m2021-08-12-972.map.json",
+        "test-short.map.json",
+        "mapeditor_test.map.json",
+        "m2021-08-12-015.map.json"
+    ]
+}

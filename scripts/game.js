@@ -5,6 +5,7 @@ import { RandomMath } from './Math.js';
 import { suffer } from './combat.js';
 import { Statistic } from './statistics.js';
 import { initAnimations } from './combatAnimations.js';
+import { parseJSON } from './helper.js';
 
 var geometry;
 var light_all;
@@ -21,6 +22,7 @@ var statistics;
 var maptransfer;
 export var isCheatingEnabled;
 export var isNoDamageEnabled;
+export var game_mode;
 
 export function getLanguage() {
     let lang=navigator.language.substring(0, 2);;
@@ -91,9 +93,9 @@ function initGame() {
     maptransfer = new BroadcastChannel('maptransfer');
     mathLoader = new RandomMath();
     statistics = new Statistic();
-    initModelAndScene();     
-    registerKeyStrokes();
     initAnimations();
+    registerKeyStrokes();
+    initModelAndScene();     
     render(); // start render loop
 }
 
@@ -122,8 +124,6 @@ function initModelAndScene() {
 
     window.gamedata.currentmap=0;
     window.gamedata.maps=[
-        //"m2021-04-17.map.json",  
-        //"test-short.map.json",
         "m2021-06-26.map.json",
         "m2021-05-22.map.json",
         "m2021-06-03.map.json",
@@ -145,7 +145,7 @@ function initModelAndScene() {
         }
     }, 1500); 
 
-    showMessage("startup_message");
+    showMessage("game_mode");
     $(".startup_navigation").hide();
     $("#quest_complete_de").hide();
     $("#quest_complete_en").hide();
@@ -156,11 +156,12 @@ function initModelAndScene() {
         $(this).addClass("active");
         mapManager.changeLanguage(window.gamedata.language);
         
-        if (mapManager.getQuest().isComplete()) {
+
+        if (mapManager.quest!=undefined && mapManager.getQuest().isComplete()) {
             $(".statistic_summary").html(window.gamedata.statistics.getSummaryHtml());
             showMessage("success_message");
         } else {
-            showMessage("startup_message");
+            showMessage("game_mode");
         }
     });
     $(".message button").on("click", function () {
@@ -202,7 +203,7 @@ function initModelAndScene() {
         } else {
             console.log("showing, ."+did);
 
-            if (mapManager.getQuest().isComplete()) {
+            if (mapManager.getQuest()!=undefined && mapManager.getQuest().isComplete()) {
                 showMessage("success_message");
             } else {
                 showMessage(did);
@@ -243,7 +244,7 @@ function initModelAndScene() {
 
             $("body").trigger("forceEndCombat");     
             mapManager.disposeMobs();
-            mapManager.quest.dispose();
+            if (mapManager.quest!=undefined) mapManager.quest.dispose();
             mapManager.loadMapFromData(evt.target.result);
         }
         reader.readAsText(file);
@@ -269,6 +270,19 @@ function initModelAndScene() {
         maptransfer.postMessage({
             type: "transfer_map_check"
         });        
+    });
+    $("body").on("click", "button.load", function (ev) {
+        let maplist=$(ev.currentTarget).attr("data-load");
+        console.log("should load maplist", maplist);
+
+        $.get("maps/"+maplist, function (data) {
+            console.log("got maplist");
+            let maplist_obj=parseJSON(data);
+            game_mode=maplist_obj.mode;
+            window.gamedata.maps=maplist_obj.maps;
+            mapManager.loadMap(window.gamedata.maps[0]);
+            showMessage("startup_message");
+        });         
     });
 
     initWorld();
