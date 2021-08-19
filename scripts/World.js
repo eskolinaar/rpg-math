@@ -57,22 +57,17 @@ export function initWorld() {
     $("body").off("quest_complete");
     $("body").on("quest_complete", questComplete);
 
+
     if (window.location.hash=="#bc_map") {
         window.location.hash="";
         mapManager=new MapManager();
         console.log("checking for map editor map");
         $("body").trigger({ type:"checkMapEditor" });
-    } else {
+    } else if (mapManager==undefined || mapManager==null) {
         mapManager=new MapManager();
         window.gamedata.mapManager=mapManager;
-        // load by clicking a link
-
-        // if (mapManager==undefined || mapManager==null) {
-        //     mapManager=new MapManager(window.gamedata.maps[window.gamedata.currentmap]);
-        //     window.gamedata.mapManager=mapManager;
-        // } else {
-        //     mapManager.loadMap(window.gamedata.maps[window.gamedata.currentmap]);
-        // }
+    } else {
+        mapManager.loadMap(window.gamedata.maps[window.gamedata.currentmap]);
     }
 }
 
@@ -481,6 +476,7 @@ function createScene() {
     scene.add( light );
     scene.add( light2 );
     scene.add( damageLight );
+    window.gamedata.scene=scene;
     scene.fog=new THREE.Fog(0x224466, 0.1, 8);
 
     $(".startup_progress").html("<p>"+i18n("level_build")+"</p>");

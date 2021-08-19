@@ -100,6 +100,7 @@ function initGame() {
 }
 
 function initModelAndScene() {
+    setPaused(true);
     window.gamedata={};
     window.gamedata.statistics=statistics;
 
