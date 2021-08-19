@@ -481,6 +481,7 @@ function createScene() {
     scene.add( light );
     scene.add( light2 );
     scene.add( damageLight );
+    scene.fog=new THREE.Fog(0x224466, 0.1, 8);
 
     $(".startup_progress").html("<p>"+i18n("level_build")+"</p>");
 
