@@ -90,13 +90,21 @@ export function i18n(key) {
 }
 
 function initGame() {
-    maptransfer = new BroadcastChannel('maptransfer');
+    if (typeof BroadcastChannel === 'function') {
+        maptransfer = new BroadcastChannel('maptransfer');
+    } else { 
+        maptransfer = { onMessage:nyi, postMessage:nyi }; 
+    }
     mathLoader = new RandomMath();
     statistics = new Statistic();
     initAnimations();
     registerKeyStrokes();
     initModelAndScene();     
     render(); // start render loop
+}
+
+function nyi() {
+    console.log("Function not supported by browser!");
 }
 
 function initModelAndScene() {
