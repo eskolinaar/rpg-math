@@ -528,11 +528,11 @@ function createScene() {
                 normalMap1: Water_2_M_Normal
             } );  
     water.position.x=14;
-    water.position.y=1.2;
+    water.position.y=1.05;
     water.position.z=20;  
     water.rotateX(Math.PI * - 0.5);
     window.gamedata.water=water;
-//    scene.add( water );
+    scene.add( water );
 //    console.log("adding water ", water);
 
     $(".startup_progress").html("<p>"+i18n("level_build")+"</p>");
