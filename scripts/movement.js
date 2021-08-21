@@ -135,7 +135,7 @@ export function activateRegenerationLoop(delay) {
 function step(vector) { 
     if (paused) return;
     let cameraDiff = getCameraDiff();
-    console.log("cameraDiff, ", cameraDiff);
+    //console.log("cameraDiff, ", cameraDiff);
     if (cameraDiff>1) return;
     if (mapManager.isFloor(partyPos.apply(mm).apply(vector)) && checkMobPositionByPosition(-1, partyPos.apply(mm).apply(vector))) {
         partyPos.add(vector);

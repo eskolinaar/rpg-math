@@ -140,6 +140,14 @@ export class MapManager {
 	}
 
 	isFloorByPosition(position) {
+		if (position==undefined) { console.log("position is undefined"); return false; }
+		if (this.map==undefined) { console.log("map is undefined"); return false; }
+		if (this.getMapData(position)==0) {
+			//console.log("requesting properties for invalid objectIndex. position=", position)	
+			// fixme. this maybe happens when starting map before its completely loaded
+			return false;
+		}
+		if (window.gamedata.objectIndex[this.getMapData(position)]==undefined) { console.log("OIdx is undefined", window.gamedata.objectIndex, this.getMapData(position)); return false; }
     	if (window.gamedata.objectIndex[this.getMapData(position)].type=="floor") {
     		return true;
     	}	
@@ -152,6 +160,10 @@ export class MapManager {
 
 	getMob(idx) {
 		return this.mobs[idx];
+	}
+
+	addMob(mob) {
+		this.mobs.push(mob);
 	}
 
 	getMobData() {

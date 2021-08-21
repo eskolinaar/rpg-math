@@ -1,0 +1,13 @@
+campaign leves be like:
+
+intro level castle
+wood with chest
+small city
+maze with small dungeon
+wood, with sidemap
+mountains
+water level
+swamp
+cellar 
+castle
+end?

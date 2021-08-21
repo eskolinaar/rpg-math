@@ -6,7 +6,7 @@ function random(max) { return Math.floor(Math.random() * Math.floor(max))+1; }
 function random_choice(max, arr) {
 	var low=Math.floor(arr[0]-0.3*max);
 	var high=Math.floor(arr[0]+0.3*max);
-	console.log("random_choice ", arr, max, low, high);
+	//console.log("random_choice ", arr, max, low, high);
 	if (low<1) {
 		high=high-low+1;
 		low=1;
@@ -17,14 +17,14 @@ function random_choice(max, arr) {
 	return num;
 }
 function random_shift(arr, num, max) {
-	console.log("random_shift ", arr, num, max);
+	//console.log("random_shift ", arr, num, max);
 	if (arr.indexOf(num)>-1) {
 		num++;
 		if (num>max) {
 			num-=Math.floor(0.6*max);
 		}
 	}
-	console.log("random_shift => ", num);
+	//console.log("random_shift => ", num);
 	return Math.floor(num);
 }
 
@@ -47,7 +47,7 @@ export class RandomMath {
 				return;
 			}	
 			this.currentIndex++;
-			if (this.currentIndex>=10) {
+			if (this.currentIndex>=100) {
 				this.stageCompleted();
 				return;
 			}

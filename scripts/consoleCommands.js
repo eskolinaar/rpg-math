@@ -25,3 +25,24 @@ function getPosition() {
 function noDamage() {
 	$("body").trigger("noDamage");	
 }
+
+function spawnMob(mob) {
+	$("body").trigger("spawnMob", mob);
+}
+
+function removeFog() {
+	$("body").trigger("removeFog");	
+}
+
+function showCheats() {
+	console.log("CHEATS:\n"+
+	"---------------------\n"+
+	"* enableCheats()\n"+
+	"* loadMap(mapname)\n"+
+	"* teleport(x, y)\n"+
+	"* getPosition()\n"+
+	"* noDamage()\n"+
+	"* spawnMob(mob)\n"+
+	"* removeFog()\n"+
+	"---------------------");
+}

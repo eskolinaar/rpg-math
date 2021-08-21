@@ -6,6 +6,7 @@ import { MapManager } from './MapManager.js';
 import { onTop, setPaused, targetMob } from './movement.js';
 import { i18n, showMessage, getLanguage } from './game.js';
 import { damage } from './combat.js';
+import { Water } from './Water2.js';
 
 export var partyPos;
 export var damageLight;
@@ -32,6 +33,11 @@ var renderer;
 var meshQueue;
 var speed;
 var mobspeed;
+var plane;
+var textureLoader;
+var water;
+var Water_1_M_Normal;
+var Water_2_M_Normal;
 
 export function initWorld() {
     partyPos=new Position(17, 13);
@@ -57,6 +63,11 @@ export function initWorld() {
     $("body").off("quest_complete");
     $("body").on("quest_complete", questComplete);
 
+    $("body").off("spawnMob");
+    $("body").on("spawnMob", (ev, mob) => { spawnMob(mob); });   
+
+    $("body").off("removeFog");
+    $("body").on("removeFog", () => { scene.fog=undefined;  });  
 
     if (window.location.hash=="#bc_map") {
         window.location.hash="";
@@ -121,7 +132,7 @@ function loadSky() {
         error => {
             console.log("Error loading sky " + error);
         }
-    );    
+    );     
 }
 
 export function registerWindowResizeHandler() {
@@ -477,7 +488,52 @@ function createScene() {
     scene.add( light2 );
     scene.add( damageLight );
     window.gamedata.scene=scene;
-    scene.fog=new THREE.Fog(0x224466, 0.1, 8);
+    scene.fog=new THREE.Fog(0x224466, 0.1, 8); 
+
+
+    textureLoader = new THREE.TextureLoader();
+    
+    Water_1_M_Normal=textureLoader.load(
+        './scripts/Water_1_M_Normal.jpg',
+        undefined,
+        undefined,
+        error => {
+            console.log("Error loading texture './scripts/Water_1_M_Normal.jpg' " , error);
+        }
+    );   
+    Water_2_M_Normal=textureLoader.load(
+        './scripts/Water_2_M_Normal.jpg',
+        undefined,
+        undefined,
+        error => {
+            console.log("Error loading texture './scripts/Water_2_M_Normal.jpg' " , error);
+        }
+    );      
+    //Water_2_M_Normal=textureLoader.load( './Water_2_M_Normal.jpg');
+
+    plane = new THREE.PlaneBufferGeometry( 50, 50 ); // , new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} ) )
+    // plane.position.x=14;
+    // plane.position.y=1.2;
+    // plane.position.z=20;
+//    window.gamedata.plane=plane;
+
+//    console.log("adding water ", plane, Water_1_M_Normal, Water_2_M_Normal);
+    water = new Water( plane, {
+                color: '#ffffff',
+                scale: 4,
+                flowDirection: new THREE.Vector2( 0.3, 0.3 ),
+                textureWidth: 1024,
+                textureHeight: 1024,
+                normalMap0: Water_1_M_Normal,
+                normalMap1: Water_2_M_Normal
+            } );  
+    water.position.x=14;
+    water.position.y=1.2;
+    water.position.z=20;  
+    water.rotateX(Math.PI * - 0.5);
+    window.gamedata.water=water;
+//    scene.add( water );
+//    console.log("adding water ", water);
 
     $(".startup_progress").html("<p>"+i18n("level_build")+"</p>");
 
@@ -492,6 +548,8 @@ function createScene() {
     for (var m=0;m<mapManager.getMobData().length;m++) {
         mob=mapManager.getMobData()[m];       
         if (mob.rotation==undefined) mob.rotation=Math.floor((Math.random() * 4));
+        mob.rotation=parseInt(mob.rotation);
+        if (isNaN(mob.rotation)) mob.rotation=Math.floor((Math.random() * 4));
         mob.current_life=mob.life;
         loadMob(mob);   
     }
@@ -507,6 +565,22 @@ function createScene() {
 
     $(".startup_progress").html("");
     $(".startup_navigation").show();
+}
+
+function spawnMob(mob) {
+// spawnMob({id:"17", x:14, y:18, life:"2", rotation:0});
+    if (mob.id==undefined) { console.log("spawnMob, missing id", mob); return; }
+    if (mob.x==undefined) { console.log("spawnMob, missing id", mob); return; }
+    if (mob.y==undefined) { console.log("spawnMob, missing id", mob); return; }
+    if (mob.life==undefined) { console.log("spawnMob, missing id", mob); return; }
+    if (mob.rotation==undefined) { mob.rotation=0; }
+
+// check if floor
+
+    console.log("spawnMob, spawning mob ", mob);
+    mapManager.addMob(mob);
+    loadMob(mob);
+    // push to map and loadMob
 }
 
 function loadMob(mob) {
