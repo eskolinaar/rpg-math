@@ -264,5 +264,19 @@
         "mesh":"TravelIndicator.glb",
         "symbol":"TravelIndicator.png",
         "type":"token"
+    },
+    "41":{
+        "id":"41",
+        "name":"bigleaftree",
+        "mesh":"BigLeafTree.glb",
+        "symbol":"BigLeafTree.png",
+        "type":"wall"
+    },
+    "42":{
+        "id":"42",
+        "name":"hedge",
+        "mesh":"Hedge.glb",
+        "symbol":"hedge.png",
+        "type":"wall"
     }
 }

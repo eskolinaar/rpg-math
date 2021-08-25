@@ -11,3 +11,16 @@ swamp
 cellar 
 castle
 end?
+
+zaun
+acker mit kürbis
+felsenwand hoch
+baum
+niedrige hecke
+holzhütte
+dschungel
+
+custom difficulty
+polynomial
+modulo
+division
