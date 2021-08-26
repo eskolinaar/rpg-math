@@ -107,6 +107,39 @@ function nyi() {
     console.log("Function not supported by browser!");
 }
 
+function initDifficulty(initType) {
+    $("#difficulty_ui").html(i18n("difficulty")+initType);
+    switch (initType) {
+        case "1":
+            window.gamedata.difficulty={
+                "mod":40
+            }
+            break; 
+        case "2":
+            window.gamedata.difficulty={
+                "add":60,
+                "sub":60
+            }
+            break; 
+        case "3":
+            window.gamedata.difficulty={
+                "add":100,
+                "sub":100,
+                "mul":100
+            }
+            break; 
+        case "*":
+            // ToDo: 
+            // create custom difficulty form 
+            // and read from it
+            // support new modes div & mod
+            window.gamedata.difficulty={
+                "add":20
+            }
+            break;
+    }    
+}
+
 function initModelAndScene() {
     setPaused(true);
     window.gamedata={};
@@ -119,7 +152,7 @@ function initModelAndScene() {
 
     window.gamedata.direction=3;
     window.gamedata.lastMobId=0;
-    window.gamedata.difficulty="1";
+    window.gamedata.difficulty=initDifficulty("1");
 
     window.gamedata.canvas={};
     window.gamedata.camera={};
@@ -179,14 +212,13 @@ function initModelAndScene() {
         if (did==undefined || did=="") {
             console.log("messages closed. starting/resuming game.");
             if ($(this).attr("data-difficulty")!=undefined && !isNaN($(this).attr("data-difficulty"))) {
-                window.gamedata.difficulty=$(this).attr("data-difficulty");//parseInt($(".startup_message_"+window.gamedata.language+" .startup_difficulty").val());
+                initDifficulty($(this).attr("data-difficulty"));
             }
             if (isNaN(window.gamedata.difficulty)) {
                 console.log("no valid difficulty value. setting override value=1");
-                window.gamedata.difficulty="1";
+                initDifficulty($(this).attr("data-difficulty"));
             }
-            console.log("setting difficulty to "+window.gamedata.difficulty);
-            $("#difficulty_ui").html(i18n("difficulty")+window.gamedata.difficulty);
+            
             $(".message").hide();
             $(".language_ui").hide();
             $("#combat_ui").show();
