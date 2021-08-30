@@ -91,11 +91,35 @@
                         Subtraktionen bis 100<br>
                         Multiplikationen bis 100</p>
                     <img class="play_icon" src="./objects/symbol/Play.svg">
-                </button>                                
+                </button>
+                <button data-id="custom_difficulty" class="play">
+                    <h2>Angepasst</h2>
+                    <img src="./objects/symbol/golem.png">
+                    <p>Additionen, <br>Subtraktionen <br>und mehr</p>
+                    <img class="play_icon" src="./objects/symbol/Play.svg">
+                </button>   
                 <br><br>
                 <button data-id="howto_message">Wie geht das nochmal mit dem zaubern?</button>
                 <button data-id="impressum_message">Wer bist du nochmal? (Impressum)</button>
             </div>
+        </div>
+        <div class="custom_difficulty_de message">
+            <p>Hier kannst du deine eigene Schwierigkeit w&auml;hlen.</p>
+            <div style="text-align:left">
+                <p>Addition</p>
+                <input type="text" class="custom_difficulty_input" name="custom_difficulty_add" id="custom_difficulty_add" value="120">
+                <p>Subtraktion</p>
+                <input type="text" class="custom_difficulty_input" name="custom_difficulty_sub" id="custom_difficulty_sub" value="120">
+                <p>Multiplikation</p>
+                <input type="text" class="custom_difficulty_input" name="custom_difficulty_mul" id="custom_difficulty_mul" value="120">
+                <p>Division</p>
+                <input type="text" class="custom_difficulty_input" name="custom_difficulty_div" id="custom_difficulty_div" value="120">
+                <p>Modulo/Restwert-Division</p>
+                <input type="text" class="custom_difficulty_input" name="custom_difficulty_mod" id="custom_difficulty_mod" value="120">
+            </div>
+            <button data-id="" data-difficulty="*" class="play">
+                <img class="play_icon" src="./objects/symbol/Play.svg">
+            </button> 
         </div>
         <div class="startup_message_en message">
             <button data-id="fullscreen"><img src="./objects/symbol/FullScreen.svg"></button>

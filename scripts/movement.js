@@ -51,6 +51,10 @@ export function registerKeyStrokes() {
 
     $(window).keydown(function(event) { 
 
+        if (paused==true) {
+            return;
+        }
+
         // F5 = refresh. should not be blocked
         if (event.keyCode!=116) event.preventDefault(); 
 
@@ -285,6 +289,7 @@ export function resetTargetMob() {
 }
 
 export function setPaused(val) {
+    console.log("setPaused, set to ", val);
     paused=val;
 }
 

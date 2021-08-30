@@ -133,11 +133,22 @@ function initDifficulty(initType) {
             // create custom difficulty form 
             // and read from it
             // support new modes div & mod
-            window.gamedata.difficulty={
-                "add":20
-            }
-            break;
+            window.gamedata.difficulty={}
+            checkAndSetDifficultyValue("add");
+            checkAndSetDifficultyValue("sub");
+            checkAndSetDifficultyValue("mul");
+            checkAndSetDifficultyValue("div");
+            checkAndSetDifficultyValue("mod");
     }    
+}
+
+function checkAndSetDifficultyValue(typekey) {
+    let dval=parseInt($("#custom_difficulty_"+typekey).val());
+    if (dval==undefined || !Number.isInteger(dval) || dval==0) {
+        console.log("skipping custom difficulty '"+dval+"' for typekey='"+typekey+"'");
+        return;
+    }
+    window.gamedata.difficulty[typekey]=dval;
 }
 
 function initModelAndScene() {
@@ -208,6 +219,8 @@ function initModelAndScene() {
     });
     $(".message button").on("click", function () {
         let did=$(this).attr("data-id");
+
+        if ($(this).attr("data-load")!=undefined) return;
 
         if (did==undefined || did=="") {
             console.log("messages closed. starting/resuming game.");
