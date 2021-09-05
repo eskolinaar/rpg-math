@@ -139,6 +139,7 @@ function initDifficulty(initType) {
             checkAndSetDifficultyValue("mul");
             checkAndSetDifficultyValue("div");
             checkAndSetDifficultyValue("mod");
+            checkFallbackDifficultyValue();
     }    
 }
 
@@ -149,6 +150,14 @@ function checkAndSetDifficultyValue(typekey) {
         return;
     }
     window.gamedata.difficulty[typekey]=dval;
+}
+
+function checkFallbackDifficultyValue() {
+    let modes=Object.getOwnPropertyNames(window.gamedata.difficulty);
+    if (modes.length<1) {
+        console.log("checkFallbackDifficultyValue, setting fallback { add=10 }");
+        window.gamedata.difficulty.add=10;
+    }
 }
 
 function initModelAndScene() {

@@ -4,6 +4,7 @@
         <script src="scripts/jquery-3.6.0.min.js"></script>
         <script src="scripts/Math.js" type="module"></script>
         <script src="scripts/ui-globe.js"></script>
+        <script src="scripts/ui-number.js"></script>
         <script src="scripts/three-r124.min.js" type="module"></script>
         <script src="scripts/GLTFLoader-r124.js" type="module"></script>
         <script src="scripts/statistics.js" type="module"></script>
@@ -106,20 +107,16 @@
         <div class="custom_difficulty_de message">
             <p>Hier kannst du deine eigene Schwierigkeit w&auml;hlen.</p>
             <div style="text-align:left">
-                <p>Addition</p>
-                <input type="text" class="custom_difficulty_input" name="custom_difficulty_add" id="custom_difficulty_add" value="120">
-                <p>Subtraktion</p>
-                <input type="text" class="custom_difficulty_input" name="custom_difficulty_sub" id="custom_difficulty_sub" value="120">
-                <p>Multiplikation</p>
-                <input type="text" class="custom_difficulty_input" name="custom_difficulty_mul" id="custom_difficulty_mul" value="120">
-                <p>Division</p>
-                <input type="text" class="custom_difficulty_input" name="custom_difficulty_div" id="custom_difficulty_div" value="120">
-                <p>Modulo/Restwert-Division</p>
-                <input type="text" class="custom_difficulty_input" name="custom_difficulty_mod" id="custom_difficulty_mod" value="120">
+                <ui-number id="custom_difficulty_add">Addition</ui-number>
+                <ui-number id="custom_difficulty_sub">Subtraktion</ui-number>
+                <ui-number id="custom_difficulty_mul">Multiplikation</ui-number>
+                <ui-number id="custom_difficulty_div">Division</ui-number>
+                <ui-number id="custom_difficulty_mod">Modulo</ui-number>
             </div>
             <button data-id="" data-difficulty="*" class="play">
                 <img class="play_icon" src="./objects/symbol/Play.svg">
             </button> 
+            <!-- <button data-id="startup_message">Zur&uuml;ck</button> -->
         </div>
         <div class="startup_message_en message">
             <button data-id="fullscreen"><img src="./objects/symbol/FullScreen.svg"></button>

@@ -68,7 +68,7 @@ class UiNumber extends HTMLElement {
 			:host {
 				display:block;
 				min-height:80px;
-				min-width:180px;		
+				min-width:220px;		
 				max-width:350px;
 				border:1px solid #888;
 				margin:5px;
@@ -97,12 +97,14 @@ class UiNumber extends HTMLElement {
 			    min-width: 34px;
 			    text-align: center;
 			    color:#666;
+			    font-size:14px;
 			}		
 
 			:host .number_wrapper ul li.selected {
 				border: 1px solid #000;
-				background-color: #ddd;
+				background-color: #89ff89;
 				color:#000;
+				
 			}	
 		</style>`;
 	}	
