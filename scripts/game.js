@@ -112,7 +112,7 @@ function initDifficulty(initType) {
     switch (initType) {
         case "1":
             window.gamedata.difficulty={
-                "mod":40
+                "add":40
             }
             break; 
         case "2":
@@ -149,10 +149,14 @@ function checkAndSetDifficultyValue(typekey) {
         console.log("skipping custom difficulty '"+dval+"' for typekey='"+typekey+"'");
         return;
     }
+    console.log("setting custom difficulty for typekey='"+typekey+"' to '"+dval+"'");
     window.gamedata.difficulty[typekey]=dval;
 }
 
 function checkFallbackDifficultyValue() {
+    if (window.gamedata.difficulty==undefined) {
+        window.gamedata.difficulty={};
+    }
     let modes=Object.getOwnPropertyNames(window.gamedata.difficulty);
     if (modes.length<1) {
         console.log("checkFallbackDifficultyValue, setting fallback { add=10 }");
@@ -233,13 +237,12 @@ function initModelAndScene() {
 
         if (did==undefined || did=="") {
             console.log("messages closed. starting/resuming game.");
-            if ($(this).attr("data-difficulty")!=undefined && !isNaN($(this).attr("data-difficulty"))) {
-                initDifficulty($(this).attr("data-difficulty"));
-            }
-            if (isNaN(window.gamedata.difficulty)) {
-                console.log("no valid difficulty value. setting override value=1");
-                initDifficulty($(this).attr("data-difficulty"));
-            }
+            if ($(this).attr("data-difficulty")!=undefined) {
+                if (["1", "2", "3", "*"].includes($(this).attr("data-difficulty"))) {
+                    initDifficulty($(this).attr("data-difficulty"));
+                }
+            } 
+            checkFallbackDifficultyValue();
             
             $(".message").hide();
             $(".language_ui").hide();
