@@ -1,6 +1,7 @@
 {
 	"mode":"mapChangeOnQuestComplete",
 	"maps":[
+		"rudirallala.map.json",
 		"m2021-06-26.map.json",
         "m2021-08-12-972.map.json",
         "test-short.map.json",

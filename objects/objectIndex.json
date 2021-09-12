@@ -278,5 +278,13 @@
         "mesh":"Hedge.glb",
         "symbol":"hedge.png",
         "type":"wall"
+    },
+    "43":{
+        "id":"43",
+        "name":"rudi",
+        "mesh":"rudi.glb",
+        "symbol":"rudi.png",
+        "type":"mob",
+        "life":"3"
     }
 }

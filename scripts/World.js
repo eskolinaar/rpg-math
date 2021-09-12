@@ -446,6 +446,7 @@ function addFieldObject(wall, x, y, rot) {
     cube.position.y=1;
     cube.position.x=x;
     cube.position.z=y;
+    cube.name=window.gamedata.objectIndex[wall].name;
     if (window.gamedata.objectIndex[wall].orientation!=undefined && window.gamedata.objectIndex[wall].orientation=="calc") {
         // rot*rad
         cube.rotation.y=((x+y)%4)*rad;
@@ -472,6 +473,7 @@ function addToken(idx, wall, x, y, rot) {
     cube.position.x=x;
     cube.position.z=y;
     cube.rotation.y=rot*rad;
+    cube.name=window.gamedata.objectIndex[wall].name;
     if (wall==13 || wall==14 || wall==15) {
         cube.position.y=1.05;
     }
