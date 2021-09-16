@@ -52,8 +52,9 @@ ui-globe#mob_life {
 
 ui-number {
     margin: auto;
-    background-color: #444;
-    margin-bottom: 2px;
+    background-color: transparent;
+	margin-bottom: 30px;
+	border: 0;
 }
 
 div.custom_difficulty_de button.play {
@@ -201,7 +202,7 @@ ul.index {
     right: 20vw;
     z-index: 100;
     background-color: rgba(0, 0, 0, 0.8);
-    border-left: 15px solid rgba(0, 0, 90, 0.8);
+    border-radius: 25px;
     color: #fff;
     box-sizing: border-box;
     padding: 7vh 8vw 5vw 8vw;

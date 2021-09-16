@@ -286,5 +286,12 @@
         "symbol":"rudi.png",
         "type":"mob",
         "life":"3"
+    },
+    "44":{
+        "id":"44",
+        "name":"carrot",
+        "mesh":"carrot.glb",
+        "symbol":"carrot.png",
+        "type":"token"
     }
 }
