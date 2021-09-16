@@ -113,8 +113,7 @@ export class Statistic {
 
 	getSummaryHtml() {
 		if (window.gamedata.language=="de") {
-			return `<p class="center"><b>Zusammenfassung</b><br>
-					<span class="weak">(Schwierigkeit: ${this.difficulty()})</span></p>
+			return `<p class="center"><b>Zusammenfassung</b><br></p>
 					<p><span class="digits3">${this.count()}</span> Rechnungen<br>
 					<span class="digits3">${this.wrongCount()}</span> Fehler<br>
 					<span class="digits3">${this.getWinCount()}</span> gewonnene Kämpfe<br>
@@ -123,8 +122,7 @@ export class Statistic {
 					<p class="center"><b>${this.getStars()} von 5 Sterne</b></p>`;
 		}
 		// en & default
-		return `<p class="center"><b>Summary</b><br>
-				<span class="weak">(difficulty: ${this.difficulty()})</span></p>
+		return `<p class="center"><b>Summary</b><br></p>
 				<p><span class="digits3">${this.count()}</span> calculations<br>
 				<span class="digits3">${this.wrongCount()}</span> errors<br>
 				<span class="digits3">${this.getWinCount()}</span> won fights<br>

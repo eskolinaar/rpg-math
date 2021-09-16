@@ -191,6 +191,9 @@ export function mobWalk() {
 
 function checkCombat() {
     for (var i=0;i<mapManager.getMobDataLength();i++) {
+        if (mapManager.getMob(i).mode!=undefined && mapManager.getMob(i).mode=="peaceful") {
+            continue;
+        }
         if (partyPos.apply(mm).apply(directions[0]).equals(mapManager.getMob(i))) {
             targetMob=i;
             console.log("mob "+i+" on 0", window.gamedata.direction+2);
