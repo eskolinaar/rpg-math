@@ -1,6 +1,8 @@
 {
 	"mode":"mapChangeOnQuestComplete",
 	"maps":[
-		"m2021-09-16-peaceful1.map.json"
+		"m2021-09-16-peaceful1.map.json",
+		"m2021-09-17-peaceful3.map.json",
+		"m2021-09-17-peaceful2.map.json"
     ]
 }
