@@ -293,5 +293,13 @@
         "mesh":"carrot.glb",
         "symbol":"carrot.png",
         "type":"token"
+    },
+    "45":{
+        "id":"45",
+        "name":"bruno",
+        "mesh":"bruno.glb",
+        "symbol":"carrot.png",
+        "type":"mob",
+        "life":"3"
     }
 }
