@@ -19,6 +19,6 @@
 	{"id":"45","x":13,"y":8,"life":"3","mode":"peaceful"}
 ], 
 "token":[{"id":"31","x":11,"y":3},{"id":"31","x":11,"y":4},{"id":"29","x":11,"y":17}], 
-"quest":{"event":"token","amount":"1","template":{"en":"Parade","de":"Parade"}}, 
+"quest":{"event":"token","amount":"1","template":{"en":"{}/{} Token","de":"{}/{} Token"}}, 
 "introtext": {"de":"Heute sind alle Monster friedlich. Komm zur Parade","en":"Join the Monster Parade"}
 }

@@ -1,0 +1,6 @@
+{
+	"mode":"mapChangeOnQuestComplete",
+	"maps":[
+        "m2021-10-22-challenge.map.json"
+    ]
+}
