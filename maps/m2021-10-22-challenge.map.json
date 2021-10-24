@@ -1,6 +1,6 @@
 { 
 "version":"21.01.001", 
-"mapname":"undefined", 
+"mapname":"challenge mode lvl 1", 
 "height": "30", 
 "width": "30",
 "x" : "11", 
@@ -16,5 +16,5 @@
 ], 
 "token":[], 
 "quest":{"event":"kill","amount":"6","template":{"en":"{} of {} ","de":"{} von {}"}}, 
-"introtext": {"de":"Diese Monster fordern dich zu einem Kampf heraus. Zeit für ein Duell!","en":"These monsters are challenging you to a battle. Cast your might! Fight!"}
+"introtext": {"de":"Diese Monster fordern dich zum Kampf. Zeit für ein Duell!","en":"These monsters are challenging you to a battle. Cast your might! Fight!"}
 }
