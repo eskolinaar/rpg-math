@@ -298,7 +298,7 @@
         "id":"45",
         "name":"bruno",
         "mesh":"bruno.glb",
-        "symbol":"carrot.png",
+        "symbol":"bruno.png",
         "type":"mob",
         "life":"3"
     }

@@ -314,6 +314,7 @@ function initModelAndScene() {
             mapManager.loadMapFromData(evt.target.result);
         }
         reader.readAsText(file);
+		showMessage("startup_message");
     });
     maptransfer.onmessage=function (ev) { 
         console.log("receiving map from editor ...", ev.data.type);
