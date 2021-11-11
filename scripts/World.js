@@ -490,8 +490,6 @@ function createScene() {
     scene.add( light2 );
     scene.add( damageLight );
     window.gamedata.scene=scene;
-    scene.fog=new THREE.Fog(0x224466, 0.1, 8); 
-
 
     textureLoader = new THREE.TextureLoader();
     
@@ -536,6 +534,7 @@ function createScene() {
     window.gamedata.water=water;
     scene.add( water );
 //    console.log("adding water ", water);
+    scene.fog=mapManager.getMapFog();
 
     $(".startup_progress").html("<p>"+i18n("level_build")+"</p>");
 

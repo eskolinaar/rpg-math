@@ -14,6 +14,7 @@ export class MapManager {
 		this.quest=null;
 		this.intro=null;
 		this.questTemplates=null;
+		this.fog=null;
 		this.loadMap(mapName);
 	}
 
@@ -50,7 +51,18 @@ export class MapManager {
 
         this.charPos=new Position(parseInt(data_obj.x), parseInt(data_obj.y));
 
-        this.questTemplates=data_obj.quest.template;
+		if (data_obj.fog==undefined) {
+			console.log("loadMapInternal, using fog fallback");
+			this.fog=new THREE.Fog(0x224466, 0.1, 8);
+		} else if (data_obj.fog=="none") {
+			this.fog=undefined;
+		} else {
+			console.log("loadMapInternal, using fog "+data_obj.fog);
+			let fog_arr=data_obj.fog.split(" ");
+			this.fog=new THREE.Fog(fog_arr[0], fog_arr[1], fog_arr[2]);
+		}
+
+		this.questTemplates=data_obj.quest.template;
         this.quest=new Quest(
         	data_obj.quest.event, 
         	data_obj.quest.amount,
@@ -119,7 +131,11 @@ export class MapManager {
 	    }
 	    //console.log("getMapData", cell, this.map, this.map[cell]);
 	    return this.map[cell];
-	}	
+	}
+
+	getMapFog() {
+		return this.fog;
+	}
 
 	getMapDataByPosition(position) {
 	    var cell=position.y*30+position.x;
