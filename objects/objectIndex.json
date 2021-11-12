@@ -83,7 +83,7 @@
         "mesh":"Wolf2.glb",        
         "symbol":"Wolf.png",
         "type":"mob",
-        "life":"5"        
+        "life":"5"
     },
     "15":{
         "id":"15",
@@ -103,7 +103,7 @@
     },
     "17":{
         "id":"17",
-        "name":"Blob",
+        "name":"Golem",
         "mesh":"golem4.glb",
         "symbol":"golem.png",
         "type":"mob",
