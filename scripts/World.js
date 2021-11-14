@@ -616,6 +616,8 @@ function loadMob(mob) {
             if (skin != undefined) {
                 skin.opacity = parseFloat(window.gamedata.objectIndex[mob.id].opacity);
                 skin.transparent = true;
+                skin.side=THREE.FrontSide;
+                skin.blending=THREE.AdditiveBlending;
             } else {
                 console.log("transparency failed for ", mob.id, window.gamedata.objectIndex[mob.id].opacity);
             }
@@ -647,7 +649,7 @@ function loadMob(mob) {
 function getSkin(obj) {
     if (obj.children == undefined) return undefined;
     for (var idx=0;idx<obj.children.length;idx++) {
-        if (obj.children[idx].type=="SkinnedMesh") {
+        if (obj.children[idx].type=="SkinnedMesh" || obj.children[idx].type=="Mesh") {
             if (obj.children[idx].material == undefined) return undefined;
             if (obj.children[idx].material.opacity == undefined) return undefined;
             return obj.children[idx].material;

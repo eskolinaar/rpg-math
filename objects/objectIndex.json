@@ -301,5 +301,14 @@
         "symbol":"bruno.png",
         "type":"mob",
         "life":"3"
+    },
+    "46":{
+        "id":"46",
+        "name":"ghost",
+        "mesh":"ghost.glb",
+        "symbol":"ghost.png",
+        "type":"mob",
+        "life":"3",
+        "opacity": "0.6"
     }
 }
