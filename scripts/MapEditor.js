@@ -206,9 +206,11 @@ function createJSONStringFromMap() {
     mapdata.quest.template.en=$("#quest_text_en").val();
     mapdata.quest.template.de=$("#quest_text_de").val();
     mapdata.fog=$("#fog").val();
+    mapdata.light=$("#light").val();
 
     msg='{ \n"version":"21.01.001", \n"mapname":"'+$("#mapname").val()+'", \n"height": "30", \n"width": "30",';
     msg+='\n"fog": '+JSON.stringify(mapdata.fog)+',';
+    msg+='\n"light": '+JSON.stringify(mapdata.light)+',';
     msg+='\n"x" : "'+parseInt($("#char_x").val())+'", \n"y" : "'+parseInt($("#char_y").val())+'", \n"direction" : "'+parseInt($("#char_direction").val())+'", \n"fielddata":[';
     msg+=field.join(",");       
     msg+='], \n"mobs":'+JSON.stringify(mapdata.mobs);

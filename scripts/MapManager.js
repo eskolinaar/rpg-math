@@ -15,6 +15,7 @@ export class MapManager {
 		this.intro=null;
 		this.questTemplates=null;
 		this.fog=null;
+		this.light=null;
 		this.loadMap(mapName);
 	}
 
@@ -60,6 +61,12 @@ export class MapManager {
 			console.log("loadMapInternal, using fog "+data_obj.fog);
 			let fog_arr=data_obj.fog.split(" ");
 			this.fog=new THREE.Fog(fog_arr[0], fog_arr[1], fog_arr[2]);
+		}
+
+		if (data_obj.light==undefined) {
+			this.light=5;
+		} else {
+			this.light=parseFloat(data_obj.light);
 		}
 
 		this.questTemplates=data_obj.quest.template;
@@ -135,6 +142,10 @@ export class MapManager {
 
 	getMapFog() {
 		return this.fog;
+	}
+
+	getMapLight() {
+		return this.light;
 	}
 
 	getMapDataByPosition(position) {

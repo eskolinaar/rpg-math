@@ -512,12 +512,6 @@ function createScene() {
     //Water_2_M_Normal=textureLoader.load( './Water_2_M_Normal.jpg');
 
     plane = new THREE.PlaneBufferGeometry( 50, 50 ); // , new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} ) )
-    // plane.position.x=14;
-    // plane.position.y=1.2;
-    // plane.position.z=20;
-//    window.gamedata.plane=plane;
-
-//    console.log("adding water ", plane, Water_1_M_Normal, Water_2_M_Normal);
     water = new Water( plane, {
                 color: '#ffffff',
                 scale: 4,
@@ -533,8 +527,9 @@ function createScene() {
     water.rotateX(Math.PI * - 0.5);
     window.gamedata.water=water;
     scene.add( water );
-//    console.log("adding water ", water);
+
     scene.fog=mapManager.getMapFog();
+    light2.intensity=mapManager.getMapLight();
 
     $(".startup_progress").html("<p>"+i18n("level_build")+"</p>");
 
