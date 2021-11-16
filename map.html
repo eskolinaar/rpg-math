@@ -78,6 +78,13 @@
     </ul>
     <div id="mainview">
         <div class="pane" data-pane="overview">
+            <div class="section" id="loadfrombrowser">
+                <label>Load from browser (localStorage)</label>
+                <ul id="localStorage_mapview">
+
+                </ul>
+                <button id="clearbrowserstoragebutton">Toggle Delete-Mode</button>
+            </div>
             <div id="options2" class="section">
                 <label>Load from File</label>
                 <p><input type="text" placeholder="Project-Folder" id="mapname2" value="/rpg_math/webroot/maps/m2021-01-30.map.json"></p>
@@ -161,6 +168,10 @@
             </div> 
         </div>      
         <div class="pane" data-pane="export">
+            <div id="save2browser" class="section">
+                <label>Save to browser (localStorage)</label>
+                <button id="savebrowserbutton">Save</button>
+            </div>
             <div id="save2file" class="section">
                 <label>Save to file</label>
                 <button id="savefilebutton">Download Map</button>

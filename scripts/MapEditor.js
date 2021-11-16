@@ -222,8 +222,25 @@ function createJSONStringFromMap() {
     return msg;
 }
 
+function updateLocalStorageIndex() {
+    let maps = localStorage.getItem("maps");
+    if (maps == null) return;
+    maps = JSON.parse(maps);
+    if (maps.length<1) {
+        $("#localStorage_mapview").html("<p>*** no maps found ***</p>");
+        return;
+    }
+    let out = "";
+    for (var map in maps) {
+        out += "<li>" + maps[map].mapname + "</li>";
+    }
+    $("#localStorage_mapview").html(out);
+}
+
 $(document).ready(function () {
     maptransfer = new BroadcastChannel('maptransfer');
+
+    updateLocalStorageIndex();
 
     $(".pane").hide();
     $(".pane[data-pane=overview]").show();
@@ -444,6 +461,23 @@ $(document).ready(function () {
         downloadFile(encodeURIComponent(createJSONStringFromMap()));
     });
 
+    $("button#savebrowserbutton").click(function () {
+        let maps=localStorage.getItem("maps");
+        if (maps==null) {
+            maps=[];
+        }
+        maps = JSON.parse(maps);
+
+        let today = (new Date()).toISOString().substr(0, 10);
+        let ms = (new Date()).toISOString().substr(20, 3);
+        let mapname = "m"+today+"-"+ms+".map.json";
+
+        maps.push({ mapname:mapname, mapdata:createJSONStringFromMap() });
+        localStorage.setItem("maps", JSON.stringify(maps));
+        updateLocalStorageIndex();
+        feedback("Map was successfully saved to '"+mapname+"'!");
+    });
+
     $("button#savebutton").click(function () {
         $("textarea#output").html(createJSONStringFromMap());
     });
@@ -513,6 +547,31 @@ $(document).ready(function () {
             field[i]=selected_tile_index;
         }
         repaint();                    
+    });
+
+    $("#clearbrowserstoragebutton").click(function () {
+        $("#loadfrombrowser").toggleClass("deletemode");
+    });
+
+    $("#loadfrombrowser").on("click", "li", function() {
+        let maps=localStorage.getItem("maps");
+        if (maps == null) return;
+        maps = JSON.parse(maps);
+        for (var map in maps) {
+            if ($(this).text()==maps[map].mapname) {
+                if ($("#loadfrombrowser").hasClass("deletemode")) {
+                    maps.splice(map, 1);
+                    localStorage.setItem("maps", JSON.stringify(maps));
+                    feedback("Map deleted!");
+                    updateLocalStorageIndex();
+                    return;
+                } else {
+                    loadFromData(JSON.parse(maps[map].mapdata));
+                    return;
+                }
+            }
+        }
+        feedback("Could not load map '"+$(this).text()+"'!");
     });
 
     $("button#optimize").on("click", function () {
