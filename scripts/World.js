@@ -176,7 +176,7 @@ function loadMeshObject(idx) {
     console.log("loading "+window.gamedata.objectIndex[idx].mesh);
     
     loader.load( window.gamedata.objectIndex[idx].mesh, ( gltf ) => {
-        //window.gamedata.isMeshLoaded=true;
+        // window.gamedata.isMeshLoaded=true;
         objidx=0;
         for (var i=0;i<gltf.scene.children.length;i++) {
             if (gltf.scene.children[i].type=="Mesh") {
@@ -186,7 +186,7 @@ function loadMeshObject(idx) {
 
         mesh = gltf.scene.children[ objidx ];
         mesh.scale.x=mesh.scale.y=mesh.scale.z=0.17;
-       // console.log("mesh", mesh);
+        // console.log("mesh", mesh);
 
         window.gamedata.objectIndex[idx].mesh_=mesh;
 

@@ -33,6 +33,7 @@ export class Quest {
 	}
 
 	dispose() {
+		console.log("disposing quest");
 		$("body").off(this.eventName);
 		this.currentCount=0;
 		this.complete=true;		

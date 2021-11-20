@@ -267,7 +267,7 @@ function checkTokenPosition(position, trigger) {
                     } else {
                         // map change
                         mapManager.disposeMobs();
-                        if (mapManager.quest!=undefined) mapManager.quest.dispose();
+                        // if (mapManager.quest!=undefined) mapManager.quest.dispose();
                         mapManager.loadMap(token.action.map);
 
                         console.log("map change nyi");

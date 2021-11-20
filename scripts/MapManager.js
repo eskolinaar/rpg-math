@@ -69,13 +69,17 @@ export class MapManager {
 			this.light=parseFloat(data_obj.light);
 		}
 
-		this.questTemplates=data_obj.quest.template;
-        this.quest=new Quest(
-        	data_obj.quest.event, 
-        	data_obj.quest.amount,
-        	this.chooseTemplate(data_obj.quest.template),
-        	"#quest_ui"
-        	);
+		if (data_obj.quest!=undefined) {
+			if (this.quest!=undefined) this.quest.dispose();
+
+			this.questTemplates=data_obj.quest.template;
+			this.quest = new Quest(
+				data_obj.quest.event,
+				data_obj.quest.amount,
+				this.chooseTemplate(data_obj.quest.template),
+				"#quest_ui"
+			);
+		}
 
         console.log("new introtext = ", data_obj, data_obj.introtext);
 

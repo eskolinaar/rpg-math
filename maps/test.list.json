@@ -1,6 +1,8 @@
 {
 	"mode":"mapChangeOnQuestComplete",
 	"maps":[
+		"mapchange1.map.json",
+		"noquest.map.json",
 		"m2021-10-02-parade.map.json",
 		"m2021-09-21-beartest.map.json",
 		"rudirallala.map.json",

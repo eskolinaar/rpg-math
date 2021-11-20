@@ -24,3 +24,5 @@ custom difficulty
 polynomial
 modulo
 division
+
+turm, burg, höhle, dunkler wald
