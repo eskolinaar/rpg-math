@@ -1,6 +1,7 @@
 {
 	"mode":"mapChangeOnQuestComplete",
 	"maps":[
+		"m2021-11-23-quest-test.map.json",
 		"mapchange1.map.json",
 		"noquest.map.json",
 		"m2021-10-02-parade.map.json",

@@ -4,6 +4,7 @@ import { Vector, Position } from './helper.js';
 import { mapManager, partyPos, scene, setPartyPosition, getCameraDiff, moveCameraTop } from './World.js';
 import { startCombat, damage, select, playerDeath } from './combat.js';
 import { showMessage, isCheatingEnabled } from './game.js';
+import {Quest} from "./quests.js";
 
 var directions = {
     0: new Vector(0, -1),
@@ -84,6 +85,7 @@ export function registerKeyStrokes() {
         Actions[action]();
     });
 
+    // catch event for teleport cheat
     $("body").on("move", (e, data) => {
         if (!isCheatingEnabled) {
             console.log("cheats not enabled");
@@ -141,6 +143,25 @@ function step(vector) {
     let cameraDiff = getCameraDiff();
     //console.log("cameraDiff, ", cameraDiff);
     if (cameraDiff>1) return;
+    let mobidx=getMobByPosition(partyPos.apply(mm).apply(vector));
+    if (mobidx!=null) {
+        console.log("running into mob. check for quest");
+        let mob=mapManager.getMob(mobidx);
+        if (mob.mode=="peaceful") {
+            console.log("mob is peaceful");
+            rotateMobToPlayer(mobidx);
+            if (mob.quest != undefined && mapManager.quest == undefined) {
+                console.log("trying to start quest", mob.quest);
+                // ToDo: refactor startquest to method of mapManager; change import
+                mapManager.quest = new Quest(
+                    mob.quest.event,
+                    mob.quest.amount,
+                    mapManager.chooseTemplate(mob.quest.template),
+                    "#quest_ui"
+                );
+            }
+        }
+    } else
     if (mapManager.isFloor(partyPos.apply(mm).apply(vector)) && checkMobPositionByPosition(-1, partyPos.apply(mm).apply(vector))) {
         partyPos.add(vector);
         checkTokenPosition(partyPos.apply(mm), true);
@@ -235,6 +256,21 @@ function checkCombat() {
     // scene.remove(mapManager.getMob(i).object);
 }
 
+function rotateMobToPlayer(idx) {
+    if (partyPos.apply(mm).apply(directions[0]).equals(mapManager.getMob(idx))) {
+        mapManager.getMob(idx).rotation=0;
+    }
+    if (partyPos.apply(mm).apply(directions[1]).equals(mapManager.getMob(idx))) {
+        mapManager.getMob(idx).rotation=1;
+    }
+    if (partyPos.apply(mm).apply(directions[2]).equals(mapManager.getMob(idx))) {
+        mapManager.getMob(idx).rotation=2;
+    }
+    if (partyPos.apply(mm).apply(directions[3]).equals(mapManager.getMob(idx))) {
+        mapManager.getMob(idx).rotation=3;
+    }
+}
+
 function rotateLeftOrRight(mob) {
     if (Math.floor(Math.random()*2)>1) mob.rotation--; else mob.rotation++;
     if (mob.rotation>3) mob.rotation=0;
@@ -245,12 +281,20 @@ function checkMobPosition(idx, x, y) {
     return checkMobPositionByPosition(idx, new Position(x, y));
 }
 
+// check for collision; false = idx cant go there
 function checkMobPositionByPosition(idx, position) {
     for (var i=0;i<mapManager.getMobDataLength();i++) {
         if (i!=idx && mapManager.getMob(i).x==position.x && mapManager.getMob(i).y==position.y) return false;
     }
     if (idx!=-1 && partyPos.x-1==position.x && partyPos.y-1==position.y) return false;
     return true;
+}
+
+function getMobByPosition(position) {
+    for (let i=0;i<mapManager.getMobDataLength();i++) {
+        if (mapManager.getMob(i).x==position.x && mapManager.getMob(i).y==position.y) return i;
+    }
+    return null;
 }
 
 function checkTokenPosition(position, trigger) {
