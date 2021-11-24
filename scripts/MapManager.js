@@ -1,8 +1,10 @@
 "use strict";
 
 import { parseJSON, Position } from './helper.js';
-import { partyPos, onMapLoaded } from './World.js';
+import { onMapLoaded } from './World.js';
 import { Quest } from './quests.js';
+import { setPaused } from './movement.js';
+import { showMessage } from "./game.js";
 
 export class MapManager {
 	constructor(mapName) {
@@ -16,6 +18,8 @@ export class MapManager {
 		this.questTemplates=null;
 		this.fog=null;
 		this.light=null;
+		this.pendingQuest=null;
+		this.pendingQuestNPC=null;
 		this.loadMap(mapName);
 	}
 
@@ -77,7 +81,8 @@ export class MapManager {
 				data_obj.quest.event,
 				data_obj.quest.amount,
 				this.chooseTemplate(data_obj.quest.template),
-				"#quest_ui"
+				"#quest_ui",
+				data_obj.quest.complete_event==undefined?"quest_complete":this.pendingQuest.complete_event
 			);
 		}
 
@@ -240,5 +245,42 @@ export class MapManager {
 			if (parseInt(this.token[tokenIdx].id)==searchIdx) return true;
 		}		
 		return false;
+	}
+
+	announceQuest(quest, mobidx) {
+		if (this.getMob(mobidx).quest.completed!==undefined) {
+			console.log("acceptQuest, quest already finished", quest.complete_message);
+			$(".simple_message_de .simple_text_placeholder").text(quest.complete_message.de);
+			$(".simple_message_en .simple_text_placeholder").text(quest.complete_message.en);
+			setPaused(true);
+			showMessage("simple_message");
+			return;
+		}
+		this.pendingQuest=quest;
+		this.pendingQuestNPC=mobidx;
+		if (quest.introduction !== undefined) {
+			$(".quest_message_de .quest_text_placeholder").text(quest.introduction.de);
+			$(".quest_message_en .quest_text_placeholder").text(quest.introduction.en);
+		}
+		setPaused(true);
+		showMessage("quest_message");
+	}
+
+	acceptQuest() {
+		if (this.getMob(this.pendingQuestNPC).quest.completed!==undefined) {
+			console.log("acceptQuest, quest already finished");
+		}
+		console.log("accepting quest ", this.pendingQuest);
+
+		this.quest = new Quest(
+			this.pendingQuest.event,
+			this.pendingQuest.amount,
+			this.chooseTemplate(this.pendingQuest.template),
+			"#quest_ui",
+			this.pendingQuest.complete_event===undefined?"quest_complete":this.pendingQuest.complete_event
+		);
+		this.getMob(this.pendingQuestNPC).quest.completed=true;
+		this.pendingQuestNPC=null;
+		this.pendingQuest=null;
 	}
 }

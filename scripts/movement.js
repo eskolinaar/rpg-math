@@ -141,25 +141,13 @@ export function activateRegenerationLoop(delay) {
 function step(vector) { 
     if (paused) return;
     let cameraDiff = getCameraDiff();
-    //console.log("cameraDiff, ", cameraDiff);
     if (cameraDiff>1) return;
     let mobidx=getMobByPosition(partyPos.apply(mm).apply(vector));
     if (mobidx!=null) {
-        console.log("running into mob. check for quest");
         let mob=mapManager.getMob(mobidx);
-        if (mob.mode=="peaceful") {
-            console.log("mob is peaceful");
+        if (mob.mode=="peaceful" && mob.quest != undefined && mapManager.quest == undefined) {
             rotateMobToPlayer(mobidx);
-            if (mob.quest != undefined && mapManager.quest == undefined) {
-                console.log("trying to start quest", mob.quest);
-                // ToDo: refactor startquest to method of mapManager; change import
-                mapManager.quest = new Quest(
-                    mob.quest.event,
-                    mob.quest.amount,
-                    mapManager.chooseTemplate(mob.quest.template),
-                    "#quest_ui"
-                );
-            }
+            mapManager.announceQuest(mob.quest, mobidx);
         }
     } else
     if (mapManager.isFloor(partyPos.apply(mm).apply(vector)) && checkMobPositionByPosition(-1, partyPos.apply(mm).apply(vector))) {
@@ -422,7 +410,7 @@ class Actions {
             paused=false;
         } else {
             console.log("game is paused");
-            if (mapManager.getQuest().isComplete()) {
+            if (mapManager.getQuest()!=undefined && mapManager.getQuest().isComplete()) {
                 showMessage("success_message");
             } else {
                 showMessage("pause_message");

@@ -164,6 +164,19 @@ function checkFallbackDifficultyValue() {
     }
 }
 
+function resumeGame() {
+    $(".message").hide();
+    $(".language_ui").hide();
+    $("#combat_ui").show();
+    if (targetMob>-1) {
+    } else {
+        $("#movement_ui").show();
+    }
+    $("#quest_ui").show();
+    $("#difficulty_ui").show();
+    setPaused(false);
+}
+
 function initModelAndScene() {
     setPaused(true);
     window.gamedata={};
@@ -243,18 +256,7 @@ function initModelAndScene() {
                 }
             } 
             checkFallbackDifficultyValue();
-            
-            $(".message").hide();
-            $(".language_ui").hide();
-            $("#combat_ui").show();
-            if (targetMob>-1) {
-                
-            } else {
-                $("#movement_ui").show();
-            }
-            $("#quest_ui").show();
-            $("#difficulty_ui").show();
-            setPaused(false);
+            resumeGame();
         } else if (did=="nextMap") {
             $("body").trigger({ type:"nextMap" });
         } else if (did=="fullscreen") {
@@ -266,6 +268,11 @@ function initModelAndScene() {
                     document.exitFullscreen();
                 }
             }
+        } else if (did=="quest_accept") {
+            mapManager.acceptQuest();
+            resumeGame();
+        } else if (did=="quest_dismiss") {
+            resumeGame();
         } else {
             console.log("showing, ."+did);
 

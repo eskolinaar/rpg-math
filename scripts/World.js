@@ -63,6 +63,9 @@ export function initWorld() {
     $("body").off("quest_complete");
     $("body").on("quest_complete", questComplete);
 
+    $("body").off("quest_clear");
+    $("body").on("quest_clear", questClear);
+
     $("body").off("spawnMob");
     $("body").on("spawnMob", (ev, mob) => { spawnMob(mob); });   
 
@@ -204,6 +207,11 @@ function loadMeshObject(idx) {
         console.error( e );
     } );
 
+}
+
+function questClear() {
+    mapManager.quest.dispose();
+    mapManager.quest=undefined;
 }
 
 function questComplete() {

@@ -16,11 +16,13 @@
   "life":"3",
   "mode":"peaceful",
   "movement":"none",
-  "quest":{
+  "quest": {
     "event":"token",
     "amount":"3",
     "introduction":{"en":"Can you get some carrots for me?","de":"Kannst du mir ein paar Karotten holen?"},
-    "template":{"en":"{}/{} carrots","de":"{}/{} Karotten"}
+    "complete_message": {"en":"Yummy.","de":"Danke. Die Karotten waren lecker."},
+    "template":{"en":"{}/{} carrots","de":"{}/{} Karotten"},
+    "complete_event": "quest_clear"
   }
 }],
 "token":[{"id":"44","x":14,"y":9},{"id":"44","x":14,"y":11},{"id":"44","x":14,"y":13}], 

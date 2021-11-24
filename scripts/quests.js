@@ -4,15 +4,16 @@ import { i18n } from './game.js';
 
 export class Quest {
 
-	constructor(eventName, eventCount, template, container) {
+	constructor(eventName, eventCount, template, container, completeEvent) {
 		this.eventName=eventName;
 		this.eventCount=eventCount;
 		this.currentCount=0;
 		this.template=template;
 		this.container=container;
 		this.complete=false;
+		this.completeEvent=completeEvent;
 
-		console.log("starting new quest, ", eventName, eventCount, template, container);
+		console.log("starting new quest, ", eventName, eventCount, template, container, completeEvent);
 		let tpl=this.template.split("{}");
 		$(container).html(tpl[0]+this.currentCount+tpl[1]+this.eventCount+tpl[2]);
 
@@ -20,15 +21,15 @@ export class Quest {
 			this.currentCount=parseInt(this.currentCount)+1;
 			let tpl=this.template.split("{}");
 			$(container).html(tpl[0]+this.currentCount+tpl[1]+this.eventCount+tpl[2]);
+			console.log("quest progress "+this.currentCount+" / "+this.eventCount);
 			if (parseInt(this.currentCount)>=parseInt(this.eventCount)) {
 				console.log("quest complete");
 				$(container).html(i18n("quest_complete"));
 				$("body").off(this.eventName);
-				$("body").trigger({ type:"quest_complete" });
 				this.currentCount=0;
 				this.complete=true;
+				$("body").trigger({ type:this.completeEvent });
 			}
-			console.log("quest progress "+this.currentCount+" / "+this.eventCount);			
 		});
 	}
 
