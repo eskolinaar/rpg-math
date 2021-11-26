@@ -112,7 +112,7 @@ function initDifficulty(initType) {
     switch (initType) {
         case "1":
             window.gamedata.difficulty={
-                "add":40
+                "add":20
             }
             break; 
         case "2":
