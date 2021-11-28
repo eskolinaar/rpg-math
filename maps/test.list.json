@@ -1,5 +1,6 @@
 {
 	"mode":"mapChangeOnQuestComplete",
+	"savemode": "all",
 	"maps":[
 		"m2021-11-23-quest-test.map.json",
 		"mapchange1.map.json",

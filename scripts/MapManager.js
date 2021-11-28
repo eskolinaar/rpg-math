@@ -1,17 +1,19 @@
 "use strict";
 
 import { parseJSON, Position } from './helper.js';
-import { onMapLoaded } from './World.js';
+import {onMapLoaded, partyPos} from './World.js';
 import { Quest } from './quests.js';
 import { setPaused } from './movement.js';
-import { showMessage } from "./game.js";
+import { savegame, showMessage } from "./game.js";
 
 export class MapManager {
 	constructor(mapName) {
 		this.mapName=null;
 		this.map=null;
 		this.mobs=null;
+		this.allMobs=null;
 		this.token=null;
+		this.allToken=null;
 		this.charPos=null;
 		this.quest=null;
 		this.intro=null;
@@ -30,6 +32,7 @@ export class MapManager {
 	    for (var i=0;i<30*30;i++) { this.map.push(0); }
 	    console.log("loadMap, loading ", mapName);
 
+		savegame.saveGameValue("currentmap", mapName);
 	    $.get( "maps/"+this.mapName, (data) => { this.loadMapInternal(data); });
 	}
 
@@ -49,12 +52,19 @@ export class MapManager {
         this.map=data_obj.fielddata;
         
         if (data_obj.mobs!=undefined) this.mobs=data_obj.mobs; else this.mobs=new Array();
+		this.allMobs=JSON.parse(JSON.stringify(this.mobs));
         if (data_obj.token!=undefined) this.token=data_obj.token; else this.token=new Array();
+		this.allToken=JSON.parse(JSON.stringify(this.token));
 
         window.gamedata.direction=3;
         if (data_obj.direction!=undefined) window.gamedata.direction=parseInt(data_obj.direction);
 
         this.charPos=new Position(parseInt(data_obj.x), parseInt(data_obj.y));
+		savegame.saveGameValue("position", {
+			"x":this.charPos.x,
+			"y":this.charPos.y,
+			"dir":window.gamedata.direction
+		});
 
 		if (data_obj.fog==undefined) {
 			console.log("loadMapInternal, using fog fallback");
@@ -103,7 +113,7 @@ export class MapManager {
         } else {
         	intro_i18n=this.intro[window.gamedata.language];
         }
-		$(".level_introtext").text(intro_i18n);			
+		$(".level_introtext").text(intro_i18n);
 
         onMapLoaded();
     }
@@ -202,6 +212,11 @@ export class MapManager {
 		this.mobs.push(mob);
 	}
 
+	resetMobData() {
+		this.mobs=JSON.parse(JSON.stringify(this.allMobs));
+		return this.mobs;
+	}
+
 	getMobData() {
 		return this.mobs;
 	}
@@ -213,6 +228,11 @@ export class MapManager {
 
 	disposeMobs() {
 		this.mobs=[];
+	}
+
+	resetTokenData() {
+		this.token=JSON.parse(JSON.stringify(this.allToken));
+		return this.token;
 	}
 
 	getTokenData() {

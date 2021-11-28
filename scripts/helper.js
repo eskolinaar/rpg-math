@@ -7,6 +7,15 @@ export function parseJSON(data) {
     return JSON.parse(data);
 }
 
+export function shuffle(values) {
+	let b = 0;
+	for (let a = values.length - 1; a > 0; a--) {
+		b = Math.floor(Math.random() * (a + 1));
+		[values[a], values[b]] = [values[b], values[a]];
+	}
+	return values;
+}
+
 export class Vector {
 	constructor(x, y) {
 		this.x=x;

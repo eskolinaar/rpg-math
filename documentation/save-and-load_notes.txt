@@ -1,0 +1,42 @@
+- Save to LocalStorage:
+- Campaign mode uses this.
+- Variable in map (savemode="all"|"none") defines if map resets or not on load/if states are saved
+- option to reset the game (=delete all variables beginning with "save"
+
+prefix: save
+for everything from savegame
+
+prefix: mapname
+for everything belonging to a map
+
+what to save:
+- maplist                   | save#maplist = "exercise.list.json"
+- difficulty                | save#difficulty = { "label":"1", "add":"10" }
+- position&direction        | save#position = { "x":"7", "x":"7", "dir":"1" }
+- current map               | save#map = "21-01-01-100.map.json"
+- current quest status      | save#quest = { ... all parameters ... }
+- quest status [m] [*]      | save#21-01-01-100.map.json#quest_5/3 = "1"
+- token status [m]          | save#21-01-01-100.map.json#token_15/2 = "1"
+- mob alive [m] [*]         | save#21-01-01-100.map.json#mob_15/2 = "1"
+
+
+example:
+save#21-01-01-100.map.json#mob_12/13 = "1"
+==> the mob in the map ... at position 12/13 has been killed. He should not respawn on entering map
+
+
+[m] ... map prefix
+
+[*] when saving the quest status of a map-quest,
+    the given position is the starting position of the mob handing it out
+[*] when determining if a mob is killed, the starting position of the mob is used
+
+---
+Update 28.11.2021
+Problem: what if token are picked before quest is accepted?
+         => issue respawn
+         => saving token state is nonsense
+         => same is true for mob kills
+         => dont save token/mob states
+
+Maybe game state should be saved per maplist

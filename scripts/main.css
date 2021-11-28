@@ -27,6 +27,13 @@ body button.mode {
     margin: 24px auto;
 }
 
+body .message .smallButton {
+	margin: 0px;
+	padding: 2px 10px;
+	font-size: 14px;
+	display: inline-block;
+}
+
 #combat_ui {
 	//display:none;
 }

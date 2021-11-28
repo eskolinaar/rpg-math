@@ -5,21 +5,15 @@ import { RandomMath } from './Math.js';
 import { suffer } from './combat.js';
 import { Statistic } from './statistics.js';
 import { initAnimations } from './combatAnimations.js';
-import { parseJSON } from './helper.js';
+import {parseJSON, shuffle} from './helper.js';
+import { SaveGame } from "./savegame.js";
 
-var geometry;
-var light_all;
-var sphere;
-var delta;
-var rotationdirection;
-var cubemesh;
-var loader;
 var mathLoader;
 var sufferTime;
 var walkerTime;
-var world;
 var statistics;
 var maptransfer;
+export var savegame;
 export var isCheatingEnabled;
 export var isNoDamageEnabled;
 export var game_mode;
@@ -97,6 +91,7 @@ function initGame() {
     }
     mathLoader = new RandomMath();
     statistics = new Statistic();
+    savegame = new SaveGame();
     initAnimations();
     registerKeyStrokes();
     initModelAndScene();     
@@ -140,7 +135,8 @@ function initDifficulty(initType) {
             checkAndSetDifficultyValue("div");
             checkAndSetDifficultyValue("mod");
             checkFallbackDifficultyValue();
-    }    
+    }
+    savegame.saveGameValue("difficulty", window.gamedata.difficulty);
 }
 
 function checkAndSetDifficultyValue(typekey) {
@@ -297,6 +293,10 @@ function initModelAndScene() {
     $("body").on("noDamage", function () {
         isNoDamageEnabled=true;
     });
+    $("body").on("click", ".clearLocalStorage", function () {
+        localStorage.clear();
+        console.log("localStorage has been cleared.");
+    });
     $("body").on("change", ".map_editor_file_upload", (e) => {        
         console.log("file upload triggered", e);
         console.log("file upload triggered", e.target);
@@ -354,6 +354,11 @@ function initModelAndScene() {
             let maplist_obj=parseJSON(data);
             game_mode=maplist_obj.mode;
             window.gamedata.maps=maplist_obj.maps;
+            savegame.setSaveMode(maplist_obj.savemode == undefined?"none":maplist_obj.savemode);
+            savegame.saveGameValue("maplist", maplist);
+            if (maplist_obj.order!=undefined && maplist_obj.order=="random") {
+                shuffle(window.gamedata.maps);
+            }
             mapManager.loadMap(window.gamedata.maps[0]);
             showMessage("startup_message");
         });         

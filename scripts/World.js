@@ -66,6 +66,9 @@ export function initWorld() {
     $("body").off("quest_clear");
     $("body").on("quest_clear", questClear);
 
+    $("body").off("respawn");
+    $("body").on("respawn", respawn);
+
     $("body").off("spawnMob");
     $("body").on("spawnMob", (ev, mob) => { spawnMob(mob); });   
 
@@ -173,6 +176,45 @@ export function onMapLoaded() {
         loadTexturesAndMaterials();
     }
 
+}
+
+function respawn(e) {
+    if (scene == undefined) return;
+    console.log("respawn", e);
+    if (e.subtype == "token") {
+        for (var t=0;t<mapManager.getTokenData().length;t++) {
+            scene.remove(mapManager.getTokenData()[t].object);
+        }
+        mapManager.resetTokenData();
+        spawnAllMapToken();
+    }
+    if (e.subtype == "kill") {
+        for (var t=0;t<mapManager.getMobData().length;t++) {
+            scene.remove(mapManager.getMobData()[t].object);
+        }
+        mapManager.resetMobData();
+        spawnAllMapMobs();
+    }
+}
+
+function spawnAllMapToken() {
+    for (var t=0;t<mapManager.getTokenData().length;t++) {
+        let token=mapManager.getTokenData()[t];
+        let rot=0;
+        if (token.rotation!=undefined) rot=parseInt(token.rotation);
+        addToken(t, token.id, token.x, token.y, rot);
+    }
+}
+
+function spawnAllMapMobs() {
+    for (var m = 0; m < mapManager.getMobData().length; m++) {
+        mob = mapManager.getMobData()[m];
+        if (mob.rotation == undefined) mob.rotation = Math.floor((Math.random() * 4));
+        mob.rotation = parseInt(mob.rotation);
+        if (isNaN(mob.rotation)) mob.rotation = Math.floor((Math.random() * 4));
+        mob.current_life = mob.life;
+        loadMob(mob);
+    }
 }
 
 function loadMeshObject(idx) {
@@ -443,14 +485,16 @@ export function render() {
     renderer.render(scene, camera);
 }
 
-function addFieldObject(wall, x, y, rot) {
+function addFieldObject(wall, x, y) {
     if (window.gamedata.objectIndex[wall]==undefined) {
-        console.log("Unknown Index "+wall+". Omitting Object.");
+        if (wall!=0) {
+            console.log("Unknown Index " + wall + ". Omitting Object.");
+        }
         return;
     }
     var cube;
     cube=window.gamedata.objectIndex[wall].mesh_.clone();
-    cube.scale.x = cube.scale.y = cube.scale.z = 0.5;//0.17;
+    cube.scale.x = cube.scale.y = cube.scale.z = 0.5;
     cube.position.y=1;
     cube.position.x=x;
     cube.position.z=y;
@@ -460,8 +504,8 @@ function addFieldObject(wall, x, y, rot) {
         cube.rotation.y=((x+y)%4)*rad;
     } else {
         cube.rotation.y=0;
-    }  
-    
+    }
+    // ToDo: fix this by changing objects
     if (wall==13 || wall==14 || wall==15) {
         cube.position.y=1.05;
     }
@@ -482,11 +526,11 @@ function addToken(idx, wall, x, y, rot) {
     cube.position.z=y;
     cube.rotation.y=rot*rad;
     cube.name=window.gamedata.objectIndex[wall].name;
+    // ToDo: fix this by changing objects
     if (wall==13 || wall==14 || wall==15) {
         cube.position.y=1.05;
     }
 
-// works?
     mapManager.getTokenData()[idx].object=cube;
 
     scene.add( cube );
@@ -517,9 +561,8 @@ function createScene() {
             console.log("Error loading texture './scripts/Water_2_M_Normal.jpg' " , error);
         }
     );      
-    //Water_2_M_Normal=textureLoader.load( './Water_2_M_Normal.jpg');
 
-    plane = new THREE.PlaneBufferGeometry( 50, 50 ); // , new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} ) )
+    plane = new THREE.PlaneBufferGeometry( 50, 50 );
     water = new Water( plane, {
                 color: '#ffffff',
                 scale: 4,
@@ -543,29 +586,15 @@ function createScene() {
 
     for (var my=0;my<30;my++) {
         for (var mx=0;mx<30;mx++) {
-           addFieldObject(mapManager.getMapData(mx, my), mx, my, 0);
+           addFieldObject(mapManager.getMapData(mx, my), mx, my);
         }
     }
 
     $(".startup_progress").html("<p>"+i18n("mob_instance")+"</p>");
-    
-    for (var m=0;m<mapManager.getMobData().length;m++) {
-        mob=mapManager.getMobData()[m];       
-        if (mob.rotation==undefined) mob.rotation=Math.floor((Math.random() * 4));
-        mob.rotation=parseInt(mob.rotation);
-        if (isNaN(mob.rotation)) mob.rotation=Math.floor((Math.random() * 4));
-        mob.current_life=mob.life;
-        loadMob(mob);   
-    }
+    spawnAllMapMobs();
 
     $(".startup_progress").html("<p>"+i18n("token_instance")+"</p>");
-
-    for (var t=0;t<mapManager.getTokenData().length;t++) {
-        let token=mapManager.getTokenData()[t];
-        let rot=0;
-        if (token.rotation!=undefined) rot=parseInt(token.rotation);
-        addToken(t, token.id, token.x, token.y, rot);
-    }
+    spawnAllMapToken();
 
     $(".startup_progress").html("");
     $(".startup_navigation").show();

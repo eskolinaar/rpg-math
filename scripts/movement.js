@@ -3,7 +3,7 @@
 import { Vector, Position } from './helper.js';
 import { mapManager, partyPos, scene, setPartyPosition, getCameraDiff, moveCameraTop } from './World.js';
 import { startCombat, damage, select, playerDeath } from './combat.js';
-import { showMessage, isCheatingEnabled } from './game.js';
+import {showMessage, isCheatingEnabled, savegame} from './game.js';
 import {Quest} from "./quests.js";
 
 var directions = {
@@ -154,6 +154,11 @@ function step(vector) {
         partyPos.add(vector);
         checkTokenPosition(partyPos.apply(mm), true);
     }
+    savegame.saveGameValue("position", {
+        "x":partyPos.x,
+        "y":partyPos.y,
+        "dir":window.gamedata.player.direction
+    });
 }
 
 // mob movement

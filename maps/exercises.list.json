@@ -1,5 +1,6 @@
 {
 	"mode":"mapChangeOnQuestComplete",
+    "order": "random",
 	"maps":[
         "m2021-06-26.map.json",
         "m2021-06-03.map.json",
