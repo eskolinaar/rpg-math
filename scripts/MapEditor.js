@@ -463,10 +463,11 @@ $(document).ready(function () {
 
     $("button#savebrowserbutton").click(function () {
         let maps=localStorage.getItem("maps");
-        if (maps==null) {
+        if (maps == null) {
             maps=[];
+        } else {
+            maps = JSON.parse(maps);
         }
-        maps = JSON.parse(maps);
 
         let today = (new Date()).toISOString().substr(0, 10);
         let ms = (new Date()).toISOString().substr(20, 3);
