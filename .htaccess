@@ -1,0 +1,5 @@
+<IfModule mod_headers.c> 
+    Header unset ETag 
+    Header unset Last-Modified
+</IfModule> 
+FileETag None
