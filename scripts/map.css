@@ -1,4 +1,4 @@
-    body { margin:0; overflow:hidden; }
+    body { margin:0; }
     
 div#mainview {
     margin: 0px;
@@ -91,7 +91,7 @@ p#savebutton {
     font-weight: bold;
 }
 
-#char, #tools, #mobs, #token {
+#char, #tools, #mobs, #token, #mob_details {
     float:right;
 }
 

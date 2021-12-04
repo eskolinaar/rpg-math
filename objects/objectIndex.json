@@ -310,5 +310,13 @@
         "type":"mob",
         "life":"3",
         "opacity": "0.6"
+    },
+    "47":{
+        "id":"47",
+        "name":"SmallBrickWall",
+        "mesh":"SmallBrickWall.glb",
+        "symbol":"smallbrickwall.png",
+        "type":"wall",
+        "orientation":"calc"
     }
 }
