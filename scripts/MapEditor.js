@@ -331,6 +331,35 @@ $(document).ready(function () {
     $("#mobs").on("click", "ul li", function () {
         clearActive();
         $(this).addClass("active");
+
+        // update details form
+        let mid=$("#mobs ul li.active").attr("data-id");
+        let mob=mapdata.mobs[mid];
+        console.log("mob clicked", mob);
+        if (mob!=undefined) {
+            if (mob.x!==undefined) $("#mob_x").val(mob.x); else $("#mob_x").val("");
+            if (mob.y!==undefined) $("#mob_y").val(mob.y); else $("#mob_y").val("");
+            if (mob.life!==undefined) $("#mob_life").val(mob.life); else $("#mob_life").val("");
+            if (mob.mode!==undefined) $("#mob_mode").val(mob.mode); else $("#mob_mode").val("");
+            if (mob.movement!==undefined) $("#mob_movement").val(mob.movement); else $("#mob_movement").val("");
+            if (mob.rotation!==undefined) $("#mob_rotation").val(mob.rotation); else $("#mob_rotation").val("");
+        }
+    });
+
+    $("#mob_details").on("change", "input", function (e) {
+        let mid = $("#mobs ul li.active").attr("data-id");
+        let mob = mapdata.mobs[mid];
+        console.log("change", e, mob);
+        let fname = e.target.getAttribute("data-fieldname");
+        let val = e.target.value;
+        if (val == "") {
+            val = undefined;
+            delete mapdata.mobs[mid][fname];
+            console.log("change [delete]", e, mob, fname, val);
+            return;
+        }
+        mapdata.mobs[mid][fname] = val;
+        console.log("change", e, mob, fname, val);
     });
 
     $("#token").on("click", "ul li", function () {
