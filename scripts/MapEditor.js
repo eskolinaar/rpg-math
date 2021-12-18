@@ -1,18 +1,22 @@
-var field=null;
-var selected_tile_index=0;
-var tiles;
-var fields_x;
-var fields_y;
-var size_x;
-var size_y;
-var mousedown;
-var char_pos_indicator;
-var mapdata;
-var objectIndex;
-var singular;
-var maptransfer;
+let field=null;
+let selected_tile_index=0;
+let tiles;
+let fields_x;
+let fields_y;
+let size_x;
+let size_y;
+let mousedown;
+let char_pos_indicator;
+let mapdata;
+let objectIndex;
+let singular;
+let maptransfer;
+let canvas = null;
+let ctx = null;
+let mob = null;
+let tok = null;
 
-function initarray() {
+function initVariables() {
     singular=[];
     singular["mobs"]="mob";
     singular["token"]="token";
@@ -26,7 +30,7 @@ function initarray() {
     console.log("height: ", window.innerHeight, fields_y, size_y, size_y*fields_y);
     $("canvas").css("margin-top", "0px");
     field = new Array(fields_x*fields_y);
-    for (var i = 0; i < field.length; ++i) field[i] = 0;
+    for (let i = 0; i < field.length; ++i) field[i] = 0;
     objectIndex[0]={ id:"0", name:"empty", symbol:"empty.png", type:"floor" };
 
     mapdata={};
@@ -34,44 +38,62 @@ function initarray() {
     mapdata.y=1;
     mapdata.mobs=[];
     mapdata.token=[];
+
+    canvas = document.getElementById('maincanvas');
+    ctx = canvas.getContext('2d');
 }
 
 function feedback(message) {
     $("body").append("<div class='feedback_message'>"+message+"</div>");
     $(".feedback_message").fadeIn(300).delay(650).fadeOut(300);
-    setTimeout(function () { $(".feedback_message").remove(); }, 2000);
+    setTimeout( () => $(".feedback_message").remove() , 2000);
 }
 
-function repaint() {
-    var canvas = document.getElementById('maincanvas');
-    var ctx = canvas.getContext('2d');
-    for (var i = 0; i < field.length; ++i) {
+function repaintField(ctx) {
+    let field_x = 0;
+    let field_y = 0;
+    for (let i = 0; i < field.length; ++i) {
         field_x=i%fields_x;
         field_y=Math.floor(i/fields_x);
         ctx.drawImage(getFieldTile(i), field_x*size_x, field_y*size_y, size_x, size_y);
-    }   
+    }
+}
 
+function repaintCharacter() {
     ctx.drawImage(char_pos_indicator, (parseInt(mapdata.x)-1)*size_x, (parseInt(mapdata.y)-1)*size_y, size_x, size_y);
+}
 
-    let activePane=$("#menu li.chosen").attr("data-target");
-    if (activePane=="token") {
-        for (var i = 0; i < mapdata.mobs.length; ++i) {
-            mob=mapdata.mobs[i];
-            ctx.drawImage(tiles[parseInt(mob.id)], mob.x*size_x, mob.y*size_y, size_x, size_y);
-        }
-        for (var i = 0; i < mapdata.token.length; ++i) {
-            tok=mapdata.token[i];
-            ctx.drawImage(tiles[parseInt(tok.id)], tok.x*size_x, tok.y*size_y, size_x, size_y);
-        }        
+function shouldPaintOnTop(paneName) {
+    return $("#menu li.chosen").attr("data-target")==paneName;
+}
+
+function repaintMobs() {
+    for (let i = 0; i < mapdata.mobs.length; ++i) {
+        mob=mapdata.mobs[i];
+        ctx.drawImage(tiles[parseInt(mob.id)], mob.x*size_x, mob.y*size_y, size_x, size_y);
+    }
+}
+
+function repaintToken() {
+    for (let i = 0; i < mapdata.token.length; ++i) {
+        tok=mapdata.token[i];
+        ctx.drawImage(tiles[parseInt(tok.id)], tok.x*size_x, tok.y*size_y, size_x, size_y);
+    }
+}
+
+function repaint() {
+    if (canvas == null) return;
+    if (ctx == null) return;
+
+    repaintField(ctx);
+    repaintCharacter();
+
+    if (shouldPaintOnTop("token")) {
+        repaintMobs();
+        repaintToken();
     } else {
-        for (var i = 0; i < mapdata.token.length; ++i) {
-            tok=mapdata.token[i];
-            ctx.drawImage(tiles[parseInt(tok.id)], tok.x*size_x, tok.y*size_y, size_x, size_y);
-        }        
-        for (var i = 0; i < mapdata.mobs.length; ++i) {
-            mob=mapdata.mobs[i];
-            ctx.drawImage(tiles[parseInt(mob.id)], mob.x*size_x, mob.y*size_y, size_x, size_y);
-        }
+        repaintToken();
+        repaintMobs();
     }
 }
 
@@ -98,20 +120,19 @@ function checkCollision(arr, x, y) {
 //
 // check if an entity is flagged active (to be moved,edited etc.)
 // check for collision, move & update ui
-function moveActiveInstance(entityName, x, y) {
+function moveActiveInstance(entityName, field_x, field_y) {
     if ($("#"+entityName+" ul li.active").length>0) {
         if (checkCollision(mapdata[entityName], field_x, field_y)) return;
-        let mid=$("#"+entityName+" ul li.active").attr("data-id");                
-        mapdata[entityName][mid].x=field_x;
-        mapdata[entityName][mid].y=field_y;                
+        let instanceId=$("#"+entityName+" ul li.active").attr("data-id");
+        mapdata[entityName][instanceId].x=field_x;
+        mapdata[entityName][instanceId].y=field_y;
         $("#"+entityName+" ul li.active").removeClass("active");
         repaint();
         updateList(entityName);
-        return;
-    }            
+    }
 }
 
-function createNewInstance(entityName, x, y) {
+function createNewInstance(entityName, field_x, field_y) {
     if (objectIndex[selected_tile_index].type==singular[entityName]) {
         if (checkCollision(mapdata[entityName], field_x, field_y)) return true;
         let el={};
@@ -119,7 +140,6 @@ function createNewInstance(entityName, x, y) {
         el.x=field_x;
         el.y=field_y;
         el.life=objectIndex[el.id].life;
-        el.mathlimit=objectIndex[el.id].mathlimit;
         mapdata[entityName].push(el);
         repaint();
         updateList(entityName);
@@ -128,17 +148,20 @@ function createNewInstance(entityName, x, y) {
     return false;
 }
 
+function generateListItem(idx, obj) {
+    let out="<li data-id='"+idx+"'>"+objectIndex[obj.id].name+" "+obj.x+"/"+obj.y;
+    if (obj.life!=undefined) out+=", "+obj.life+"<span>&#10084;</span>";
+    out+="</li>";
+    return out;
+}
+
 function updateList(entityName) {
     console.log("updating "+entityName+" list, ", mapdata[entityName]);
-    let out="";
-    if (mapdata[entityName]==undefined) mapdata[entityName]=[];        
-    for (var i = 0; i < mapdata[entityName].length; ++i) {
-        obj=mapdata[entityName][i];
-        out+="<li data-id='"+i+"'>"+objectIndex[obj.id].name+" "+obj.x+"/"+obj.y;
-        if (obj.life!=undefined) out+=", "+obj.life+"<span>&#10084;</span>";
-        out+="</li>";
-        console.log(obj, objectIndex[obj.id].name);
-    }        
+    let out = "";
+    if (mapdata[entityName]==undefined) mapdata[entityName]=[];
+    for (let i = 0; i < mapdata[entityName].length; ++i) {
+        out+=generateListItem(i, mapdata[entityName][i]);
+    }
     $("#"+entityName+" ul").html(out);    
 }
 
@@ -148,33 +171,37 @@ function loadFromFile(filename) {
     });    
 }
 
+function getIntroText(lang) {
+    if (mapdata.introtext!=undefined && mapdata.introtext[lang]!=undefined) {
+        return mapdata.introtext[lang];
+    }
+    return "";
+}
+
+function getQuestDataAttribute(attr, lang) {
+    if (mapdata.quest[attr] == undefined) return;
+    if (lang == undefined) {
+        return mapdata.quest[attr];
+    } else {
+        if (mapdata.quest[attr][lang] == undefined) return;
+        return mapdata.quest[attr][lang];
+    }
+}
+
 function loadFromData(data) {
-    mapdata=data;//JSON.parse(data);
+    mapdata=data;
     field=mapdata.fielddata;
     $("#char_x").val(mapdata.x);
     $("#char_y").val(mapdata.y);
     $("#char_direction").val(mapdata.direction);
-    if (mapdata.introtext!=undefined && mapdata.introtext.en!=undefined) {
-        $("#introtext_en").val(mapdata.introtext.en);
-    }
-    if (mapdata.introtext!=undefined && mapdata.introtext.en!=undefined) {
-        $("#introtext_de").val(mapdata.introtext.de);
-    }
+    $("#introtext_en").val(getIntroText("en"));
+    $("#introtext_de").val(getIntroText("de"));
+
     if (mapdata.quest!=undefined) {
-        if (mapdata.quest.event!=undefined) {
-            $("#quest_event").val(mapdata.quest.event);
-        }
-        if (mapdata.quest.amount!=undefined) {
-            $("#quest_event_amount").val(mapdata.quest.amount);
-        }   
-        if (mapdata.quest.template!=undefined) {
-            if (mapdata.quest.template.en!=undefined) {
-                $("#quest_text_en").val(mapdata.quest.template.en);
-            }
-            if (mapdata.quest.template.de!=undefined) {
-                $("#quest_text_de").val(mapdata.quest.template.de);
-            }
-        }                                      
+        $("#quest_event").val(getQuestDataAttribute("event"));
+        $("#quest_event_amount").val(getQuestDataAttribute("amount"));
+        $("#quest_text_en").val(getQuestDataAttribute("template", "en"));
+        $("#quest_text_de").val(getQuestDataAttribute("template", "de"));
     }
     updateList("mobs");
     updateList("token");
@@ -264,7 +291,7 @@ $(document).ready(function () {
         console.log("reading objectIndex, ", data);
         objectIndex=data;//JSON.parse(data);
         tiles=[];
-        initarray();
+        initVariables();
 
         imagepreload="";
 
