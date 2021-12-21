@@ -206,7 +206,7 @@ function spell() {
     loader.load( window.gamedata.objectIndex[spellObjectId].mesh, ( gltf ) => {
 
         objidx=0;
-        for (var i=0;i<gltf.scene.children.length;i++) {
+        for (let i=0;i<gltf.scene.children.length;i++) {
             if (gltf.scene.children[i].type=="Mesh") {
                 objidx=i;
             }
@@ -216,7 +216,7 @@ function spell() {
         // scale
         spell.scale.x=spell.scale.y=spell.scale.z=0.5;
         // position
-        spell.position.y=1;
+        spell.position.y=1.15;
         spell.position.x=camera.position.x+1*diff_dir.x;
         spell.position.z=camera.position.z+1*diff_dir.y;
         // rotation
@@ -455,6 +455,10 @@ export function render() {
     //
     for (var i=0;i<mapManager.getMobDataLength();i++) {
         mob=mapManager.getMob(i);
+
+        if (mob.current_life==0) {
+            mob.object.skin.opacity-=delta;
+        }
 
         if (mob.mixer!=undefined) mob.mixer.update(delta);
 
@@ -701,17 +705,19 @@ function loadMob(mob) {
         cube.rotation.y=mob.rotation*rad;
 
         // opacity
-        if (window.gamedata.objectIndex[mob.id].opacity!=undefined) {
-            let skin=getSkin(cube);
-            if (skin != undefined) {
+        let skin=getSkin(cube);
+        cube.skin=skin;
+        if (skin !== undefined) {
+            skin.transparent = true;
+            skin.side=THREE.FrontSide;
+            if (window.gamedata.objectIndex[mob.id].opacity !== undefined) {
                 skin.opacity = parseFloat(window.gamedata.objectIndex[mob.id].opacity);
-                skin.transparent = true;
-                skin.side=THREE.FrontSide;
                 skin.blending=THREE.AdditiveBlending;
-            } else {
-                console.log("transparency failed for ", mob.id, window.gamedata.objectIndex[mob.id].opacity);
             }
+        } else {
+            console.log("transparency failed for ", mob.id, window.gamedata.objectIndex[mob.id].opacity);
         }
+
         scene.add( cube );
         mob.object=cube;
         if (gltf.animations!=undefined && gltf.animations.length>0) {

@@ -42,7 +42,7 @@ var keyBindings = {
     75: "kill",
     77: "math",
     27: "pause",
-    85: "spell" // u ==> levelchange
+    85: "levelchange"
 }
 
 
