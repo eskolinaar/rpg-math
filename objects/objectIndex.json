@@ -324,6 +324,6 @@
         "name":"Spell",
         "mesh":"Explosion.glb",
         "type":"effect",
-        "opacity": "0.5"
+        "opacity": "0.75"
     }
 }

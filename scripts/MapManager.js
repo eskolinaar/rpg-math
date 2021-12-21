@@ -92,7 +92,8 @@ export class MapManager {
 				data_obj.quest.amount,
 				this.chooseTemplate(data_obj.quest.template),
 				"#quest_ui",
-				data_obj.quest.complete_event==undefined?"quest_complete":this.pendingQuest.complete_event
+				data_obj.quest.complete_event==undefined?"quest_complete":this.pendingQuest.complete_event,
+				false
 			);
 		}
 
@@ -297,7 +298,8 @@ export class MapManager {
 			this.pendingQuest.amount,
 			this.chooseTemplate(this.pendingQuest.template),
 			"#quest_ui",
-			this.pendingQuest.complete_event===undefined?"quest_complete":this.pendingQuest.complete_event
+			this.pendingQuest.complete_event===undefined?"quest_complete":this.pendingQuest.complete_event,
+			true
 		);
 		this.getMob(this.pendingQuestNPC).quest.completed=true;
 		this.pendingQuestNPC=null;

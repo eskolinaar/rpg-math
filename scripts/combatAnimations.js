@@ -19,7 +19,7 @@ export function initAnimations() {
 // 			mesh[0].material.emissive.g=0;
 // 		},
 // 		300
-// 	);	
+// 	);
 // }
 
 function animateSuffer() {

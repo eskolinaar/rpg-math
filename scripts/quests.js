@@ -4,7 +4,7 @@ import {i18n, savegame} from './game.js';
 
 export class Quest {
 
-	constructor(eventName, eventCount, template, container, completeEvent) {
+	constructor(eventName, eventCount, template, container, completeEvent, spawn) {
 		this.eventName=eventName;
 		this.eventCount=eventCount;
 		this.currentCount=0;
@@ -18,7 +18,7 @@ export class Quest {
 		$(container).html(tpl[0]+this.currentCount+tpl[1]+this.eventCount+tpl[2]);
 		savegame.saveGameValue("currentquest", this);
 
-		if (this.eventName == "token") {
+		if (spawn && this.eventName == "token") {
 			$("body").trigger({ type:"respawn", subtype:this.eventName });
 		}
 
