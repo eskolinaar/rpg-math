@@ -3,7 +3,7 @@
 import { GLTFLoader } from './GLTFLoader-r124.js';
 import { parseJSON, Position } from './helper.js';
 import { MapManager } from './MapManager.js';
-import { onTop, setPaused, targetMob } from './movement.js';
+import { onTop, setPaused, directions } from './movement.js';
 import { i18n, showMessage, getLanguage } from './game.js';
 import { damage } from './combat.js';
 import { Water } from './Water2.js';
@@ -38,6 +38,7 @@ var textureLoader;
 var water;
 var Water_1_M_Normal;
 var Water_2_M_Normal;
+let spellEffect=null;
 
 export function initWorld() {
     partyPos=new Position(17, 13);
@@ -68,6 +69,9 @@ export function initWorld() {
 
     $("body").off("respawn");
     $("body").on("respawn", respawn);
+
+    $("body").off("spell");
+    $("body").on("spell", spell);
 
     $("body").off("spawnMob");
     $("body").on("spawnMob", (ev, mob) => { spawnMob(mob); });   
@@ -195,6 +199,61 @@ function respawn(e) {
         mapManager.resetMobData();
         spawnAllMapMobs();
     }
+}
+
+function spell() {
+    const spellObjectId = 48; // 48
+    loader.load( window.gamedata.objectIndex[spellObjectId].mesh, ( gltf ) => {
+
+        objidx=0;
+        for (var i=0;i<gltf.scene.children.length;i++) {
+            if (gltf.scene.children[i].type=="Mesh") {
+                objidx=i;
+            }
+        }
+        let spell = gltf.scene.children[ objidx ];
+        let diff_dir=directions[window.gamedata.direction+2];
+        // scale
+        spell.scale.x=spell.scale.y=spell.scale.z=0.5;
+        // position
+        spell.position.y=1;
+        spell.position.x=camera.position.x+1*diff_dir.x;
+        spell.position.z=camera.position.z+1*diff_dir.y;
+        // rotation
+        spell.rotation.y=camera.rotation.y;
+
+        // opacity
+        if (window.gamedata.objectIndex[spellObjectId].opacity!=undefined) {
+            let skin=getSkin(spell);
+            if (skin != undefined) {
+                skin.opacity = parseFloat(window.gamedata.objectIndex[spellObjectId].opacity);
+                skin.transparent = true;
+                skin.side=THREE.FrontSide;
+                skin.blending=THREE.AdditiveBlending;
+            } else {
+                console.log("transparency failed for ", mob.id, window.gamedata.objectIndex[spellObjectId].opacity);
+            }
+        }
+        scene.add( spell );
+        spellEffect = {};
+        spellEffect.object=spell;
+        if (gltf.animations!=undefined && gltf.animations.length>0) {
+            spellEffect.animations=gltf.animations;
+            spellEffect.mixer=new THREE.AnimationMixer(spell);
+            spellEffect.go=getActionByName(spellEffect.mixer, spellEffect.animations, "Go");
+            spellEffect.go.clampWhenFinished=true;
+            spellEffect.go.iterations=1;
+            spellEffect.go.loop=THREE.LoopOnce;
+            spellEffect.mixer.addEventListener( 'finished', function( e ) {
+                scene.remove(spellEffect.object);
+                spellEffect=null;
+            } );
+            if (spellEffect.go!=undefined) spellEffect.go.play();
+            console.log("spell execution started", spellEffect);
+        }
+    }, undefined, ( e ) => {
+        console.error( e );
+    } );
 }
 
 function spawnAllMapToken() {
@@ -387,6 +446,9 @@ export function render() {
         light.position.x=camera.position.x;
         light.position.z=camera.position.z;   
     } // onTop end
+
+    // spell Effect
+    if (spellEffect!=null && spellEffect.mixer!=undefined) spellEffect.mixer.update(delta);
 
     //
     // animate mob position
@@ -623,10 +685,6 @@ function loadMob(mob) {
     }
 
     loader.load( window.gamedata.objectIndex[mob.id].mesh, ( gltf ) => {
-
-        if (parseInt(mob.id)==16) {
-            console.log("loadMob", 16, gltf);
-        }
 
         objidx=0;
         for (var i=0;i<gltf.scene.children.length;i++) {

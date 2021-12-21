@@ -318,5 +318,12 @@
         "symbol":"smallbrickwall.png",
         "type":"wall",
         "orientation":"calc"
+    },
+    "48":{
+        "id":"48",
+        "name":"Spell",
+        "mesh":"Explosion.glb",
+        "type":"effect",
+        "opacity": "0.5"
     }
 }

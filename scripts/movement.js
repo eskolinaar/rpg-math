@@ -3,10 +3,10 @@
 import { Vector, Position } from './helper.js';
 import { mapManager, partyPos, scene, setPartyPosition, getCameraDiff, moveCameraTop } from './World.js';
 import { startCombat, damage, select, playerDeath } from './combat.js';
-import {showMessage, isCheatingEnabled, savegame} from './game.js';
-import {Quest} from "./quests.js";
+import { showMessage, isCheatingEnabled, savegame } from './game.js';
+import { Quest } from "./quests.js";
 
-var directions = {
+export var directions = {
     0: new Vector(0, -1),
     1: new Vector(-1, 0),
     2: new Vector(0, 1),
@@ -36,16 +36,15 @@ var keyBindings = {
     65: "stepLeft",
     68: "stepRight",
     32: "idle",
-//    163: "showMap",
     49: "one",
     50: "two",
     51: "three",
     75: "kill",
     77: "math",
     27: "pause",
-    85: "levelchange"
+    85: "spell" // u ==> levelchange
 }
-//     32: "resetPlayer"
+
 
 export function registerKeyStrokes() {
     onTop=0;
@@ -432,6 +431,10 @@ class Actions {
         $("body").trigger({ type:"quest_complete" });
     }
 
+    static spell() {
+        $("body").trigger({ type:"spell" });
+    }
+
     static idle() {
         if (paused) return;
         mobWalk();        
@@ -447,7 +450,7 @@ class Actions {
     }
 
     static showEgoPerspective() {
-        rad=90 * Math.PI / 180; 
+        let rad=90 * Math.PI / 180;
         camera.rotation.y=window.gamedata.direction*rad+rotationoffset;
         camera.rotation.x=0;
 

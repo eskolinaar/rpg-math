@@ -87,6 +87,7 @@ export function damage(dmg) {
     console.log("damage for, ", m, dmg);   
     m.current_life=parseInt(m.current_life)-parseInt(dmg);
     $("body").trigger({ type:"damage" });
+    $("body").trigger({ type:"spell" });
     if (m.current_life<1 || m.current_life==undefined) {
         endCombat(m);
         return;   
