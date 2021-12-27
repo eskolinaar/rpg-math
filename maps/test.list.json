@@ -2,16 +2,9 @@
 	"mode":"mapChangeOnQuestComplete",
 	"savemode": "all",
 	"maps":[
-		"m2021-11-23-quest-test.map.json",
-		"mapchange1.map.json",
-		"noquest.map.json",
-		"m2021-10-02-parade.map.json",
-		"m2021-09-21-beartest.map.json",
-		"rudirallala.map.json",
-		"m2021-06-26.map.json",
-        "m2021-08-12-972.map.json",
-        "test-short.map.json",
-        "mapeditor_test.map.json",
-        "m2021-08-12-015.map.json"
-    ]
+		"m2021-12-02-intro-token.map.json",
+		"m2021-12-02-intro-mobs.map.json",
+		"m2021-12-27-way-north.map.json",
+		"m2021-12-27-talk.map.json"
+	]
 }

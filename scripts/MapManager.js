@@ -287,6 +287,14 @@ export class MapManager {
 		showMessage("quest_message");
 	}
 
+	showMobMessage(message) {
+		console.log("showMobMessage, showing simple message", message);
+		$(".simple_message_de .simple_text_placeholder").text(message.de);
+		$(".simple_message_en .simple_text_placeholder").text(message.en);
+		setPaused(true);
+		showMessage("simple_message");
+	}
+
 	acceptQuest() {
 		if (this.getMob(this.pendingQuestNPC).quest.completed!==undefined) {
 			console.log("acceptQuest, quest already finished");

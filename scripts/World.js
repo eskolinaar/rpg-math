@@ -318,8 +318,12 @@ function questClear() {
 function questComplete() {
     setPaused(true);
 
-    $(".statistic_summary").html(window.gamedata.statistics.getSummaryHtml());  
+    $(".statistic_summary").html(window.gamedata.statistics.getSummaryHtml());
 
+    if (mapManager.quest!=undefined) {
+        mapManager.quest.dispose();
+        mapManager.quest = undefined;
+    }
     $("#quest_complete_"+window.gamedata.language).fadeIn(400);
     setTimeout(() => {
         $("#quest_complete_"+window.gamedata.language).fadeOut(400);

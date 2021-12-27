@@ -144,20 +144,33 @@ function step(vector) {
     let mobidx=getMobByPosition(partyPos.apply(mm).apply(vector));
     if (mobidx!=null) {
         let mob=mapManager.getMob(mobidx);
-        if (mob.mode=="peaceful" && mob.quest != undefined && mapManager.quest == undefined) {
-            rotateMobToPlayer(mobidx);
-            mapManager.announceQuest(mob.quest, mobidx);
+        if (mob.mode=="peaceful") {
+            if (mob.quest != undefined && mapManager.quest == undefined) {
+                rotateMobToPlayer(mobidx);
+                mapManager.announceQuest(mob.quest, mobidx);
+            } else if (mob.message!=undefined) {
+                rotateMobToPlayer(mobidx);
+                mapManager.showMobMessage(mob.message);
+            }
         }
     } else
     if (mapManager.isFloor(partyPos.apply(mm).apply(vector)) && checkMobPositionByPosition(-1, partyPos.apply(mm).apply(vector))) {
         partyPos.add(vector);
         checkTokenPosition(partyPos.apply(mm), true);
     }
+    checkPositionQuest(partyPos.x+"/"+partyPos.y);
     savegame.saveGameValue("position", {
         "x":partyPos.x,
         "y":partyPos.y,
         "dir":window.gamedata.player.direction
     });
+}
+
+function checkPositionQuest(coordinates) {
+    if (mapManager.getQuest().eventName != "position") return;
+    if (mapManager.getQuest().eventCount != coordinates) return;
+    console.log("checkPositionQuest, position quest resolving.");
+    $("body").trigger({ type:"position"});
 }
 
 // mob movement
@@ -290,9 +303,9 @@ function getMobByPosition(position) {
 }
 
 function checkTokenPosition(position, trigger) {
-    for (var i=0;i<mapManager.getTokenDataLength();i++) {
+    for (let i=0;i<mapManager.getTokenDataLength();i++) {
         let token=mapManager.getTokenData()[i];
-        if (token.x==position.x && token.y==position.y) {// && (token.action==undefined || token.action.type==undefined || token.action.type=="pick")) {
+        if (token.x==position.x && token.y==position.y) {
             if (trigger==true) {
                 if (token.action==undefined || token.action.type==undefined || token.action.type=="pick") {
                     pickToken(token.object, i);
@@ -303,7 +316,6 @@ function checkTokenPosition(position, trigger) {
                     } else {
                         // map change
                         mapManager.disposeMobs();
-                        // if (mapManager.quest!=undefined) mapManager.quest.dispose();
                         mapManager.loadMap(token.action.map);
 
                         console.log("map change nyi");
