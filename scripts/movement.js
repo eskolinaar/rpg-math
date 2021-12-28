@@ -124,11 +124,8 @@ export function activateRegenerationLoop(delay) {
     clearInterval(regenerationLoop);
     regenerationLoop=setInterval(() => { 
         if (targetMob<0 && window.gamedata.player.current_life>0 && paused==false) { // no combat & player alive
-
-            //console.log("regenerate");   
             if (parseInt(window.gamedata.player.current_life)<parseInt(window.gamedata.player.life)) {
                 window.gamedata.player.current_life=parseInt(window.gamedata.player.current_life)+1;
-                //console.log("regenerate, "+window.gamedata.player.current_life);
             } else {
                 //console.log("regenerate, player is at full health ", window.gamedata.player.current_life, window.gamedata.player.life);   
             }
@@ -147,7 +144,7 @@ function step(vector) {
         if (mob.mode=="peaceful") {
             if (mob.quest != undefined && mapManager.quest == undefined) {
                 rotateMobToPlayer(mobidx);
-                mapManager.announceQuest(mob.quest, mobidx);
+                mapManager.announceQuest(mob.quest, mobidx, null);
             } else if (mob.message!=undefined) {
                 rotateMobToPlayer(mobidx);
                 mapManager.showMobMessage(mob.message);
@@ -167,6 +164,7 @@ function step(vector) {
 }
 
 function checkPositionQuest(coordinates) {
+    if (mapManager.getQuest() == null) return;
     if (mapManager.getQuest().eventName != "position") return;
     if (mapManager.getQuest().eventCount != coordinates) return;
     console.log("checkPositionQuest, position quest resolving.");
@@ -323,8 +321,10 @@ function checkTokenPosition(position, trigger) {
                 } else
                 if (token.action.type=="message") {
                     mapManager.showMobMessage(token.action.message);
+                } else
+                if (token.action.type=="quest") {
+                    mapManager.announceQuest(token.action.quest, null, i);
                 }
-
             }
             return true;
         }

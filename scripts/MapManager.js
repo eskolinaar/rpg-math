@@ -22,6 +22,7 @@ export class MapManager {
 		this.light=null;
 		this.pendingQuest=null;
 		this.pendingQuestNPC=null;
+		this.pendingQuestToken=null;
 		this.loadMap(mapName);
 	}
 
@@ -236,6 +237,10 @@ export class MapManager {
 		return this.token;
 	}
 
+	getToken(idx) {
+		return this.token[idx];
+	}
+
 	getTokenData() {
 		return this.token;
 	}
@@ -268,8 +273,9 @@ export class MapManager {
 		return false;
 	}
 
-	announceQuest(quest, mobidx) {
-		if (this.getMob(mobidx).quest.completed!==undefined) {
+	announceQuest(quest, mobidx, tokenidx) {
+		if (mobidx!=null && this.getMob(mobidx).quest!==undefined && this.getMob(mobidx).quest.completed!==undefined
+			|| tokenidx!=null && this.getToken(tokenidx).action!==undefined && this.getToken(tokenidx).action.quest!==undefined && this.getToken(tokenidx).action.quest.completed!==undefined) {
 			console.log("acceptQuest, quest already finished", quest.complete_message);
 			$(".simple_message_de .simple_text_placeholder").text(quest.complete_message.de);
 			$(".simple_message_en .simple_text_placeholder").text(quest.complete_message.en);
@@ -279,6 +285,7 @@ export class MapManager {
 		}
 		this.pendingQuest=quest;
 		this.pendingQuestNPC=mobidx;
+		this.pendingQuestToken=tokenidx;
 		if (quest.introduction !== undefined) {
 			$(".quest_message_de .quest_text_placeholder").text(quest.introduction.de);
 			$(".quest_message_en .quest_text_placeholder").text(quest.introduction.en);
@@ -296,7 +303,7 @@ export class MapManager {
 	}
 
 	acceptQuest() {
-		if (this.getMob(this.pendingQuestNPC).quest.completed!==undefined) {
+		if (this.pendingQuestNPC!=null && this.getMob(this.pendingQuestNPC).quest.completed!==undefined) {
 			console.log("acceptQuest, quest already finished");
 		}
 		console.log("accepting quest ", this.pendingQuest);
@@ -309,8 +316,14 @@ export class MapManager {
 			this.pendingQuest.complete_event===undefined?"quest_complete":this.pendingQuest.complete_event,
 			true
 		);
-		this.getMob(this.pendingQuestNPC).quest.completed=true;
+		if (this.pendingQuestNPC!=null) {
+			this.getMob(this.pendingQuestNPC).quest.completed = true;
+		} else {
+			console.log("acceptQuest, accepting quest from token", this.pendingQuestToken, this.getToken(this.pendingQuestToken));
+			this.getToken(this.pendingQuestToken).action.quest.completed = true;
+		}
 		this.pendingQuestNPC=null;
+		this.pendingQuestToken=null;
 		this.pendingQuest=null;
 	}
 }
