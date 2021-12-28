@@ -320,7 +320,11 @@ function checkTokenPosition(position, trigger) {
 
                         console.log("map change nyi");
                     }
+                } else
+                if (token.action.type=="message") {
+                    mapManager.showMobMessage(token.action.message);
                 }
+
             }
             return true;
         }
