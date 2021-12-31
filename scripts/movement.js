@@ -166,7 +166,7 @@ function step(vector) {
 function checkPositionQuest(coordinates) {
     if (mapManager.getQuest() == null) return;
     if (mapManager.getQuest().eventName != "position") return;
-    if (mapManager.getQuest().eventCount != coordinates) return;
+    if (mapManager.getQuest().eventFilter != coordinates) return;
     console.log("checkPositionQuest, position quest resolving.");
     $("body").trigger({ type:"position"});
 }
@@ -306,7 +306,7 @@ function checkTokenPosition(position, trigger) {
         if (token.x==position.x && token.y==position.y) {
             if (trigger==true) {
                 if (token.action==undefined || token.action.type==undefined || token.action.type=="pick") {
-                    pickToken(token.object, i);
+                    pickToken(token.object, i, token.id);
                 } else
                 if (token.action.type=="travel") {
                     if (token.action.map==undefined) {
@@ -332,9 +332,9 @@ function checkTokenPosition(position, trigger) {
     return false;
 }
 
-function pickToken(obj, i) {
-    console.log("pickToken");
-    $("body").trigger({ type:"token" });
+function pickToken(obj, i, id) {
+    console.log("pickToken", obj, i);
+    $("body").trigger({ type:"token", filter:id });
     scene.remove(obj);
     mapManager.removeToken(i);   
 }

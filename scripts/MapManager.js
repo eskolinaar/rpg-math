@@ -90,6 +90,7 @@ export class MapManager {
 			this.questTemplates=data_obj.quest.template;
 			this.quest = new Quest(
 				data_obj.quest.event,
+				data_obj.quest.filter,
 				data_obj.quest.amount,
 				this.chooseTemplate(data_obj.quest.template),
 				"#quest_ui",
@@ -310,6 +311,7 @@ export class MapManager {
 
 		this.quest = new Quest(
 			this.pendingQuest.event,
+			this.pendingQuest.filter,
 			this.pendingQuest.amount,
 			this.chooseTemplate(this.pendingQuest.template),
 			"#quest_ui",

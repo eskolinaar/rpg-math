@@ -4,8 +4,9 @@ import {i18n, savegame} from './game.js';
 
 export class Quest {
 
-	constructor(eventName, eventCount, template, container, completeEvent, spawn) {
+	constructor(eventName, eventFilter, eventCount, template, container, completeEvent, spawn) {
 		this.eventName=eventName;
+		this.eventFilter=eventFilter;
 		this.eventCount=eventCount;
 		this.currentCount=0;
 		this.template=template;
@@ -13,7 +14,7 @@ export class Quest {
 		this.complete=false;
 		this.completeEvent=completeEvent;
 
-		console.log("starting new quest, ", eventName, eventCount, template, container, completeEvent);
+		console.log("starting new quest, ", eventName, eventFilter, eventCount, template, container, completeEvent);
 		this.updateContainerMessage();
 		savegame.saveGameValue("currentquest", this);
 
@@ -21,7 +22,8 @@ export class Quest {
 			$("body").trigger({ type:"respawn", subtype:this.eventName });
 		}
 
-		$("body").on(this.eventName, () => {
+		$("body").on(this.eventName, (e) => {
+			if (this.eventFilter != undefined && this.eventFilter != "" && this.eventFilter != e.filter) return;
 			this.currentCount=parseInt(this.currentCount)+1;
 			this.updateContainerMessage();
 			console.log("quest progress "+this.currentCount+" / "+this.eventCount);

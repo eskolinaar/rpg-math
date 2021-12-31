@@ -67,7 +67,7 @@ export function endCombat(m) {
     m.current_life=0;
     console.log("endCombat, combat ended with ", window.gamedata.objectIndex[m.id].name);
     $("body").trigger({ type:"winCombat"});
-    $("body").trigger({ type:"kill", var: { mob: window.gamedata.objectIndex[m.id].name }});
+    $("body").trigger({ type:"kill", filter:m.id, var: { mob: window.gamedata.objectIndex[m.id].name }});
     setTimeout(() => {
         console.log("damage, mob dies and is removed", m);
         scene.remove(m.object);

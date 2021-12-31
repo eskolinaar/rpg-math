@@ -199,6 +199,7 @@ function loadFromData(data) {
 
     if (mapdata.quest!=undefined) {
         $("#quest_event").val(getQuestDataAttribute("event"));
+        $("#quest_filter").val(getQuestDataAttribute("filter"));
         $("#quest_event_amount").val(getQuestDataAttribute("amount"));
         $("#quest_text_en").val(getQuestDataAttribute("template", "en"));
         $("#quest_text_de").val(getQuestDataAttribute("template", "de"));
@@ -228,6 +229,7 @@ function createJSONStringFromMap() {
 
     mapdata.quest={};
     mapdata.quest.event=$("#quest_event").val();
+    mapdata.quest.filter=$("#quest_filter").val();
     mapdata.quest.amount=$("#quest_event_amount").val();
     mapdata.quest.template={};
     mapdata.quest.template.en=$("#quest_text_en").val();
