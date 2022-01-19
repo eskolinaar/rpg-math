@@ -23,22 +23,23 @@ export class MapManager {
 		this.pendingQuest=null;
 		this.pendingQuestNPC=null;
 		this.pendingQuestToken=null;
+		this.openSwitchDialog=null;
 		this.loadMap(mapName);
 	}
 
 	loadMap(mapName) {
 		if (mapName==undefined || mapName==null) return;
-		this.mapName=mapName;
-	    this.map=[];
-	    for (var i=0;i<30*30;i++) { this.map.push(0); }
-	    console.log("loadMap, loading ", mapName);
+		console.log("loadMap, loading ", mapName);
 
+		this.mapName=mapName;
 		savegame.saveGameValue("currentmap", mapName);
+
+		this.map=[];
+		for (var i=0;i<30*30;i++) { this.map.push(0); }
 	    $.get( "maps/"+this.mapName, (data) => { this.loadMapInternal(data); });
 	}
 
 	loadMapFromData(rawMapData) {
-		this.mapName="uploaded_file.map.json";
 	    this.map=[];
 	    for (var i=0;i<30*30;i++) { this.map.push(0); }
 	    console.log("loadMap, loading from data");
@@ -48,10 +49,13 @@ export class MapManager {
 
 	loadMapInternal(data) {
         var data_obj=parseJSON(data);
-        if (this.map==undefined) this.map=[];
-        
+
+		if (this.mapName==undefined) this.mapName=data_obj.mapName;
+		savegame.setMap(this.mapName);
+
+		if (this.map==undefined) this.map=[];
         this.map=data_obj.fielddata;
-        
+
         if (data_obj.mobs!=undefined) this.mobs=data_obj.mobs; else this.mobs=new Array();
 		this.allMobs=JSON.parse(JSON.stringify(this.mobs));
         if (data_obj.token!=undefined) this.token=data_obj.token; else this.token=new Array();
@@ -303,6 +307,15 @@ export class MapManager {
 		showMessage("simple_message");
 	}
 
+	showSwitchDialog(message, keyname) {
+		console.log("showMobMessage, showing simple message", message);
+		this.openSwitchDialog=keyname;
+		$(".switch_message_de .switch_text_placeholder").text(message.de);
+		$(".switch_message_en .switch_text_placeholder").text(message.en);
+		setPaused(true);
+		showMessage("switch_message");
+	}
+
 	acceptQuest() {
 		if (this.pendingQuestNPC!=null && this.getMob(this.pendingQuestNPC).quest.completed!==undefined) {
 			console.log("acceptQuest, quest already finished");
@@ -327,5 +340,21 @@ export class MapManager {
 		this.pendingQuestNPC=null;
 		this.pendingQuestToken=null;
 		this.pendingQuest=null;
+	}
+
+	saveSwitchState(newstate) {
+		if (this.openSwitchDialog==null) {
+			console.log("saveSwitchState, failed saving new state");
+			return;
+		}
+		savegame.saveMapValue("switch#"+this.openSwitchDialog, newstate);
+		this.openSwitchDialog=null;
+		$("body").trigger("evaluateSwitchStates"); // animate door openings/closings
+	}
+
+	loadSwitchState(keyname) {
+		let state=savegame.loadMapValue("switch#"+keyname);
+		console.log("getSwitchState, loading ", keyname, state);
+		return state;
 	}
 }

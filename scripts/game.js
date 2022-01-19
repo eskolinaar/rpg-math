@@ -269,6 +269,12 @@ function initModelAndScene() {
             resumeGame();
         } else if (did=="quest_dismiss") {
             resumeGame();
+        } else if (did=="switch_off") {
+            mapManager.saveSwitchState(0);
+            resumeGame();
+        } else if (did=="switch_on") {
+            mapManager.saveSwitchState(1);
+            resumeGame();
         } else {
             console.log("showing, ."+did);
 

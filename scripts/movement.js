@@ -151,7 +151,10 @@ function step(vector) {
             }
         }
     } else
-    if (mapManager.isFloor(partyPos.apply(mm).apply(vector)) && checkMobPositionByPosition(-1, partyPos.apply(mm).apply(vector))) {
+    if (mapManager.isFloor(partyPos.apply(mm).apply(vector))
+        && checkMobPositionByPosition(-1, partyPos.apply(mm).apply(vector))
+        && checkDoorOpen(partyPos.apply(mm))
+    ) {
         partyPos.add(vector);
         checkTokenPosition(partyPos.apply(mm), true);
     }
@@ -325,11 +328,29 @@ function checkTokenPosition(position, trigger) {
                 if (token.action.type=="quest") {
                     mapManager.announceQuest(token.action.quest, null, i);
                 }
+                if (token.action.type=="switch") {
+                    mapManager.showSwitchDialog(token.action.message, token.action.keyname);
+                }
             }
             return true;
         }
     }
     return false;
+}
+
+// checks if a closed or open door is at the position
+function checkDoorOpen(position) {
+    for (let i=0;i<mapManager.getTokenDataLength();i++) {
+        let token=mapManager.getTokenData()[i];
+        if (token.x==position.x && token.y==position.y) {
+            if (token.action==undefined || token.action.type==undefined) return true;
+            if (token.action.type=="door") {
+                false; // ToDo: check if open. read saved switch states for it. evaluate variable on door token
+            }
+            return true; // is no door
+        }
+    }
+    return true; // no token at position
 }
 
 function pickToken(obj, i, id) {

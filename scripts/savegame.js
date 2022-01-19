@@ -12,7 +12,7 @@ export class SaveGame {
     }
 
     saveGameValue(key, value) {
-        if (this.savemode == "none") return;
+        //if (this.savemode == "none") return;
         if (value == undefined) {
             localStorage.removeItem("save#" + key);
             return;
@@ -25,7 +25,7 @@ export class SaveGame {
     }
 
     saveMapValue(key, value) {
-        if (this.savemode == "none") return;
+        //if (this.savemode == "none") return;
         if (value == undefined) {
             localStorage.removeItem("save#" + this.mapname + "#" + key);
             return;
@@ -34,6 +34,8 @@ export class SaveGame {
     }
 
     loadMapValue(key) {
+        let item=localStorage.getItem("save#" + this.mapname + "#" + key);
+        if (item==undefined) return null;
         return JSON.parse(localStorage.getItem("save#" + this.mapname + "#" + key));
     }
 

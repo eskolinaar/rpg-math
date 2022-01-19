@@ -89,11 +89,12 @@
                 <button id="clearbrowserstoragebutton">Toggle Delete-Mode</button>
             </div>
             <div id="options2" class="section">
-                <label>Load from File</label>
+                <label>Load from server</label>
                 <p><input type="text" placeholder="Project-Folder" id="mapname2" value="/rpg_math/webroot/maps/m2021-01-30.map.json"></p>
                 <button id="loadbutton">Load</button>
             </div>
             <div class="section">
+                <label>Load from file</label>
                 <input type="file" class="map_editor_file_upload" name="map_editor_file_upload"></p>
             </div>
         </div>
@@ -125,7 +126,6 @@
             <canvas id="maincanvas" height="900" width="1000"></canvas>
             <!-- rest right -->
             <div id="imagepreload" class="section" data-pane="fielddata,mobs,token">
-                <label>Images</label>
             </div>
             <div id="selection_indicator" class="section" data-pane="fielddata,mobs,token">
                 <label>Selection</label>
@@ -158,6 +158,7 @@
                 <button id="update">Update</button>
             </div>
             <div id="mob_details" class="section" data-pane="mobs">
+                <label>Mob-Details</label>
                 <span>X</span>
                 <input id="mob_x" data-fieldname="x" type="text" placeholder="x">
                 <span>Y</span>

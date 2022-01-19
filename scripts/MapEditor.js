@@ -43,7 +43,7 @@ function initVariables() {
     ctx = canvas.getContext('2d');
 }
 
-function feedback(message) {
+function showFeedbackMessage(message) {
     $("body").append("<div class='feedback_message'>"+message+"</div>");
     $(".feedback_message").fadeIn(300).delay(650).fadeOut(300);
     setTimeout( () => $(".feedback_message").remove() , 2000);
@@ -97,7 +97,7 @@ function repaint() {
     }
 }
 
-function clearActive() {
+function clearActiveListItem() {
     $("#mobs ul li").removeClass("active");
     $("#token ul li").removeClass("active");
 }
@@ -107,9 +107,9 @@ function getFieldTile(idx) {
     return tiles[field[idx]];
 }
 
-function checkCollision(arr, x, y) {
-    for (var i = 0; i < arr.length; ++i) {
-        if (arr[i].x==x && arr[i].y==y) {
+function checkEntityCollision(entityList, x, y) {
+    for (let i = 0; i < entityList.length; ++i) {
+        if (entityList[i].x==x && entityList[i].y==y) {
             return true;                    
         }                     
     }            
@@ -120,21 +120,21 @@ function checkCollision(arr, x, y) {
 //
 // check if an entity is flagged active (to be moved,edited etc.)
 // check for collision, move & update ui
-function moveActiveInstance(entityName, field_x, field_y) {
+function moveActiveEntityInstance(entityName, field_x, field_y) {
     if ($("#"+entityName+" ul li.active").length>0) {
-        if (checkCollision(mapdata[entityName], field_x, field_y)) return;
+        if (checkEntityCollision(mapdata[entityName], field_x, field_y)) return;
         let instanceId=$("#"+entityName+" ul li.active").attr("data-id");
         mapdata[entityName][instanceId].x=field_x;
         mapdata[entityName][instanceId].y=field_y;
         $("#"+entityName+" ul li.active").removeClass("active");
         repaint();
-        updateList(entityName);
+        updateListHtml(entityName);
     }
 }
 
-function createNewInstance(entityName, field_x, field_y) {
+function createNewEntityInstance(entityName, field_x, field_y) {
     if (objectIndex[selected_tile_index].type==singular[entityName]) {
-        if (checkCollision(mapdata[entityName], field_x, field_y)) return true;
+        if (checkEntityCollision(mapdata[entityName], field_x, field_y)) return true;
         let el={};
         el.id=selected_tile_index;
         el.x=field_x;
@@ -142,7 +142,7 @@ function createNewInstance(entityName, field_x, field_y) {
         el.life=objectIndex[el.id].life;
         mapdata[entityName].push(el);
         repaint();
-        updateList(entityName);
+        updateListHtml(entityName);
         return true;
     }            
     return false;
@@ -155,7 +155,7 @@ function generateListItem(idx, obj) {
     return out;
 }
 
-function updateList(entityName) {
+function updateListHtml(entityName) {
     console.log("updating "+entityName+" list, ", mapdata[entityName]);
     let out = "";
     if (mapdata[entityName]==undefined) mapdata[entityName]=[];
@@ -165,9 +165,9 @@ function updateList(entityName) {
     $("#"+entityName+" ul").html(out);    
 }
 
-function loadFromFile(filename) {
+function loadMapFromFile(filename) {
     $.get(filename, function (data) {
-        loadFromData(data);
+        loadMapFromData(data);
     });    
 }
 
@@ -188,7 +188,7 @@ function getQuestDataAttribute(attr, lang) {
     }
 }
 
-function loadFromData(data) {
+function loadMapFromData(data) {
     mapdata=data;
     field=mapdata.fielddata;
     $("#char_x").val(mapdata.x);
@@ -204,13 +204,13 @@ function loadFromData(data) {
         $("#quest_text_en").val(getQuestDataAttribute("template", "en"));
         $("#quest_text_de").val(getQuestDataAttribute("template", "de"));
     }
-    updateList("mobs");
-    updateList("token");
+    updateListHtml("mobs");
+    updateListHtml("token");
     repaint();
-    feedback("File was successfully loaded!");    
+    showFeedbackMessage("File was successfully loaded!");
 }
 
-function downloadFile(filedata) {// , filename
+function downloadFile(filedata) {
   var lnk = document.createElement("a");
   let today = (new Date()).toISOString().substr(0, 10);
   let ms = (new Date()).toISOString().substr(20, 3);
@@ -251,7 +251,7 @@ function createJSONStringFromMap() {
     return msg;
 }
 
-function updateLocalStorageIndex() {
+function updateLocalStorageIndexHtml() {
     let maps = localStorage.getItem("maps");
     if (maps == null) return;
     maps = JSON.parse(maps);
@@ -260,7 +260,7 @@ function updateLocalStorageIndex() {
         return;
     }
     let out = "";
-    for (var map in maps) {
+    for (let map in maps) {
         out += "<li>" + maps[map].mapname + "</li>";
     }
     $("#localStorage_mapview").html(out);
@@ -269,7 +269,7 @@ function updateLocalStorageIndex() {
 $(document).ready(function () {
     maptransfer = new BroadcastChannel('maptransfer');
 
-    updateLocalStorageIndex();
+    updateLocalStorageIndexHtml();
 
     $(".pane").hide();
     $(".pane[data-pane=overview]").show();
@@ -291,30 +291,29 @@ $(document).ready(function () {
     
     $.get( "objects/objectIndex.json", function( data ) {
         console.log("reading objectIndex, ", data);
-        objectIndex=data;//JSON.parse(data);
+        objectIndex=data;
         tiles=[];
         initVariables();
 
         imagepreload="";
 
-        imagepreload+="<div data-pane='fielddata'>";
-        for (var i in objectIndex) {
+        imagepreload+="<div data-pane='fielddata'><label>Floors</label>";
+        for (let i in objectIndex) {
             if (objectIndex.hasOwnProperty(i)) {
                 // id, mesh, symbol, texture, type
                 if (objectIndex[i].type=="floor")
                 imagepreload+="<img id='tile"+objectIndex[i].id+"' data-id='"+objectIndex[i].id+"' src='objects/symbol/"+objectIndex[i].symbol+"'>";
             }
         }
-        imagepreload+="<br><br>";        
-        for (var i in objectIndex) {
+        imagepreload+="</div><div data-pane='fielddata'><label>Walls</label>";
+        for (let i in objectIndex) {
             if (objectIndex.hasOwnProperty(i)) {
                 // id, mesh, symbol, texture, type
                 if (objectIndex[i].type=="wall")
                 imagepreload+="<img id='tile"+objectIndex[i].id+"' data-id='"+objectIndex[i].id+"' src='objects/symbol/"+objectIndex[i].symbol+"'>";
             }
         }
-        //imagepreload+="<img id='tile0' data-id='0' src='objects/symbol/empty.png'>";
-        imagepreload+="</div><div data-pane='mobs'>";
+        imagepreload+="</div><div data-pane='mobs'><label>Mobs</label>";
 
         for (var i in objectIndex) {
             if (objectIndex.hasOwnProperty(i)) {
@@ -324,7 +323,7 @@ $(document).ready(function () {
             }
         }
         imagepreload+="<img id='x' style='display:none' data-id='x' src='objects/symbol/x.png'>";
-        imagepreload+="</div><div data-pane='token'>";
+        imagepreload+="</div><div data-pane='token'><label>Token</label>";
 
         for (var i in objectIndex) {
             if (objectIndex.hasOwnProperty(i)) {
@@ -354,11 +353,11 @@ $(document).ready(function () {
         $("div#selection_indicator img:eq(0)").attr("src", src);
 
         selected_tile_index=$(this).attr("data-id");
-        clearActive();
+        clearActiveListItem();
     });
 
     $("#mobs").on("click", "ul li", function () {
-        clearActive();
+        clearActiveListItem();
         $(this).addClass("active");
 
         // update details form
@@ -375,7 +374,7 @@ $(document).ready(function () {
         }
     });
 
-    $("#mob_details").on("change", "input", function (e) {
+    $("#mob_details").on("keyup", "input", function (e) {
         let mid = $("#mobs ul li.active").attr("data-id");
         let mob = mapdata.mobs[mid];
         console.log("change", e, mob);
@@ -388,11 +387,12 @@ $(document).ready(function () {
             return;
         }
         mapdata.mobs[mid][fname] = val;
+        repaint();
         console.log("change", e, mob, fname, val);
     });
 
     $("#token").on("click", "ul li", function () {
-        clearActive();
+        clearActiveListItem();
         $(this).addClass("active");
     });        
 
@@ -400,14 +400,14 @@ $(document).ready(function () {
         let mid=$("#mobs ul li.active").attr("data-id");
         mapdata.mobs.splice(mid, 1);
         repaint();
-        updateList("mobs");
+        updateListHtml("mobs");
     });        
 
     $("#token .remove").on("click", function () {
         let mid=$("#token ul li.active").attr("data-id");
         mapdata.token.splice(mid, 1);
         repaint();
-        updateList("token");
+        updateListHtml("token");
     });
 
     $("canvas#maincanvas").mousemove(function(e){            
@@ -485,14 +485,14 @@ $(document).ready(function () {
         let activePane=$("#menu li.chosen").attr("data-target");
 
         if (activePane=="mobs") {
-            if (moveActiveInstance("mobs", field_x, field_y)) return;
-            if (createNewInstance("mobs", field_x, field_y)) return;
+            if (moveActiveEntityInstance("mobs", field_x, field_y)) return;
+            if (createNewEntityInstance("mobs", field_x, field_y)) return;
             return;
         }
 
         if (activePane=="token") {
-            if (moveActiveInstance("token", field_x, field_y)) return;    
-            if (createNewInstance("token", field_x, field_y)) return;
+            if (moveActiveEntityInstance("token", field_x, field_y)) return;
+            if (createNewEntityInstance("token", field_x, field_y)) return;
             return;
         }
 
@@ -533,8 +533,8 @@ $(document).ready(function () {
 
         maps.push({ mapname:mapname, mapdata:createJSONStringFromMap() });
         localStorage.setItem("maps", JSON.stringify(maps));
-        updateLocalStorageIndex();
-        feedback("Map was successfully saved to '"+mapname+"'!");
+        updateLocalStorageIndexHtml();
+        showFeedbackMessage("Map was successfully saved to '"+mapname+"'!");
     });
 
     $("button#savebutton").click(function () {
@@ -552,10 +552,10 @@ $(document).ready(function () {
         console.log("getting message from game ...", ev.data.type);
 
         if (ev.data.type=="transfer_map_ack") {
-            feedback("Map was opened in other browser tab");
+            showFeedbackMessage("Map was opened in other browser tab");
         }    
         if (ev.data.type=="transfer_map_check") {
-            feedback("Game has checked for pending map transfer");
+            showFeedbackMessage("Game has checked for pending map transfer");
             console.log("sending map ... transfer_map");
             maptransfer.postMessage({
                 type: "transfer_map",
@@ -566,7 +566,7 @@ $(document).ready(function () {
     
     $("button#loadbutton").click(function () {
         console.log("loading...");
-        loadFromFile($("#mapname2").val());       
+        loadMapFromFile($("#mapname2").val());
     });
 
     $("body").on("change", ".map_editor_file_upload", (e) => {        
@@ -575,18 +575,18 @@ $(document).ready(function () {
         console.log(e.target.files[0]);
         let file=e.target.files[0];
         if (file.type!="application/json") {
-            feedback("wrong file type for upload");
+            showFeedbackMessage("wrong file type for upload");
             return;
         }
         if (file.size>20000) {
-            feedback("untypical file size");
+            showFeedbackMessage("untypical file size");
             return;
         }
         let reader = new FileReader();
         reader.onload=(evt) => {
-            feedback("read file ended ...");
+            showFeedbackMessage("read file ended ...");
             console.log(evt.target.result);
-            loadFromData(JSON.parse(evt.target.result));
+            loadMapFromData(JSON.parse(evt.target.result));
         }
         reader.readAsText(file);
     });    
@@ -621,16 +621,16 @@ $(document).ready(function () {
                 if ($("#loadfrombrowser").hasClass("deletemode")) {
                     maps.splice(map, 1);
                     localStorage.setItem("maps", JSON.stringify(maps));
-                    feedback("Map deleted!");
-                    updateLocalStorageIndex();
+                    showFeedbackMessage("Map deleted!");
+                    updateLocalStorageIndexHtml();
                     return;
                 } else {
-                    loadFromData(JSON.parse(maps[map].mapdata));
+                    loadMapFromData(JSON.parse(maps[map].mapdata));
                     return;
                 }
             }
         }
-        feedback("Could not load map '"+$(this).text()+"'!");
+        showFeedbackMessage("Could not load map '"+$(this).text()+"'!");
     });
 
     $("button#optimize").on("click", function () {
