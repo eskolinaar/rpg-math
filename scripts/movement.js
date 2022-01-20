@@ -153,7 +153,7 @@ function step(vector) {
     } else
     if (mapManager.isFloor(partyPos.apply(mm).apply(vector))
         && checkMobPositionByPosition(-1, partyPos.apply(mm).apply(vector))
-        && checkDoorOpen(partyPos.apply(mm))
+        && checkDoorOpen(partyPos.apply(mm).apply(vector))
     ) {
         partyPos.add(vector);
         checkTokenPosition(partyPos.apply(mm), true);
@@ -345,7 +345,9 @@ function checkDoorOpen(position) {
         if (token.x==position.x && token.y==position.y) {
             if (token.action==undefined || token.action.type==undefined) return true;
             if (token.action.type=="door") {
-                false; // ToDo: check if open. read saved switch states for it. evaluate variable on door token
+                let state=mapManager.loadSwitchState(token.action.keyname);
+                if (state==1) return true;
+                return false; // ToDo: evaluate more complex conditions consisting of more switches
             }
             return true; // is no door
         }
