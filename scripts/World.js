@@ -224,7 +224,9 @@ function spell() {
 
         // opacity
         if (window.gamedata.objectIndex[spellObjectId].opacity!=undefined) {
-            let skin=getSkin(spell);
+            let skinnedmesh=getMesh(spell);
+            skinnedmesh.frustumCulled=false;
+            let skin=skinnedmesh.material;
             if (skin != undefined) {
                 skin.opacity = parseFloat(window.gamedata.objectIndex[spellObjectId].opacity);
                 skin.transparent = true;
@@ -243,6 +245,7 @@ function spell() {
             spellEffect.go=getActionByName(spellEffect.mixer, spellEffect.animations, "Go");
             spellEffect.go.clampWhenFinished=true;
             spellEffect.go.iterations=1;
+            //spellEffect.go.timeScale=6; // if spell.glb is used. speed up animation by ~5
             spellEffect.go.loop=THREE.LoopOnce;
             spellEffect.mixer.addEventListener( 'finished', function( e ) {
                 scene.remove(spellEffect.object);
@@ -746,15 +749,21 @@ function loadMob(mob) {
     } );
 }
 
-function getSkin(obj) {
+function getMesh(obj) {
     if (obj.children == undefined) return undefined;
     for (var idx=0;idx<obj.children.length;idx++) {
         if (obj.children[idx].type=="SkinnedMesh" || obj.children[idx].type=="Mesh") {
             if (obj.children[idx].material == undefined) return undefined;
             if (obj.children[idx].material.opacity == undefined) return undefined;
-            return obj.children[idx].material;
+            return obj.children[idx];// .material
         }
     }
+}
+
+function getSkin(obj) {
+    let mesh=getMesh(obj);
+    if (mesh==undefined) return undefined;
+    return mesh.material;
 }
 
 function getActionByName(mixer, animations, animationname) {

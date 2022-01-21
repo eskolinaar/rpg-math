@@ -285,6 +285,7 @@ function initModelAndScene() {
             }
         }
     });
+
     $("#difficulty_ui").on("click", () => {
         setPaused(true);
         showMessage("startup_message");

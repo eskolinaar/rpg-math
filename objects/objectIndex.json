@@ -325,5 +325,12 @@
         "mesh":"Explosion.glb",
         "type":"effect",
         "opacity": "0.75"
+    },
+    "49": {
+        "id":"49",
+        "name":"Door",
+        "symbol":"Door.png",
+        "mesh":"Door.glb",
+        "type":"token"
     }
 }

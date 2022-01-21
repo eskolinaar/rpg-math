@@ -327,7 +327,7 @@ function checkTokenPosition(position, trigger) {
                 } else
                 if (token.action.type=="quest") {
                     mapManager.announceQuest(token.action.quest, null, i);
-                }
+                } else
                 if (token.action.type=="switch") {
                     mapManager.showSwitchDialog(token.action.message, token.action.keyname);
                 }
