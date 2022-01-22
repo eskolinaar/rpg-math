@@ -332,5 +332,13 @@
         "symbol":"Door.png",
         "mesh":"Door.glb",
         "type":"token"
+    },
+    "50": {
+        "id":"50",
+        "name":"ForceField",
+        "symbol":"ForceField.png",
+        "mesh":"ForceField.glb",
+        "type":"token",
+        "opacity": "0.5"
     }
 }

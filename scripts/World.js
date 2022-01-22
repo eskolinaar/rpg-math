@@ -1,3 +1,5 @@
+// noinspection EqualityComparisonWithCoercionJS
+
 "use strict";
 
 import { GLTFLoader } from './GLTFLoader-r124.js';
@@ -283,9 +285,8 @@ function loadMeshObject(idx) {
     console.log("loading "+window.gamedata.objectIndex[idx].mesh);
     
     loader.load( window.gamedata.objectIndex[idx].mesh, ( gltf ) => {
-        // window.gamedata.isMeshLoaded=true;
         objidx=0;
-        for (var i=0;i<gltf.scene.children.length;i++) {
+        for (let i=0;i<gltf.scene.children.length;i++) {
             if (gltf.scene.children[i].type=="Mesh") {
                 objidx=i;
             }
@@ -587,11 +588,11 @@ function addFieldObject(wall, x, y) {
 }
 
 function addToken(idx, wall, x, y, rot) {
-    if (window.gamedata.objectIndex[wall]==undefined) {
+    if (window.gamedata.objectIndex[wall]===undefined) {
         console.log("addToken; Unknown Index "+wall+". Omitting Object.");
         return;
     }
-    var cube;
+    let cube;
     cube=window.gamedata.objectIndex[wall].mesh_.clone();
     cube.scale.x = cube.scale.y = cube.scale.z = 0.5;//0.17;
     cube.position.y=1;
@@ -603,9 +604,35 @@ function addToken(idx, wall, x, y, rot) {
     if (wall==13 || wall==14 || wall==15) {
         cube.position.y=1.05;
     }
+    if (window.gamedata.objectIndex[wall].opacity!==undefined) {
+        let skin=getSkin(cube);
+        cube.skin=skin;
+        if (skin !== undefined) {
+            skin.transparent = true;
+            skin.side=THREE.FrontSide;
+            skin.blending=THREE.AdditiveBlending;
+            skin.opacity = parseFloat(window.gamedata.objectIndex[wall].opacity);
+        } else {
+            console.log("transparency failed for ", wall, window.gamedata.objectIndex[wall].opacity);
+            console.log("could not get skin for ", cube, skin);
+        }
+    }
+    if (window.gamedata.objectIndex[wall].animations_!==undefined && window.gamedata.objectIndex[wall].animations_.length>0) {
+        cube.animations=window.gamedata.objectIndex[wall].animations_;
+        cube.mixer=new THREE.AnimationMixer(cube);
+        cube.open=getActionByName(cube.mixer, cube.animations, "Open");
+        if (cube.open!==undefined) {
+            cube.open.clampWhenFinished = true;
+        }
+        cube.close=getActionByName(cube.mixer, cube.animations, "Close");
+        if (cube.close!==undefined) {
+            cube.close.clampWhenFinished = true;
+        }
+        // not working ...
+        // window.gamedata.mapManager.getTokenData()[0].object.open.play();
+    }
 
     mapManager.getTokenData()[idx].object=cube;
-
     scene.add( cube );
     return cube;
 }
@@ -750,8 +777,9 @@ function loadMob(mob) {
 }
 
 function getMesh(obj) {
+    if (obj.type=="SkinnedMesh" || obj.type=="Mesh") return obj;
     if (obj.children == undefined) return undefined;
-    for (var idx=0;idx<obj.children.length;idx++) {
+    for (let idx=0;idx<obj.children.length;idx++) {
         if (obj.children[idx].type=="SkinnedMesh" || obj.children[idx].type=="Mesh") {
             if (obj.children[idx].material == undefined) return undefined;
             if (obj.children[idx].material.opacity == undefined) return undefined;
@@ -762,12 +790,15 @@ function getMesh(obj) {
 
 function getSkin(obj) {
     let mesh=getMesh(obj);
-    if (mesh==undefined) return undefined;
+    if (mesh==undefined) {
+        console.log("getSkin, failed", obj, mesh);
+        return undefined;
+    }
     return mesh.material;
 }
 
 function getActionByName(mixer, animations, animationname) {
-    for (var i=0;i<animations.length;i++) {
+    for (let i=0;i<animations.length;i++) {
         if (animations[i].name.includes(animationname)) {
             return mixer.clipAction(animations[i]);
         }
