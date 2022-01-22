@@ -355,6 +355,26 @@ function checkDoorOpen(position) {
     return true; // no token at position
 }
 
+export function evaluateDoorStates(changedVarName) {
+    for (let i=0;i<mapManager.getTokenDataLength();i++) {
+        let token=mapManager.getTokenData()[i];
+        if (token.action===undefined) continue;
+        if (token.action.type===undefined || token.action.type!="door") continue;
+        if (token.action.keyname===undefined || token.action.keyname!=changedVarName) continue;
+
+        let state=mapManager.loadSwitchState(token.action.keyname);
+        if (state==1) {
+            console.log("evaluateDoorStates, opening ", i);
+            window.gamedata.mapManager.getTokenData()[i].open.play();
+            window.gamedata.mapManager.getTokenData()[i].close.stop();
+        } else {
+            console.log("evaluateDoorStates, closing ", i);
+            window.gamedata.mapManager.getTokenData()[i].close.play();
+            window.gamedata.mapManager.getTokenData()[i].open.stop();
+        }
+    }
+}
+
 function pickToken(obj, i, id) {
     console.log("pickToken", obj, i);
     $("body").trigger({ type:"token", filter:id });

@@ -41,6 +41,7 @@ var water;
 var Water_1_M_Normal;
 var Water_2_M_Normal;
 let spellEffect=null;
+let tokenObj=null;
 
 export function initWorld() {
     partyPos=new Position(17, 13);
@@ -461,7 +462,7 @@ export function render() {
     //
     // animate mob position
     //
-    for (var i=0;i<mapManager.getMobDataLength();i++) {
+    for (let i=0;i<mapManager.getMobDataLength();i++) {
         mob=mapManager.getMob(i);
 
         if (mob.current_life==0) {
@@ -555,6 +556,11 @@ export function render() {
             }
         }
     }
+
+    for (let i=0;i<mapManager.getTokenDataLength();i++) {
+        tokenObj=mapManager.getToken(i);
+        if (tokenObj.mixer!=undefined) tokenObj.mixer.update(delta);
+    }
      
     renderer.render(scene, camera);
 }
@@ -588,53 +594,66 @@ function addFieldObject(wall, x, y) {
 }
 
 function addToken(idx, wall, x, y, rot) {
-    if (window.gamedata.objectIndex[wall]===undefined) {
-        console.log("addToken; Unknown Index "+wall+". Omitting Object.");
+    let mob=mapManager.getTokenData()[idx];
+
+    if (window.gamedata.objectIndex[mob.id]==undefined) {
+        console.log("Unknown Index "+mob.id+". Omitting Object.");
         return;
     }
-    let cube;
-    cube=window.gamedata.objectIndex[wall].mesh_.clone();
-    cube.scale.x = cube.scale.y = cube.scale.z = 0.5;//0.17;
-    cube.position.y=1;
-    cube.position.x=x;
-    cube.position.z=y;
-    cube.rotation.y=rot*rad;
-    cube.name=window.gamedata.objectIndex[wall].name;
-    // ToDo: fix this by changing objects
-    if (wall==13 || wall==14 || wall==15) {
+
+    loader.load( window.gamedata.objectIndex[mob.id].mesh, ( gltf ) => {
+
+        objidx=0;
+        for (let i=0;i<gltf.scene.children.length;i++) {
+            if (gltf.scene.children[i].type=="Mesh") {
+                objidx=i;
+            }
+        }
+
+        let cube = gltf.scene.children[ objidx ];
+        cube.scale.x=cube.scale.y=cube.scale.z=0.5;
         cube.position.y=1.05;
-    }
-    if (window.gamedata.objectIndex[wall].opacity!==undefined) {
+        cube.position.x=x;
+        cube.position.z=y;
+        cube.rotation.y=rot*rad;
+
+        // opacity
         let skin=getSkin(cube);
         cube.skin=skin;
         if (skin !== undefined) {
             skin.transparent = true;
             skin.side=THREE.FrontSide;
-            skin.blending=THREE.AdditiveBlending;
-            skin.opacity = parseFloat(window.gamedata.objectIndex[wall].opacity);
+            if (window.gamedata.objectIndex[mob.id].opacity !== undefined) {
+                skin.opacity = parseFloat(window.gamedata.objectIndex[mob.id].opacity);
+                skin.blending=THREE.AdditiveBlending;
+            }
         } else {
-            console.log("transparency failed for ", wall, window.gamedata.objectIndex[wall].opacity);
-            console.log("could not get skin for ", cube, skin);
+            console.log("transparency failed for ", mob.id, window.gamedata.objectIndex[mob.id].opacity);
         }
-    }
-    if (window.gamedata.objectIndex[wall].animations_!==undefined && window.gamedata.objectIndex[wall].animations_.length>0) {
-        cube.animations=window.gamedata.objectIndex[wall].animations_;
-        cube.mixer=new THREE.AnimationMixer(cube);
-        cube.open=getActionByName(cube.mixer, cube.animations, "Open");
-        if (cube.open!==undefined) {
-            cube.open.clampWhenFinished = true;
-        }
-        cube.close=getActionByName(cube.mixer, cube.animations, "Close");
-        if (cube.close!==undefined) {
-            cube.close.clampWhenFinished = true;
-        }
-        // not working ...
-        // window.gamedata.mapManager.getTokenData()[0].object.open.play();
-    }
 
-    mapManager.getTokenData()[idx].object=cube;
-    scene.add( cube );
-    return cube;
+        scene.add( cube );
+        mob.object=cube;
+        if (gltf.animations!=undefined && gltf.animations.length>0) {
+            mob.animations=gltf.animations;
+            mob.mixer=new THREE.AnimationMixer(cube);
+            mob.open=getActionByName(mob.mixer, mob.animations, "Open");
+            if (mob.open!=undefined) {
+                mob.open.clampWhenFinished=true;
+                mob.open.iterations=1;
+                mob.open.loop=THREE.LoopOnce;
+            }
+            mob.close=getActionByName(mob.mixer, mob.animations, "Close");
+            if (mob.close!=undefined) {
+                mob.close.clampWhenFinished=true;
+                mob.close.iterations=1;
+                mob.close.loop=THREE.LoopOnce;
+            }
+            console.log("addToken, added", mob, mob.open, mob.close);
+        }
+    }, undefined, ( e ) => {
+        console.error( e );
+    } );
+
 }
 
 function createScene() {
@@ -725,13 +744,13 @@ function loadMob(mob) {
     loader.load( window.gamedata.objectIndex[mob.id].mesh, ( gltf ) => {
 
         objidx=0;
-        for (var i=0;i<gltf.scene.children.length;i++) {
+        for (let i=0;i<gltf.scene.children.length;i++) {
             if (gltf.scene.children[i].type=="Mesh") {
                 objidx=i;
             }
         }
 
-        var cube = gltf.scene.children[ objidx ];
+        let cube = gltf.scene.children[ objidx ];
         cube.scale.x=cube.scale.y=cube.scale.z=0.5;
         cube.position.y=1.05;
         cube.position.x=mob.x;

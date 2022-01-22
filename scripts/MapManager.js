@@ -3,7 +3,7 @@
 import { parseJSON, Position } from './helper.js';
 import {onMapLoaded, partyPos} from './World.js';
 import { Quest } from './quests.js';
-import { setPaused } from './movement.js';
+import { setPaused, evaluateDoorStates } from './movement.js';
 import { savegame, showMessage } from "./game.js";
 
 export class MapManager {
@@ -348,8 +348,8 @@ export class MapManager {
 			return;
 		}
 		savegame.saveMapValue("switch#"+this.openSwitchDialog, newstate);
+		evaluateDoorStates(this.openSwitchDialog);
 		this.openSwitchDialog=null;
-		$("body").trigger("evaluateSwitchStates"); // animate door openings/closings
 	}
 
 	loadSwitchState(keyname) {
@@ -357,4 +357,5 @@ export class MapManager {
 		console.log("getSwitchState, loading ", keyname, state);
 		return state;
 	}
+
 }
