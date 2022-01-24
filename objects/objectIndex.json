@@ -356,5 +356,12 @@
         "mesh":"GreenMossFloor.glb",
         "type":"floor",
         "orientation":"calc"
+    },
+    "55": {
+        "id":"55",
+        "name":"button",
+        "symbol":"button.png",
+        "mesh":"button.glb",
+        "type":"token"
     }
 }
