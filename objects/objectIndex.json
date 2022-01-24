@@ -326,13 +326,6 @@
         "type":"effect",
         "opacity": "0.75"
     },
-    "49": {
-        "id":"49",
-        "name":"Door",
-        "symbol":"Door.png",
-        "mesh":"Door.glb",
-        "type":"token"
-    },
     "50": {
         "id":"50",
         "name":"ForceField",
@@ -340,5 +333,12 @@
         "mesh":"ForceField.glb",
         "type":"token",
         "opacity": "0.5"
+    },
+    "51": {
+        "id":"51",
+        "name":"Door2Wing",
+        "symbol":"Door2Wing.png",
+        "mesh":"Door2Wing2.glb",
+        "type":"token"
     }
 }
