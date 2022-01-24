@@ -45,14 +45,6 @@
         "type":"wall",
         "orientation":"calc"
     },
-    "7":{
-        "id":"7",
-        "name":"StoneFloor",
-        "mesh":"StoneFloor.glb",
-        "symbol":"StoneFloor.jpg",
-        "type":"floor",
-        "orientation":"calc"
-    },
     "8":{
         "id":"8",
         "name":"CrissCrossFloor",
@@ -338,7 +330,31 @@
         "id":"51",
         "name":"Door2Wing",
         "symbol":"Door2Wing.png",
-        "mesh":"Door2Wing2.glb",
+        "mesh":"Door2Wing3.glb",
         "type":"token"
+    },
+    "52": {
+        "id":"52",
+        "name":"SolidFloor",
+        "symbol":"SolidFloor.png",
+        "mesh":"SolidFloor.glb",
+        "type":"floor",
+        "orientation":"calc"
+    },
+    "53": {
+        "id":"53",
+        "name":"BrownMossFloor",
+        "symbol":"BrownMossFloor.png",
+        "mesh":"BrownMossFloor.glb",
+        "type":"floor",
+        "orientation":"calc"
+    },
+    "54": {
+        "id":"54",
+        "name":"GreenMossFloor",
+        "symbol":"GreenMossFloor.png",
+        "mesh":"GreenMossFloor.glb",
+        "type":"floor",
+        "orientation":"calc"
     }
 }
