@@ -363,5 +363,29 @@
         "symbol":"button.png",
         "mesh":"button.glb",
         "type":"token"
+    },
+    "56": {
+        "id":"56",
+        "name":"mushroom",
+        "symbol":"Mushroom.png",
+        "mesh":"Mushroom.glb",
+        "type":"wall",
+        "orientation":"calc"
+    },
+    "57": {
+        "id":"57",
+        "name":"mushrooms",
+        "symbol":"Mushrooms.png",
+        "mesh":"Mushrooms.glb",
+        "type":"wall",
+        "orientation":"calc"
+    },
+    "58": {
+        "id":"58",
+        "name":"bridge",
+        "symbol":"Bridge.png",
+        "mesh":"Bridge.glb",
+        "type":"floor",
+        "orientation":"connect"
     }
 }

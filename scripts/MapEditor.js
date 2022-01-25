@@ -564,12 +564,7 @@ $(document).ready(function () {
         }
     }
     
-    $("button#loadbutton").click(function () {
-        console.log("loading...");
-        loadMapFromFile($("#mapname2").val());
-    });
-
-    $("body").on("change", ".map_editor_file_upload", (e) => {        
+    $("body").on("change", ".map_editor_file_upload", (e) => {
         console.log("file upload triggered", e);
         console.log("file upload triggered", e.target);
         console.log(e.target.files[0]);

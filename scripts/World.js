@@ -572,16 +572,24 @@ function addFieldObject(wall, x, y) {
         }
         return;
     }
-    var cube;
+    let cube;
     cube=window.gamedata.objectIndex[wall].mesh_.clone();
     cube.scale.x = cube.scale.y = cube.scale.z = 0.5;
     cube.position.y=1;
     cube.position.x=x;
     cube.position.z=y;
     cube.name=window.gamedata.objectIndex[wall].name;
-    if (window.gamedata.objectIndex[wall].orientation!=undefined && window.gamedata.objectIndex[wall].orientation=="calc") {
-        // rot*rad
+    if (window.gamedata.objectIndex[wall].orientation==undefined) {
+        cube.rotation.y=0;
+    } else if (window.gamedata.objectIndex[wall].orientation=="calc") {
         cube.rotation.y=((x+y)%4)*rad;
+    } else if (window.gamedata.objectIndex[wall].orientation=="connect") {
+        let adjacentWall=mapManager.getMapData((x<2?(x-1):(x+1)), y);
+        if (window.gamedata.objectIndex[adjacentWall].type=="floor") {
+            cube.rotation.y=rad;
+        } else {
+            cube.rotation.y=0;
+        }
     } else {
         cube.rotation.y=0;
     }
