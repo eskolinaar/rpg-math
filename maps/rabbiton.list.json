@@ -1,0 +1,6 @@
+{
+	"mode":"mapChangeOnQuestComplete",
+	"maps":[	
+		"m2022-01-26-rabbiton1.map.json"
+    ]
+}
