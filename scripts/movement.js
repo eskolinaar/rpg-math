@@ -4,6 +4,7 @@ import { Vector, Position } from './helper.js';
 import { mapManager, partyPos, scene, setPartyPosition, getCameraDiff, moveCameraTop } from './World.js';
 import { startCombat, damage, select, playerDeath } from './combat.js';
 import { showMessage, isCheatingEnabled, savegame } from './game.js';
+import { Expression } from  './expression.js';
 import { Quest } from "./quests.js";
 
 export var directions = {
@@ -355,20 +356,56 @@ function checkDoorOpen(position) {
     return true; // no token at position
 }
 
+function compileSwitchStates() {
+    let states={};
+    console.log("compileSwitchStates, entering");
+    for (let i=0;i<mapManager.getTokenDataLength();i++) {
+        let token=mapManager.getTokenData()[i];
+        if (token.action==undefined || token.action.type==undefined) continue;
+        if (token.action.type=="switch") {
+            states[token.action.keyname]=mapManager.loadSwitchState(token.action.keyname);
+        }
+    }
+    return states;
+}
+
+function evaluateDoorState(keyname, states) {
+    let state = (new Expression(keyname).solveAll(states).getValue());
+//    console.log("evaluateDoorState, solving to ", state);
+    return state=="1";
+}
+
+export function evaluateInitialDoorStates(token) {
+    let state=evaluateDoorState(token.action.keyname, compileSwitchStates());
+    if (state) {
+        console.log("evaluateInitialDoorStates, opening", token);
+        token.open.play();
+        token.close.stop();
+    } else {
+        console.log("evaluateInitialDoorStates, closing", token);
+        token.close.play();
+        token.open.stop();
+    }
+
+}
+
 export function evaluateDoorStates(changedVarName) {
+    let states=compileSwitchStates();
     for (let i=0;i<mapManager.getTokenDataLength();i++) {
         let token=mapManager.getTokenData()[i];
         if (token.action===undefined) continue;
         if (token.action.type===undefined || token.action.type!="door") continue;
-        if (token.action.keyname===undefined || token.action.keyname!=changedVarName) continue;
+        if (token.action.keyname===undefined) continue;
+        if (changedVarName!=undefined && !token.action.keyname.includes(changedVarName)) continue;
 
-        let state=mapManager.loadSwitchState(token.action.keyname);
-        if (state==1) {
-            console.log("evaluateDoorStates, opening ", i);
+        // create expression for token.action.keyname evaluate with switchStates
+        let state=evaluateDoorState(token.action.keyname, states);
+        if (state) {
+            console.log("evaluateDoorStates, opening", i);
             window.gamedata.mapManager.getTokenData()[i].open.play();
             window.gamedata.mapManager.getTokenData()[i].close.stop();
         } else {
-            console.log("evaluateDoorStates, closing ", i);
+            console.log("evaluateDoorStates, closing", i);
             window.gamedata.mapManager.getTokenData()[i].close.play();
             window.gamedata.mapManager.getTokenData()[i].open.stop();
         }

@@ -123,6 +123,7 @@ export class MapManager {
 		$(".level_introtext").text(intro_i18n);
 
         onMapLoaded();
+
     }
 
 	chooseTemplate(tpl) {
@@ -354,7 +355,7 @@ export class MapManager {
 
 	loadSwitchState(keyname) {
 		let state=savegame.loadMapValue("switch#"+keyname);
-		console.log("getSwitchState, loading ", keyname, state);
+		console.log("loadSwitchState, loading '"+keyname+"', '"+state+"'");
 		return state;
 	}
 

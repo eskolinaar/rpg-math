@@ -5,9 +5,8 @@
 import { GLTFLoader } from './GLTFLoader-r124.js';
 import { parseJSON, Position } from './helper.js';
 import { MapManager } from './MapManager.js';
-import { onTop, setPaused, directions } from './movement.js';
+import {onTop, setPaused, directions, evaluateInitialDoorStates } from './movement.js';
 import { i18n, showMessage, getLanguage } from './game.js';
-import { damage } from './combat.js';
 import { Water } from './Water2.js';
 
 export var partyPos;
@@ -656,7 +655,8 @@ function addToken(idx, wall, x, y, rot) {
                 mob.close.iterations=1;
                 mob.close.loop=THREE.LoopOnce;
             }
-            console.log("addToken, added", mob, mob.open, mob.close);
+            evaluateInitialDoorStates(mob);
+            console.log("addToken, added", mob);
         }
     }, undefined, ( e ) => {
         console.error( e );

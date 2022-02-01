@@ -35,7 +35,7 @@ export class SaveGame {
 
     loadMapValue(key) {
         let item=localStorage.getItem("save#" + this.mapname + "#" + key);
-        if (item==undefined) return null;
+        if (item==undefined) return 0;
         return JSON.parse(localStorage.getItem("save#" + this.mapname + "#" + key));
     }
 
