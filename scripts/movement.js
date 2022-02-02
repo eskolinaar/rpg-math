@@ -346,9 +346,7 @@ function checkDoorOpen(position) {
         if (token.x==position.x && token.y==position.y) {
             if (token.action==undefined || token.action.type==undefined) return true;
             if (token.action.type=="door") {
-                let state=mapManager.loadSwitchState(token.action.keyname);
-                if (state==1) return true;
-                return false; // ToDo: evaluate more complex conditions consisting of more switches
+                return evaluateDoorState(token.action.keyname, compileSwitchStates());
             }
             return true; // is no door
         }
