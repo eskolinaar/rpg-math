@@ -387,5 +387,21 @@
         "mesh":"Bridge.glb",
         "type":"floor",
         "orientation":"connect"
+    },
+    "59": {
+        "id":"59",
+        "name":"well",
+        "symbol":"Well.png",
+        "mesh":"Well.glb",
+        "type":"token",
+        "orientation":"calc"
+    },
+    "60": {
+        "id":"60",
+        "name":"bell",
+        "symbol":"Bell.png",
+        "mesh":"Bell.glb",
+        "type":"token",
+        "orientation":"calc"
     }
 }
