@@ -403,5 +403,12 @@
         "mesh":"Bell.glb",
         "type":"token",
         "orientation":"calc"
+    },
+    "61": {
+        "id":"61",
+        "name":"cage",
+        "symbol":"Cage.png",
+        "mesh":"Cage.glb",
+        "type":"token"
     }
 }
