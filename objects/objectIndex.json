@@ -410,5 +410,12 @@
         "symbol":"Cage.png",
         "mesh":"Cage.glb",
         "type":"token"
+    },
+    "62": {
+        "id":"62",
+        "name":"boulder",
+        "symbol":"boulder.png",
+        "mesh":"boulder.glb",
+        "type":"token"
     }
 }

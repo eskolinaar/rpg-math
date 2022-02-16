@@ -1,0 +1,75 @@
+TOKEN:
+======
+
+"token":[
+
+
+    // Ausrichtung
+    {"id":"36","x":12,"y":12,"rotation":2},
+
+    // Schalter
+    {"id":"55","x":8,"y":5,"action":{"type":"switch","keyname":"a","message":{"en":"switch a","de":"Schalter A."}}},
+
+    // Tür
+    {"id":"50","x":10,"y":5,"action":{"type": "door","keyname":"a&b"}}
+
+    // Portal mit Map-Wechsel
+    {"id":"40","x":20,"y":0, "action": { "type":"travel", "map":"mapchange2.map.json", "x":"6", "y":"28", "direction":"1" }}
+]
+
+
+
+QUESTEN:
+========
+
+// Standard Token-Pickup Quest
+"quest":{
+	"event":"token","amount":1,
+	"template": {
+		"de":"{} von {} Kiste gefunden",
+		"en":"{} of {} treasure chest found"
+	}
+}
+
+// Kill Quest mit bestimmtem Mob
+"quest":{
+    "event":"kill",
+    "filter":"16",
+    "amount":"2",
+    "template":{
+        "en":"{}/{} blobs killed",
+        "de":"{}/{} Blobs besiegt"
+    }
+}
+
+
+
+MONSTER:
+=====
+
+"mobs":[
+
+// standard enemy
+{"id":"15","x":4,"y":20,"life":"3"},
+
+// NPC mit Message, friedlicher, stationär, fixe Ausrichtung
+{
+  "id":"45","x":14,"y":13,"life":"3","mode":"peaceful","movement":"none","rotation":"0",
+  "message": {"en":"Hello, i am a bear. The carrot will show you the way to the next map.","de":"Hallo, ich bin ein Bär. Die Karotte in der Ecke zeigt die den Weg zur nächsten Karte."}
+},
+
+// NPC mit Quest
+{
+  "id":"43","x":13,"y":14,"life":"3","mode":"peaceful","movement":"none","rotation":"0",
+  "quest": {
+    "event":"token",
+    "amount":"4",
+    "introduction":{"en":"Can you get some carrots for me?","de":"Kannst du mir ein paar Karotten holen?"},
+    "template":{"en":"{}/{} carrots gathered","de":"{}/{} Karotten gesammelt"},
+    "complete_event": "quest_complete",
+    "complete_message": {"en":"Yummy.","de":"Danke. Die Karotten waren lecker."}
+  }
+}
+
+
+]
