@@ -14,7 +14,7 @@
     "quest": {
       "event":"kill",
       "amount":"1",
-      "introduction":{"en":"Show me your fighting skills, little wizard?","de":"Zeig mir deine Kampf-Fähigkeiten, kleiner Zauberer?"},
+      "introduction":{"en":"Show me your fighting skills, little wizard?","de":"Zeig mir deine Kampf-Fähigkeiten, kleiner Zauberer!"},
       "complete_message": {"en":"That was a terrific fight","de":"Das war richtig spannend."},
       "template":{"en":"{}/{} slime defeated","de":"{}/{} Schleimmonster besiegt"},
       "complete_event": "quest_complete"

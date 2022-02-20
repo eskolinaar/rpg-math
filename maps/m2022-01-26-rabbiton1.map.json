@@ -31,6 +31,13 @@
     }
   }
 ],
-"token":[{"id":"40","x":22,"y":3}], 
+"token":[
+  {
+    "id":"40",
+    "x":22,
+    "y":3,
+    "action": { "type":"travel", "map":"m2022-01-26-rabbiton2.map.json", "x":"17", "y":"25", "direction":"1" }
+  }
+],
 "introtext": {"de":"Die Einwohner von Hasingen übersiedeln. Da gibt's sicher reichlich zu tun.","en":"The inhabitants of rabbiton want to move. Theres plenty of work. I'm sure."}
 }

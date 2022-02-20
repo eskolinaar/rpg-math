@@ -282,9 +282,9 @@ export class MapManager {
 	announceQuest(quest, mobidx, tokenidx) {
 		if (mobidx!=null && this.getMob(mobidx).quest!==undefined && this.getMob(mobidx).quest.completed!==undefined
 			|| tokenidx!=null && this.getToken(tokenidx).action!==undefined && this.getToken(tokenidx).action.quest!==undefined && this.getToken(tokenidx).action.quest.completed!==undefined) {
-			console.log("acceptQuest, quest already finished", quest.complete_message);
-			$(".simple_message_de .simple_text_placeholder").text(quest.complete_message.de);
-			$(".simple_message_en .simple_text_placeholder").text(quest.complete_message.en);
+			console.log("acceptQuest, quest already accepted or completed", quest.complete_message);
+			$(".simple_message_de .simple_text_placeholder").html(quest.complete_message.de.replaceAll("\n", "<br>"));
+			$(".simple_message_en .simple_text_placeholder").html(quest.complete_message.en.replaceAll("\n", "<br>"));
 			setPaused(true);
 			showMessage("simple_message");
 			return;
@@ -293,8 +293,8 @@ export class MapManager {
 		this.pendingQuestNPC=mobidx;
 		this.pendingQuestToken=tokenidx;
 		if (quest.introduction !== undefined) {
-			$(".quest_message_de .quest_text_placeholder").text(quest.introduction.de);
-			$(".quest_message_en .quest_text_placeholder").text(quest.introduction.en);
+			$(".quest_message_de .quest_text_placeholder").html(quest.introduction.de.replaceAll("\n", "<br>"));
+			$(".quest_message_en .quest_text_placeholder").html(quest.introduction.en.replaceAll("\n", "<br>"));
 		}
 		setPaused(true);
 		showMessage("quest_message");
@@ -302,8 +302,8 @@ export class MapManager {
 
 	showMobMessage(message) {
 		console.log("showMobMessage, showing simple message", message);
-		$(".simple_message_de .simple_text_placeholder").text(message.de);
-		$(".simple_message_en .simple_text_placeholder").text(message.en);
+		$(".simple_message_de .simple_text_placeholder").html(message.de.replaceAll("\n", "<br>"));
+		$(".simple_message_en .simple_text_placeholder").html(message.en.replaceAll("\n", "<br>"));
 		setPaused(true);
 		showMessage("simple_message");
 	}
@@ -311,8 +311,8 @@ export class MapManager {
 	showSwitchDialog(message, keyname) {
 		console.log("showMobMessage, showing simple message", message);
 		this.openSwitchDialog=keyname;
-		$(".switch_message_de .switch_text_placeholder").text(message.de);
-		$(".switch_message_en .switch_text_placeholder").text(message.en);
+		$(".switch_message_de .switch_text_placeholder").html(message.de.replaceAll("\n", "<br>"));
+		$(".switch_message_en .switch_text_placeholder").html(message.en.replaceAll("\n", "<br>"));
 		setPaused(true);
 		showMessage("switch_message");
 	}

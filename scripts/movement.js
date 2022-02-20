@@ -19,6 +19,8 @@ export var directions = {
     8: new Vector(0, -1)
 };
 
+export var movement_blocking_token_types = ["obstacle", "switch", "quest", "message"];
+
 export var mm=new Vector(-1, -1);
 export var targetMob=-1;
 export var onTop=0;
@@ -156,8 +158,12 @@ function step(vector) {
         && checkMobPositionByPosition(-1, partyPos.apply(mm).apply(vector))
         && checkDoorOpen(partyPos.apply(mm).apply(vector))
     ) {
+        let tokentype = checkTokenPosition(partyPos.apply(mm).apply(vector), true);
+        if (movement_blocking_token_types.indexOf(tokentype)>=0) {
+            console.log("obstacle blocking movement");
+            return;
+        }
         partyPos.add(vector);
-        checkTokenPosition(partyPos.apply(mm), true);
     }
     checkPositionQuest(partyPos.x+"/"+partyPos.y);
     savegame.saveGameValue("position", {
@@ -198,7 +204,7 @@ export function mobWalk() {
             // todo: verify that token position check works
             if (mapManager.isFloor(mobPos.apply(directions[mob.rotation+2])) 
                 && checkMobPositionByPosition(i, mobPos.apply(directions[mob.rotation+2]))
-                && checkTokenPosition(mobPos.apply(directions[mob.rotation+2]), false)==false
+                && checkTokenPosition(mobPos.apply(directions[mob.rotation+2]), false)==null
                 ) {
                 [mob.x, mob.y]=mobPos.apply(directions[mob.rotation+2]).asArray();
             } else rotateLeftOrRight(mob); 
@@ -332,11 +338,12 @@ function checkTokenPosition(position, trigger) {
                 if (token.action.type=="switch") {
                     mapManager.showSwitchDialog(token.action.message, token.action.keyname);
                 }
+                // no action for obstacle
             }
-            return true;
+            return (token.action==undefined || token.action.type==undefined)?"pick":token.action.type;
         }
     }
-    return false;
+    return null;
 }
 
 // checks if a closed or open door is at the position
