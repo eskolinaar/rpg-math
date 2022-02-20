@@ -417,5 +417,12 @@
         "symbol":"boulder.png",
         "mesh":"boulder.glb",
         "type":"token"
+    },
+    "63": {
+        "id":"63",
+        "name":"paw",
+        "symbol":"paw.png",
+        "mesh":"paw.glb",
+        "type":"token"
     }
 }
