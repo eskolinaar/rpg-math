@@ -424,5 +424,13 @@
         "symbol":"paw.png",
         "mesh":"paw.glb",
         "type":"token"
+    },
+    "64": {
+        "id":"64",
+        "name":"sorceress",
+        "symbol":"sorceress.png",
+        "mesh":"sorceress.glb",
+        "type":"mob",
+        "life": "5"
     }
 }
