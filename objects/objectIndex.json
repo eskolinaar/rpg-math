@@ -432,5 +432,13 @@
         "mesh":"sorceress.glb",
         "type":"mob",
         "life": "5"
+    },
+    "65": {
+        "id":"65",
+        "name":"hedgehog",
+        "symbol":"hedgehog.png",
+        "mesh":"hedgehog.glb",
+        "type":"mob",
+        "life": "3"
     }
 }
