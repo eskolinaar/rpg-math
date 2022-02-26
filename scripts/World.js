@@ -79,7 +79,10 @@ export function initWorld() {
     $("body").on("spawnMob", (ev, mob) => { spawnMob(mob); });   
 
     $("body").off("removeFog");
-    $("body").on("removeFog", () => { scene.fog=undefined;  });  
+    $("body").on("removeFog", () => { scene.fog=undefined;  });
+
+    $("body").off("teleport");
+    $("body").on("teleport", () => { resetCameraPosition(); });
 
     if (window.location.hash=="#bc_map") {
         window.location.hash="";
@@ -765,7 +768,7 @@ function loadMob(mob) {
         cube.position.z=mob.y;     
         cube.rotation.y=mob.rotation*rad;
 
-        // opacity
+        // opacity & color
         let skin=getSkin(cube);
         cube.skin=skin;
         if (skin !== undefined) {
@@ -774,6 +777,12 @@ function loadMob(mob) {
             if (window.gamedata.objectIndex[mob.id].opacity !== undefined) {
                 skin.opacity = parseFloat(window.gamedata.objectIndex[mob.id].opacity);
                 skin.blending=THREE.AdditiveBlending;
+            }
+            // color
+            if (mob.color!==undefined) {
+                skin.color.r=mob.color.r;
+                skin.color.g=mob.color.g;
+                skin.color.b=mob.color.b;
             }
         } else {
             console.log("transparency failed for ", mob.id, window.gamedata.objectIndex[mob.id].opacity);
@@ -850,4 +859,9 @@ export function setPartyPosition(pos) {
 
 export function getCameraDiff() {
     return Math.abs(parseInt(camera.position.x)-parseInt(partyPos.x)+1)+Math.abs(parseInt(camera.position.z)-parseInt(partyPos.y)+1);
+}
+
+function resetCameraPosition() {
+    camera.position.x=(partyPos.x+window.gamedata.camera.deltaX-1);
+    camera.position.z=(partyPos.y+window.gamedata.camera.deltaY-1);
 }

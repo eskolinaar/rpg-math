@@ -48,7 +48,7 @@ export class MapManager {
 	}
 
 	loadMapInternal(data) {
-        var data_obj=parseJSON(data);
+        let data_obj=parseJSON(data);
 
 		if (this.mapName==undefined) this.mapName=data_obj.mapName;
 		savegame.setMap(this.mapName);
@@ -60,6 +60,10 @@ export class MapManager {
 		this.allMobs=JSON.parse(JSON.stringify(this.mobs));
         if (data_obj.token!=undefined) this.token=data_obj.token; else this.token=new Array();
 		this.allToken=JSON.parse(JSON.stringify(this.token));
+
+		if (data_obj.resetValues!==undefined) {
+			data_obj.resetValues.split(",").forEach((keyname) => this.resetSwitchState(keyname));
+		}
 
         window.gamedata.direction=3;
         if (data_obj.direction!=undefined) window.gamedata.direction=parseInt(data_obj.direction);
@@ -357,6 +361,11 @@ export class MapManager {
 		let state=savegame.loadMapValue("switch#"+keyname);
 		console.log("loadSwitchState, loading '"+keyname+"', '"+state+"'");
 		return state;
+	}
+
+	resetSwitchState(keyname) {
+		savegame.saveMapValue("switch#"+keyname, undefined);
+		console.log("resetSwitchState, resetting '"+keyname+"'");
 	}
 
 }

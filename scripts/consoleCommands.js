@@ -16,6 +16,7 @@ function enableCheats() {
 function teleport(x, y) {
 	$("body").trigger("forceEndCombat");     
 	$("body").trigger("move", { x:x, y:y });
+	$("body").trigger("teleport");
 }
 
 function getPosition() {
