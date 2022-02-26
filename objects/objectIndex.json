@@ -440,5 +440,12 @@
         "mesh":"hedgehog.glb",
         "type":"mob",
         "life": "3"
+    },
+    "66": {
+        "id":"66",
+        "name":"campfire",
+        "symbol":"campfire.png",
+        "mesh":"campfire.glb",
+        "type":"token"
     }
 }
