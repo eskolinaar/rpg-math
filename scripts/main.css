@@ -490,6 +490,26 @@ input[type="file"] {
     border: 2px solid #888;
 }
 
+#compass_ui {
+	position: absolute;
+	top: 0;
+	left: 46vw;
+	width: 80px;
+	text-align: center;
+	background-color: #bbb;
+	text-shadow: 0 0 2px #333;
+	font-size: 24px;
+	padding: 1.5vw;
+	z-index: 1;
+	border-bottom-left-radius: 40px;
+	border-bottom-right-radius: 40px;
+	color: #000;
+}
+
+#compass_ui:empty {
+	display:none;
+}
+
 @media (orientation: portrait) {
 	.message {
 	    top: 0;
@@ -510,6 +530,10 @@ input[type="file"] {
 	}	
 
 	#difficulty_ui {
+		display:none;
+	}
+
+	#compass_ui {
 		display:none;
 	}
 
@@ -539,7 +563,11 @@ input[type="file"] {
 
 	ui-globe#player_life {
 	    display:none;
-	}	
+	}
+
+	#compass_ui {
+		display:none;
+	}
 
 	select option {
 	    padding: 5px 25px;

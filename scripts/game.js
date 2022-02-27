@@ -63,6 +63,14 @@ export function i18n(key) {
                 return "Erwecke Monster zum Leben ...";
             case 'token_instance':
                 return "Erstelle Token ...";
+            case 'north':
+                return "Norden";
+            case 'east':
+                return "Osten";
+            case 'south':
+                return "S&uuml;den";
+            case 'west':
+                return "Westen";
         }
     }
     switch (key) {
@@ -80,6 +88,14 @@ export function i18n(key) {
             return "waking up monsters ...";
         case 'token_instance':
             return "distributing objects ...";
+        case 'north':
+            return "north";
+        case 'east':
+            return "east";
+        case 'south':
+            return "south";
+        case 'west':
+            return "west";
     }
 }
 

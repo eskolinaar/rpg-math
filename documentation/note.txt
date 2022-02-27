@@ -1,23 +1,24 @@
-different colors for mobs
--- done
 
 add objects:
- camp fire
  table chair
  bed
+ wegweiser
+ schild
 
 wall auto rotation based on neighbors for fences
 
-reset stored values on map load if specified in map
--- done
-
-teleport move camera instant
--- done
 
 "spell" to memorize location
 2nd spell to teleport there
 memorize more locations
 make interface
+
+travel with confirmation popup
+
+make quest set value
+make token pickup set value
+
+animation on quest completion if not end of map
 
 
 

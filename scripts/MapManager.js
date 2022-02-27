@@ -3,7 +3,7 @@
 import { parseJSON, Position } from './helper.js';
 import {onMapLoaded, partyPos} from './World.js';
 import { Quest } from './quests.js';
-import { setPaused, evaluateDoorStates } from './movement.js';
+import {setPaused, evaluateDoorStates, updateCompass} from './movement.js';
 import { savegame, showMessage } from "./game.js";
 
 export class MapManager {
@@ -67,6 +67,7 @@ export class MapManager {
 
         window.gamedata.direction=3;
         if (data_obj.direction!=undefined) window.gamedata.direction=parseInt(data_obj.direction);
+		updateCompass();
 
         this.charPos=new Position(parseInt(data_obj.x), parseInt(data_obj.y));
 		savegame.saveGameValue("position", {

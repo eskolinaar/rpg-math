@@ -3,7 +3,7 @@
 import { Vector, Position } from './helper.js';
 import { mapManager, partyPos, scene, setPartyPosition, getCameraDiff, moveCameraTop } from './World.js';
 import { startCombat, damage, select, playerDeath } from './combat.js';
-import { showMessage, isCheatingEnabled, savegame } from './game.js';
+import { showMessage, isCheatingEnabled, savegame, i18n } from './game.js';
 import { Expression } from  './expression.js';
 import { Quest } from "./quests.js";
 
@@ -233,6 +233,7 @@ function checkCombat() {
             console.log("mob "+i+" on 0", window.gamedata.direction+2);
             console.log(mapManager.getMob(i));
             window.gamedata.direction=2;
+            updateCompass();
             mapManager.getMob(i).rotation=0;
             startCombat();
             return;
@@ -242,6 +243,7 @@ function checkCombat() {
             console.log("mob "+i+" on 1", window.gamedata.direction+2);
             console.log(mapManager.getMob(i));
             window.gamedata.direction=3;
+            updateCompass();
             mapManager.getMob(i).rotation=1;
             startCombat();
             return;
@@ -251,6 +253,7 @@ function checkCombat() {
             console.log("mob "+i+" on 2", window.gamedata.direction+2);
             console.log(mapManager.getMob(i));
             window.gamedata.direction=4;
+            updateCompass();
             mapManager.getMob(i).rotation=2;
             startCombat();
             return;
@@ -260,6 +263,7 @@ function checkCombat() {
             console.log("mob "+i+" on 3", window.gamedata.direction+2);
             console.log(mapManager.getMob(i));
             window.gamedata.direction=5;
+            updateCompass();
             mapManager.getMob(i).rotation=3;
             startCombat();
             return;
@@ -433,6 +437,23 @@ export function setPaused(val) {
     paused=val;
 }
 
+export function updateCompass() {
+    switch (window.gamedata.direction%4) {
+        case 0:
+            $("#compass_ui").html(i18n("south"));
+            break;
+        case 1:
+            $("#compass_ui").html(i18n("east"));
+            break;
+        case 2:
+            $("#compass_ui").html(i18n("north"));
+            break;
+        case 3:
+            $("#compass_ui").html(i18n("west"));
+            break;
+    }
+}
+
 //
 // static Methods for Party Actions
 //
@@ -471,6 +492,7 @@ class Actions {
         if (targetMob>-1) return;
         window.gamedata.direction+=1;        
         window.gamedata.direction=window.gamedata.direction%4;
+        updateCompass();
         //mobWalk();
         checkCombat();
     }
@@ -480,6 +502,7 @@ class Actions {
         if (targetMob>-1) return;
         window.gamedata.direction+=3;        
         window.gamedata.direction=window.gamedata.direction%4;
+        updateCompass();
         //mobWalk();
         checkCombat();
     }
