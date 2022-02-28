@@ -106,7 +106,7 @@ export function registerKeyStrokes() {
     });
 
     $("body").on("position", () => {
-        console.log(partyPos);
+        console.log(partyPos, {direction:window.gamedata.direction});
     });
 
 }
@@ -320,7 +320,7 @@ function checkTokenPosition(position, trigger) {
         if (token.x==position.x && token.y==position.y) {
             if (trigger==true) {
                 if (token.action==undefined || token.action.type==undefined || token.action.type=="pick") {
-                    pickToken(token.object, i, token.id);
+                    pickToken(token, i);
                 } else
                 if (token.action.type=="travel") {
                     if (token.action.map==undefined) {
@@ -371,16 +371,18 @@ function compileSwitchStates() {
     for (let i=0;i<mapManager.getTokenDataLength();i++) {
         let token=mapManager.getTokenData()[i];
         if (token.action==undefined || token.action.type==undefined) continue;
-        if (token.action.type=="switch") {
-            states[token.action.keyname]=mapManager.loadSwitchState(token.action.keyname);
+        if (token.action.keyname==undefined) continue;
+        if (["switch", "pick"].indexOf(token.action.type)>=0) {
+            states[token.action.keyname] = mapManager.loadSwitchState(token.action.keyname);
         }
     }
+    console.log("compileSwitchStates, returning ", states);
     return states;
 }
 
 function evaluateDoorState(keyname, states) {
     let state = (new Expression(keyname).solveAll(states).getValue());
-//    console.log("evaluateDoorState, solving to ", state);
+    console.log("evaluateDoorState, solving to ", state);
     return state=="1";
 }
 
@@ -421,10 +423,14 @@ export function evaluateDoorStates(changedVarName) {
     }
 }
 
-function pickToken(obj, i, id) {
-    console.log("pickToken", obj, i);
-    $("body").trigger({ type:"token", filter:id });
-    scene.remove(obj);
+function pickToken(tok, i) {
+    console.log("pickToken", tok.object, i);
+    $("body").trigger({ type:"token", filter:tok.id });
+    if (tok?.action?.keyname!=undefined) {
+        mapManager.openSwitchDialog=tok.action.keyname;
+        mapManager.saveSwitchState(1);
+    }
+    scene.remove(tok.object);
     mapManager.removeToken(i);   
 }
 

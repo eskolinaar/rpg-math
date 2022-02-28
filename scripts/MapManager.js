@@ -65,6 +65,12 @@ export class MapManager {
 			data_obj.resetValues.split(",").forEach((keyname) => this.resetSwitchState(keyname));
 		}
 
+		if (data_obj.showcompass=="true") {
+			$("#compass_ui").show();
+		} else {
+			$("#compass_ui").hide();
+		}
+
         window.gamedata.direction=3;
         if (data_obj.direction!=undefined) window.gamedata.direction=parseInt(data_obj.direction);
 		updateCompass();
@@ -262,7 +268,7 @@ export class MapManager {
 	}
 
 	removeToken(idx) {
-		this.token.splice(idx, 1);
+		this.token[idx].x=-1;//splice(idx, 1);
 	}
 
 	getQuest() {
@@ -365,7 +371,7 @@ export class MapManager {
 	}
 
 	resetSwitchState(keyname) {
-		savegame.saveMapValue("switch#"+keyname, undefined);
+		savegame.saveMapValue("switch#"+keyname, "0");
 		console.log("resetSwitchState, resetting '"+keyname+"'");
 	}
 

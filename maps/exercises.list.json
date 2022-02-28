@@ -2,6 +2,7 @@
 	"mode":"mapChangeOnQuestComplete",
     "order": "random",
 	"maps":[
+        "m2022-02-28-fetch-gem.map.json",
         "m2021-12-05-km-geisterwache.map.json",
         "m2021-06-26.map.json",
         "m2021-06-03.map.json",

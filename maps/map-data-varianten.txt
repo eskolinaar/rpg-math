@@ -15,6 +15,9 @@ TOKEN:
 
     // Portal mit Map-Wechsel
     {"id":"40","x":20,"y":0, "action": { "type":"travel", "map":"mapchange2.map.json", "x":"6", "y":"28", "direction":"1" }}
+
+    // token mit message
+      {"id":"28","x":2,"y":8,"rotation":1, "action": {"type": "message", "message": {"en":"Hello","de":"Hallo"}}}
 ]
 
 
@@ -73,3 +76,8 @@ MONSTER:
 
 
 ]
+
+MAP:
+======
+
+"resetValues": "a",

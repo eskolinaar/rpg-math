@@ -447,5 +447,12 @@
         "symbol":"campfire.png",
         "mesh":"campfire.glb",
         "type":"token"
+    },
+    "67": {
+        "id":"67",
+        "name":"crystal",
+        "symbol":"crystal.png",
+        "mesh":"crystal.glb",
+        "type":"token"
     }
 }

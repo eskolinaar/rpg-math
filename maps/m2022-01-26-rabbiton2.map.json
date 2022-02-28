@@ -25,10 +25,22 @@
     {"id":"31","x":19,"y":13,"action":{"type":"obstacle"}},
     {"id":"44","x":18,"y":20},
     {"id":"44","x":18,"y":19},
-    {"id":"40","x":17,"y":24},
-    {"id":"40","x":9,"y":11},
-    {"id":"40","x":23,"y":13},
-    {"id":"40","x":15,"y":8},
+    {"id":"40","x":17,"y":24,"action":{"type":"travel", "map":"m2022-01-26-rabbiton1.map.json", "x":"24", "y":"4", "direction":"1" }},
+    {"id":"40","x":9,"y":11,"action":{"type":"message",
+      "message": {
+        "en":"Not yet unlocked",
+        "de":"Hier kommt später mal was."
+      }}},
+    {"id":"40","x":23,"y":13,"action":{"type":"message",
+      "message": {
+        "en":"Not yet unlocked",
+        "de":"Hier kommt später mal was."
+      }}},
+    {"id":"40","x":15,"y":8,"action":{"type":"message",
+      "message": {
+        "en":"Not yet unlocked",
+        "de":"Hier kommt später mal was."
+      }}},
     {
       "id":"66","x":15,"y":16,
       "action":{
