@@ -10,5 +10,5 @@
 "mobs":[{"id":"43","x":14,"y":10,"life":"3","mode":"peaceful","movement":"none","rotation":"1"},{"id":"43","x":18,"y":24,"life":"3","mode":"peaceful","movement":"none","rotation":"3"},{"id":"43","x":24,"y":18,"life":"3","mode":"peaceful","movement":"none","rotation":"3"},{"id":"43","x":11,"y":13,"life":"3","mode":"peaceful","movement":"none","rotation":"3"}], 
 "token":[{"id":"26","x":8,"y":13}], 
 "quest":{"event":"token","amount":"1","template":{"en":"{} of {} keys","de":"{} von {} Schlüssel"}}, 
-"introtext": {"de":"Ein Hase hat seinen Schlüssel vergessen. Kannst du ihn holen?","en":"A rabbit has lost his key. Can you find it."}
+"introtext": {"de":"Ein Hase hat seinen Schlüssel vergessen. Kannst du ihn holen?","en":"This rabbit has lost his key. Can you find it?"}
 }

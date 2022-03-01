@@ -328,9 +328,7 @@ function checkTokenPosition(position, trigger) {
                     } else {
                         // map change
                         mapManager.disposeMobs();
-                        mapManager.loadMap(token.action.map);
-
-                        console.log("map change nyi");
+                        mapManager.loadMapWithPosition(token.action.map, { x:token.action.x, y:token.action.y, dir:token.action.direction});
                     }
                 } else
                 if (token.action.type=="message") {

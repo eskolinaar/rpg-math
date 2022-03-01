@@ -68,16 +68,19 @@ export function endCombat(m) {
     console.log("endCombat, combat ended with ", window.gamedata.objectIndex[m.id].name);
     $("body").trigger({ type:"winCombat"});
     $("body").trigger({ type:"kill", filter:m.id, var: { mob: window.gamedata.objectIndex[m.id].name }});
+    $(".mob_life").fadeOut();
+    $("#movement_ui").show();
+    $("#main").html("");
+    $("#main").hide();
     setTimeout(() => {
+        $("#main").html("");
         console.log("damage, mob dies and is removed", m);
         scene.remove(m.object);
         mapManager.removeMob(targetMob);
         resetTargetMob();
-        $(".mob_life").fadeOut();
-        $("#movement_ui").show();
-        $("#main").html("");
         $("body").off("mistake", mistake);
         $("body").off("correct", correct);
+        $("#main").show();
     }, 1200);
 }
 

@@ -15,5 +15,5 @@
 ],
 "token":[{"id":"44","x":16,"y":4},{"id":"44","x":10,"y":5},{"id":"44","x":6,"y":10},{"id":"44","x":16,"y":17},{"id":"44","x":11,"y":10}], 
 "quest":{"event":"token","amount":"3","template":{"en":"{} of {} carrots collected","de":"{} von {} Karotten geerntet"}}, 
-"introtext": {"de":"Die Hasen haben Hunger. Kannst du Karotten für sie sammeln?","en":"The rabbits are hungry. Could you find some  carrots?"}
+"introtext": {"de":"Die Hasen haben Hunger. Würdest du Karotten für sie sammeln?","en":"Carrots are yummy? Lets find some."}
 }

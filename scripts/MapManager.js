@@ -28,15 +28,35 @@ export class MapManager {
 	}
 
 	loadMap(mapName) {
-		if (mapName==undefined || mapName==null) return;
+		if (mapName === undefined || mapName == null) return;
 		console.log("loadMap, loading ", mapName);
 
 		this.mapName=mapName;
 		savegame.saveGameValue("currentmap", mapName);
 
 		this.map=[];
-		for (var i=0;i<30*30;i++) { this.map.push(0); }
-	    $.get( "maps/"+this.mapName, (data) => { this.loadMapInternal(data); });
+		for (let i=0;i<30*30;i++) { this.map.push(0); }
+	    $.get( "maps/"+this.mapName, (data) => {
+			this.loadMapInternal(data);
+			onMapLoaded();
+		});
+	}
+
+	loadMapWithPosition(mapName, position) {
+		if (mapName===undefined || mapName == null) return;
+		console.log("loadMap, loading ", mapName);
+
+		this.mapName=mapName;
+		savegame.saveGameValue("currentmap", mapName);
+
+		this.map=[];
+		for (let i=0;i<30*30;i++) { this.map.push(0); }
+		$.get( "maps/"+this.mapName, (data) => {
+			this.loadMapInternal(data);
+			this.charPos=new Position(parseInt(position.x), parseInt(position.y));
+			if (position.dir!==undefined) { window.gamedata.direction=parseInt(position.dir); updateCompass(); }
+			onMapLoaded();
+		});
 	}
 
 	loadMapFromData(rawMapData) {
@@ -45,6 +65,7 @@ export class MapManager {
 	    console.log("loadMap, loading from data");
 
 		this.loadMapInternal(rawMapData);
+		onMapLoaded();
 	}
 
 	loadMapInternal(data) {
@@ -132,8 +153,6 @@ export class MapManager {
         	intro_i18n=this.intro[window.gamedata.language];
         }
 		$(".level_introtext").text(intro_i18n);
-
-        onMapLoaded();
 
     }
 
