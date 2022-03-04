@@ -343,6 +343,14 @@ export class MapManager {
 		this.openSwitchDialog=keyname;
 		$(".switch_message_de .switch_text_placeholder").html(message.de.replaceAll("\n", "<br>"));
 		$(".switch_message_en .switch_text_placeholder").html(message.en.replaceAll("\n", "<br>"));
+		let state = this.loadSwitchState(keyname);
+		if (state=="1") {
+			$("[data-id=switch_on]").addClass("active");
+			$("[data-id=switch_off]").removeClass("active");
+		} else {
+			$("[data-id=switch_off]").addClass("active");
+			$("[data-id=switch_on]").removeClass("active");
+		}
 		setPaused(true);
 		showMessage("switch_message");
 	}

@@ -201,7 +201,8 @@
         "name":"hydra",
         "mesh":"hydra3.glb",
         "symbol":"hydra.png",
-        "type":"mob"
+        "type":"mob",
+        "life":"7"
     },
     "34":{
         "id":"34",

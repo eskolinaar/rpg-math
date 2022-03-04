@@ -225,6 +225,11 @@ ul.index {
     cursor:pointer;
 }
 
+.message button.active {
+	box-shadow:0 0 10px #fff;
+	border-color:#000;
+}
+
 button p {
     color: #888;
     font-size: 14px;
