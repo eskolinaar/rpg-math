@@ -361,6 +361,7 @@ function initModelAndScene() {
         });        
     });
     $("body").on("click", "button.load", function (ev) {
+        $("body").trigger("forceEndCombat");
         let maplist=$(ev.currentTarget).attr("data-load");
         console.log("should load maplist", maplist);
 
