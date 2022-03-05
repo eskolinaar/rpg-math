@@ -153,7 +153,7 @@ export class MapManager {
         	intro_i18n=this.intro[window.gamedata.language];
         }
 		$(".level_introtext").text(intro_i18n);
-
+		$("button.needs_map").show();
     }
 
 	chooseTemplate(tpl) {

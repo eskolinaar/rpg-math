@@ -108,6 +108,7 @@ function initGame() {
     mathLoader = new RandomMath();
     statistics = new Statistic();
     savegame = new SaveGame();
+    $("button.needs_map").hide();
     initAnimations();
     registerKeyStrokes();
     initModelAndScene();     
@@ -214,15 +215,6 @@ function initModelAndScene() {
     window.gamedata.player.current_life=10;
 
     window.gamedata.currentmap=0;
-    window.gamedata.maps=[
-        "m2021-06-26.map.json",
-        "m2021-05-22.map.json",
-        "m2021-06-03.map.json",
-        "m2021-01-30.map.json",
-        "m2021-03-08.map.json",
-        "m2021-03-09.map.json",
-        "m2021-02-19.map.json"
-    ];
 
     activateRegenerationLoop(1000);  
     clearInterval(sufferTime);
