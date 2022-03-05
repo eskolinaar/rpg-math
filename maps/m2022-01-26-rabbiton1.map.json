@@ -3,7 +3,7 @@
 "mapname":"rabbiton1",
 "height": "30", 
 "width": "30",
-"fog": "",
+"fog": "none",
 "light": "5",
 "x" : "13", 
 "y" : "26", 
