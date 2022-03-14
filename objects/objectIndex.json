@@ -455,5 +455,12 @@
         "symbol":"crystal.png",
         "mesh":"crystal.glb",
         "type":"token"
+    },
+    "68": {
+        "id":"68",
+        "name":"stoneportal",
+        "symbol":"stoneportal.png",
+        "mesh":"stoneportal.glb",
+        "type":"token"
     }
 }
