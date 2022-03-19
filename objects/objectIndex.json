@@ -462,5 +462,12 @@
         "symbol":"stoneportal.png",
         "mesh":"stoneportal.glb",
         "type":"token"
+    },
+    "69": {
+        "id":"69",
+        "name":"cookingpot",
+        "symbol":"cookingpot.png",
+        "mesh":"cookingpot.glb",
+        "type":"token"
     }
 }
