@@ -469,5 +469,54 @@
         "symbol":"cookingpot.png",
         "mesh":"cookingpot.glb",
         "type":"token"
+    },
+    "70": {
+        "id":"70",
+        "name":"egg_twig",
+        "symbol":"egg_twig.png",
+        "mesh":"egg_twig.glb",
+        "type":"token"
+    },
+    "71": {
+        "id":"71",
+        "name":"egg_rainbow",
+        "symbol":"egg_rainbow.png",
+        "mesh":"egg_rainbow.glb",
+        "type":"token"
+    },
+    "72": {
+        "id":"72",
+        "name":"egg_rabbit",
+        "symbol":"egg_rabbit.png",
+        "mesh":"egg_rabbit.glb",
+        "type":"token"
+    },
+    "73": {
+        "id":"73",
+        "name":"egg_monster",
+        "symbol":"egg_monster.png",
+        "mesh":"egg_monster.glb",
+        "type":"token"
+    },
+    "74": {
+        "id":"74",
+        "name":"egg_k1",
+        "symbol":"egg_k1.png",
+        "mesh":"egg_k1.glb",
+        "type":"token"
+    },
+    "75": {
+        "id":"75",
+        "name":"egg_k2",
+        "symbol":"egg_k2.png",
+        "mesh":"egg_k2.glb",
+        "type":"token"
+    },
+    "76": {
+        "id":"76",
+        "name":"egg_twig2",
+        "symbol":"egg_twig2.png",
+        "mesh":"egg_twig2.glb",
+        "type":"token"
     }
 }
