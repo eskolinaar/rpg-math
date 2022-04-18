@@ -518,5 +518,12 @@
         "symbol":"egg_twig2.png",
         "mesh":"egg_twig2.glb",
         "type":"token"
+    },
+    "77": {
+        "id":"77",
+        "name":"apple",
+        "symbol":"apple.png",
+        "mesh":"apple.glb",
+        "type":"token"
     }
 }
