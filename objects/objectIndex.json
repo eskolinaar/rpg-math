@@ -525,5 +525,12 @@
         "symbol":"apple.png",
         "mesh":"apple.glb",
         "type":"token"
+    },
+    "78": {
+        "id":"78",
+        "name":"sign",
+        "symbol":"sign.png",
+        "mesh":"sign.glb",
+        "type":"token"
     }
 }
