@@ -55,7 +55,8 @@ var keyBindings = {
     102: "camRight",
     104: "camUp",
     98: "camDown",
-    111: "camForward"
+    111: "camForward",
+    110: "camBackward"
 }
 
 
@@ -581,6 +582,17 @@ class Actions {
 
     static spectator() {
         spectatorMode=!spectatorMode;
+        if (spectatorMode) {
+            $("#difficulty_ui").hide();
+            $("#quest_ui").hide();
+            $("#combat_ui").hide();
+            $("#movement_ui").hide();
+        } else {
+            $("#difficulty_ui").show();
+            $("#quest_ui").show();
+            $("#combat_ui").show();
+            $("#movement_ui").show();
+        }
     }
 
     static camAsc() {
@@ -612,6 +624,6 @@ class Actions {
     }
 
     static camBackward() {
-        modifyCamera("forward");
+        modifyCamera("backward");
     }
 }

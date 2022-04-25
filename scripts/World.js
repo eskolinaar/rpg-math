@@ -892,5 +892,12 @@ export function modifyCamera(mode) {
             camera.position.y+=cdir.y*0.3;
             camera.position.z+=cdir.z*0.3;
             break;
+        case "backward":
+            // camera.rotation.x-=0.1*rad; break;
+            cdir=camera.getWorldDirection();
+            camera.position.x-=cdir.x*0.3;
+            camera.position.y-=cdir.y*0.3;
+            camera.position.z-=cdir.z*0.3;
+            break;
     }
 }
