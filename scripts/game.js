@@ -1,6 +1,14 @@
 "use strict";
 import { render, initWorld, registerWindowResizeHandler, mapManager } from './World.js';
-import { registerKeyStrokes, activateRegenerationLoop, mobWalk, targetMob, paused, setPaused } from './movement.js';
+import {
+    registerKeyStrokes,
+    activateRegenerationLoop,
+    mobWalk,
+    targetMob,
+    paused,
+    setPaused,
+    spectatorMode
+} from './movement.js';
 import { RandomMath } from './Math.js';
 import { suffer } from './combat.js';
 import { Statistic } from './statistics.js';
@@ -223,7 +231,7 @@ function initModelAndScene() {
         if (!paused) suffer();
     }, 5000); 
     walkerTime=setInterval(() => {
-        if (targetMob<0 && paused==false) {
+        if (targetMob<0 && paused==false && spectatorMode==false) {
             mobWalk();
         }
     }, 1500); 

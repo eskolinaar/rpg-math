@@ -1,7 +1,7 @@
 "use strict";
 
 import { Vector, Position } from './helper.js';
-import { mapManager, partyPos, scene, setPartyPosition, getCameraDiff, moveCameraTop } from './World.js';
+import {mapManager, partyPos, scene, setPartyPosition, getCameraDiff, modifyCamera} from './World.js';
 import { startCombat, damage, select, playerDeath } from './combat.js';
 import { showMessage, isCheatingEnabled, savegame, i18n } from './game.js';
 import { Expression } from  './expression.js';
@@ -25,6 +25,7 @@ export var mm=new Vector(-1, -1);
 export var targetMob=-1;
 export var onTop=0;
 export var paused=true;
+export var spectatorMode=false;
 var regenerationLoop=null;
 
 var keyBindings = {
@@ -45,7 +46,16 @@ var keyBindings = {
     75: "kill",
     77: "math",
     27: "pause",
-    85: "levelchange"
+    85: "levelchange",
+    13: "spectator",
+    33: "camAsc",
+    34: "camDesc",
+    35: "removeFog",
+    100: "camLeft",
+    102: "camRight",
+    104: "camUp",
+    98: "camDown",
+    111: "camForward"
 }
 
 
@@ -74,10 +84,6 @@ export function registerKeyStrokes() {
             }
         }
 
-        // go to player perspective
-        if (event.keyCode==171) { 
-            Actions.showEgoPerspective();
-        }
     });
 
     // movement Arrows
@@ -569,27 +575,43 @@ class Actions {
         checkCombat();
     }
 
-    static showMap() {
-        moveCameraTop();
-
-        if (onTop==0) {
-            onTop=1;
-        }                
+    static removeFog() {
+        if (spectatorMode) $("body").trigger("removeFog");
     }
 
-    static showEgoPerspective() {
-        let rad=90 * Math.PI / 180;
-        camera.rotation.y=window.gamedata.direction*rad+rotationoffset;
-        camera.rotation.x=0;
-
-        camera.position.x=partyPos.x-1;
-        camera.position.z=partyPos.y-1;
-        camera.position.y=1.58; 
-
-        if (onTop==1) {
-            scene.remove( light_all );
-            onTop=0;
-        }
+    static spectator() {
+        spectatorMode=!spectatorMode;
     }
 
+    static camAsc() {
+        modifyCamera("ascend");
+    }
+
+    static camDesc() {
+        modifyCamera("descend");
+    }
+
+    static camLeft() {
+        modifyCamera("left");
+    }
+
+    static camRight() {
+        modifyCamera("right");
+    }
+
+    static camUp() {
+        modifyCamera("up");
+    }
+
+    static camDown() {
+        modifyCamera("down");
+    }
+
+    static camForward() {
+        modifyCamera("forward");
+    }
+
+    static camBackward() {
+        modifyCamera("forward");
+    }
 }

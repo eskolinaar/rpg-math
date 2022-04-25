@@ -3,9 +3,9 @@
 "use strict";
 
 import { GLTFLoader } from './GLTFLoader-r124.js';
-import { parseJSON, Position } from './helper.js';
+import {parseJSON, Position, Vector} from './helper.js';
 import { MapManager } from './MapManager.js';
-import {onTop, setPaused, directions, evaluateInitialDoorStates } from './movement.js';
+import {onTop, setPaused, directions, evaluateInitialDoorStates, spectatorMode} from './movement.js';
 import { i18n, showMessage, getLanguage } from './game.js';
 import { Water } from './Water2.js';
 
@@ -395,7 +395,7 @@ export function render() {
     // animate player position
     //
     
-    if (onTop==0) { // when being in top down view. apply no camera changes
+    if (onTop==0 && spectatorMode==false) { // when being in top down view. apply no camera changes   && spectatorMode
         if (camera == undefined) return;
 
         // X
@@ -864,4 +864,33 @@ export function getCameraDiff() {
 function resetCameraPosition() {
     camera.position.x=(partyPos.x+window.gamedata.camera.deltaX-1);
     camera.position.z=(partyPos.y+window.gamedata.camera.deltaY-1);
+}
+
+// spectatorMode only
+export function modifyCamera(mode) {
+    if (!spectatorMode) return;
+    let cdir=undefined;
+    switch (mode) {
+        case "ascend":
+            camera.position.y+=0.1; break;
+        case "descend":
+            camera.position.y-=0.1; break;
+        case "left":
+            camera.rotation.y+=0.1*rad; break;
+        case "right":
+            camera.rotation.y-=0.1*rad; break;
+        case "up":
+           // camera.rotation.x+=0.1*rad;
+            break;
+        case "down":
+           // camera.rotation.x-=0.1*rad;
+            break;
+        case "forward":
+           // camera.rotation.x-=0.1*rad; break;
+            cdir=camera.getWorldDirection();
+            camera.position.x+=cdir.x*0.3;
+            camera.position.y+=cdir.y*0.3;
+            camera.position.z+=cdir.z*0.3;
+            break;
+    }
 }
