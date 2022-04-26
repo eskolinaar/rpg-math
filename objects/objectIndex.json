@@ -532,5 +532,12 @@
         "symbol":"sign.png",
         "mesh":"sign.glb",
         "type":"token"
+    },
+    "79": {
+        "id":"79",
+        "name":"sword",
+        "symbol":"sword.png",
+        "mesh":"sword.glb",
+        "type":"token"
     }
 }
