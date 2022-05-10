@@ -166,7 +166,8 @@ export function onMapLoaded() {
     camera.position.x=partyPos.x+window.gamedata.camera.deltaX-1;
     camera.position.z=partyPos.y+window.gamedata.camera.deltaY-1;
     camera.position.y=window.gamedata.camera.deltaZ; 
-    camera.rotation.y=(window.gamedata.direction)*rad+rotationoffset;    
+    camera.rotation.y=(window.gamedata.direction)*rad+rotationoffset;
+    window.gamedata.worldcam=camera;
 
     scene = new THREE.Scene();
 
@@ -884,6 +885,11 @@ export function modifyCamera(mode) {
             break;
         case "down":
            // camera.rotation.x-=0.1*rad;
+            camera.lookAt(
+              camera.position.x+camera.getWorldDirection().x*3,
+              0,
+              camera.position.z+camera.getWorldDirection().z*3
+            );
             break;
         case "forward":
            // camera.rotation.x-=0.1*rad; break;
