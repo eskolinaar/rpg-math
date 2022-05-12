@@ -96,7 +96,7 @@
     "17":{
         "id":"17",
         "name":"Golem",
-        "mesh":"golem4.glb",
+        "mesh":"golem5.glb",
         "symbol":"golem.png",
         "type":"mob",
         "life":"8"

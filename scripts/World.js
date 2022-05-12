@@ -807,6 +807,14 @@ function loadMob(mob) {
                 mob.dieing=false;
                 mob.die.clampWhenFinished=true;
             }
+            mob.attack=getActionByName(mob.mixer, mob.animations, "Attack");
+            if (mob.attack!=undefined) {
+                mob.attacking=false;
+                mob.attack.clampWhenFinished=true;
+                mob.attack.iterations=1;
+                mob.attack.loop=THREE.LoopOnce;
+                mob.attack.setDuration(0.5);
+            }
         }          
     }, undefined, ( e ) => {
         console.error( e );
