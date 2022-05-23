@@ -1,5 +1,5 @@
 "use strict";
-import { render, initWorld, registerWindowResizeHandler, mapManager } from './World.js';
+import {render, initWorld, registerWindowResizeHandler, mapManager, delta} from './World.js';
 import {
     registerKeyStrokes,
     activateRegenerationLoop,
@@ -127,6 +127,10 @@ function nyi() {
     console.log("Function not supported by browser!");
 }
 
+function fps(frames) {
+    console.log("fps, ", frames);
+}
+
 function initDifficulty(initType) {
     $("#difficulty_ui").html(i18n("difficulty")+initType);
     switch (initType) {
@@ -223,6 +227,7 @@ function initModelAndScene() {
     window.gamedata.player.current_life=10;
 
     window.gamedata.currentmap=0;
+    window.gamedata.fpsEnabled=false;
 
     activateRegenerationLoop(1000);  
     clearInterval(sufferTime);
@@ -234,6 +239,7 @@ function initModelAndScene() {
         if (targetMob<0 && paused==false && spectatorMode==false) {
             mobWalk();
         }
+        if (window.gamedata.fpsEnabled) fps(Math.floor(1/delta));
     }, 1500); 
 
     showMessage("game_mode");

@@ -35,6 +35,18 @@ function removeFog() {
 	$("body").trigger("removeFog");	
 }
 
+function removeWater() {
+	window.gamedata.scene.remove(window.gamedata.water);
+}
+
+function enableFps() {
+	window.gamedata.fpsEnabled=true;
+}
+
+function disableFps() {
+	window.gamedata.fpsEnabled=false;
+}
+
 function showCheats() {
 	console.log("CHEATS:\n"+
 	"---------------------\n"+
@@ -45,5 +57,8 @@ function showCheats() {
 	"* noDamage()\n"+
 	"* spawnMob(mob)\n"+
 	"* removeFog()\n"+
+	"* removeWater()\n"+
+	"* enableFps()\n"+
+	"* disableFps()\n"+
 	"---------------------");
 }

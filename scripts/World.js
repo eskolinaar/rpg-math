@@ -13,7 +13,7 @@ export var partyPos;
 export var damageLight;
 export var mapManager;
 export var scene;
-var delta;
+export var delta;
 var cr;
 var wr;
 var mob;
@@ -391,6 +391,7 @@ function questComplete() {
 export function render() {
     requestAnimationFrame( render );
     delta = clock.getDelta();
+
   
     //
     // animate player position
