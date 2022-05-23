@@ -140,12 +140,12 @@ span {
     bottom: 1px;
 }
 
-#mobs ul, ul#localStorage_mapview {
+#mobs ul, ul#localStorage_mapview, ul#predefined_mapview {
 	margin:0;
 	padding:0px;
 }
 
-#mobs ul li, ul#localStorage_mapview li {
+#mobs ul li, ul#localStorage_mapview li, ul#predefined_mapview li {
     font-family: verdana;
     font-size: 12px;
     list-style-type: none;

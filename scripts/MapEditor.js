@@ -628,6 +628,11 @@ $(document).ready(function () {
         showFeedbackMessage("Could not load map '"+$(this).text()+"'!");
     });
 
+    $("#loadpredefined").on("click", "li", function() {
+        console.log("loadpredefined", this, this.innerText);
+        loadMapFromFile("maps/"+this.innerText);
+    });
+
     $("button#optimize").on("click", function () {
         console.log("optimieren ...");
         // from top down
