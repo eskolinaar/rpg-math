@@ -539,5 +539,19 @@
         "symbol":"sword.png",
         "mesh":"sword.glb",
         "type":"token"
+    },
+    "80": {
+        "id":"80",
+        "name":"house",
+        "symbol":"house.png",
+        "mesh":"house.glb",
+        "type":"token"
+    },
+    "81": {
+        "id":"81",
+        "name":"letter",
+        "symbol":"letter.png",
+        "mesh":"letter.glb",
+        "type":"token"
     }
 }
