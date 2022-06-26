@@ -228,6 +228,7 @@ function initModelAndScene() {
 
     window.gamedata.currentmap=0;
     window.gamedata.fpsEnabled=false;
+    window.gamedata.animationsEnabled=true;
 
     activateRegenerationLoop(1000);  
     clearInterval(sufferTime);

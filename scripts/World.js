@@ -3,10 +3,10 @@
 "use strict";
 
 import { GLTFLoader } from './GLTFLoader-r124.js';
-import {parseJSON, Position, Vector} from './helper.js';
+import {parseJSON, Position } from './helper.js';
 import { MapManager } from './MapManager.js';
 import {onTop, setPaused, directions, evaluateInitialDoorStates, spectatorMode} from './movement.js';
-import { i18n, showMessage, getLanguage } from './game.js';
+import { i18n, showMessage } from './game.js';
 import { Water } from './Water2.js';
 
 export var partyPos;
@@ -390,180 +390,198 @@ function questComplete() {
 
 export function render() {
     requestAnimationFrame( render );
-    delta = clock.getDelta();
 
-  
-    //
-    // animate player position
-    //
-    
-    if (onTop==0 && spectatorMode==false) { // when being in top down view. apply no camera changes   && spectatorMode
-        if (camera == undefined) return;
-
-        // X
-        if (camera.position.x>(partyPos.x+window.gamedata.camera.deltaX-1)) { 
-            if (camera.position.x-(partyPos.x+window.gamedata.camera.deltaX-1)>delta*speed ) {
-                camera.position.x-=delta*speed;     
-            } else {
-                camera.position.x=(partyPos.x+window.gamedata.camera.deltaX-1);
-            }
-        } else 
-        if (camera.position.x<(partyPos.x+window.gamedata.camera.deltaX-1)) {
-            if ((partyPos.x+window.gamedata.camera.deltaX-1)-camera.position.x>delta*speed) {
-                camera.position.x+=delta*speed;     
-            } else {
-                camera.position.x=(partyPos.x+window.gamedata.camera.deltaX-1);
-            }
-        }
-        
-        // Y
-        if (camera.position.z>(partyPos.y+window.gamedata.camera.deltaY-1)) { 
-            if (camera.position.z-(partyPos.y+window.gamedata.camera.deltaY-1)>delta*speed) {
-                camera.position.z-=delta*speed;     
-            } else {
-                camera.position.z=(partyPos.y+window.gamedata.camera.deltaY-1);
-            }
-        } else 
-        if (camera.position.z<(partyPos.y+window.gamedata.camera.deltaY-1)) {
-            if ((partyPos.y+window.gamedata.camera.deltaY-1)-camera.position.z>delta*speed) {
-                camera.position.z+=delta*speed;     
-            } else {
-                camera.position.z=(partyPos.y+window.gamedata.camera.deltaY-1);
-            }
-        }
-        
+    if (window.gamedata.animationsEnabled==true) {
+        delta = clock.getDelta();
         //
-        // animate player rotation
+        // animate player position
         //
-        wr=window.gamedata.direction*rad+rotationoffset;
-        if (wr>=rad4) wr-=rad4;
-        if (camera.rotation.y!=wr) {
-            diff=((wr-camera.rotation.y)/rad);
-            if (diff>0) diff_dir="L"; else diff_dir="R";
-            if (diff>2 || diff<-2) { if (diff>0) diff_dir="R"; else diff_dir="L"; } 
-            
-            if (Math.abs(wr-camera.rotation.y)<delta*rotationspeed) {
-                camera.rotation.y=wr;
-            } else {
-                if (diff_dir=="L") {
-                    camera.rotation.y+=delta*rotationspeed; 
-                } else {
-                    if (camera.rotation.y<0) camera.rotation.y+=rad4;
-                    camera.rotation.y-=delta*rotationspeed;
-                }
-            }
-            
-            camera.rotation.y=camera.rotation.y%(rad4);
-        }
 
-        light.position.x=camera.position.x;
-        light.position.z=camera.position.z;   
-    } // onTop end
+        if (onTop == 0 && spectatorMode == false) { // when being in top down view. apply no camera changes   && spectatorMode
+            if (camera == undefined) return;
 
-    // spell Effect
-    if (spellEffect!=null && spellEffect.mixer!=undefined) spellEffect.mixer.update(delta);
-
-    //
-    // animate mob position
-    //
-    for (let i=0;i<mapManager.getMobDataLength();i++) {
-        mob=mapManager.getMob(i);
-
-        if (mob.current_life==0) {
-            mob.object.skin.opacity-=delta;
-        }
-
-        if (mob.mixer!=undefined) mob.mixer.update(delta);
-
-        if (mob.object!=undefined) {
             // X
-            if (mob.object.position.x>(mob.x)) { // -1?
-                if (mob.object.position.x-(mob.x)>delta*mobspeed) {
-                    mob.object.position.x-=delta*mobspeed;     
+            if (camera.position.x > (partyPos.x + window.gamedata.camera.deltaX - 1)) {
+                if (camera.position.x - (partyPos.x + window.gamedata.camera.deltaX - 1) > delta * speed) {
+                    camera.position.x -= delta * speed;
                 } else {
-                    mob.object.position.x=(mob.x);
+                    camera.position.x = (partyPos.x + window.gamedata.camera.deltaX - 1);
                 }
-            } else 
-            if (mob.object.position.x<(mob.x)) {
-                if ((mob.x)-mob.object.position.x>delta*mobspeed) {
-                    mob.object.position.x+=delta*mobspeed;     
+            } else if (camera.position.x < (partyPos.x + window.gamedata.camera.deltaX - 1)) {
+                if ((partyPos.x + window.gamedata.camera.deltaX - 1) - camera.position.x > delta * speed) {
+                    camera.position.x += delta * speed;
                 } else {
-                    mob.object.position.x=(mob.x);
+                    camera.position.x = (partyPos.x + window.gamedata.camera.deltaX - 1);
                 }
             }
 
             // Y
-            if (mob.object.position.z>(mob.y)) { // -1?
-                if (mob.object.position.z-(mob.y)>delta*mobspeed) {
-                    mob.object.position.z-=delta*mobspeed;     
+            if (camera.position.z > (partyPos.y + window.gamedata.camera.deltaY - 1)) {
+                if (camera.position.z - (partyPos.y + window.gamedata.camera.deltaY - 1) > delta * speed) {
+                    camera.position.z -= delta * speed;
                 } else {
-                    mob.object.position.z=(mob.y);
+                    camera.position.z = (partyPos.y + window.gamedata.camera.deltaY - 1);
                 }
-            } else 
-            if (mob.object.position.z<(mob.y)) {
-                if ((mob.y)-mob.object.position.z>delta*mobspeed) {
-                    mob.object.position.z+=delta*mobspeed;     
+            } else if (camera.position.z < (partyPos.y + window.gamedata.camera.deltaY - 1)) {
+                if ((partyPos.y + window.gamedata.camera.deltaY - 1) - camera.position.z > delta * speed) {
+                    camera.position.z += delta * speed;
                 } else {
-                    mob.object.position.z=(mob.y);
+                    camera.position.z = (partyPos.y + window.gamedata.camera.deltaY - 1);
                 }
             }
 
-            //mob.object.rotation.y=mob.object.rotation.y+0.3*delta;
-            // Rotation
+            //
+            // animate player rotation
+            //
+            wr = window.gamedata.direction * rad + rotationoffset;
+            if (wr >= rad4) wr -= rad4;
+            if (camera.rotation.y != wr) {
+                diff = ((wr - camera.rotation.y) / rad);
+                if (diff > 0) diff_dir = "L"; else diff_dir = "R";
+                if (diff > 2 || diff < -2) {
+                    if (diff > 0) diff_dir = "R"; else diff_dir = "L";
+                }
 
-            //mob.object.rotation.y=mob.rotation*rad;
-
-            // window.gamedata.direction => mob.rotation
-            // camera.rotation.y => mob.object.rotation.y
-
-            mob.object.rotation.y=mob.object.rotation.y%(rad4); 
-            
-            wr=mob.rotation*rad;//+rotationoffset;
-            if (wr>=rad4) wr-=rad4;
-            if (mob.object.rotation.y!=wr) {
-                diff=((wr-mob.object.rotation.y)/rad);
-                if (diff>0) diff_dir="L"; else diff_dir="R";
-                if (diff>2 || diff<-2) { if (diff>0) diff_dir="R"; else diff_dir="L"; } 
-
-                if (Math.abs(wr-mob.object.rotation.y)<delta*rotationspeed) {
-                    mob.object.rotation.y=wr;
+                if (Math.abs(wr - camera.rotation.y) < delta * rotationspeed) {
+                    camera.rotation.y = wr;
                 } else {
-                    if (diff_dir=="L") {
-                        mob.object.rotation.y+=delta*rotationspeed; 
+                    if (diff_dir == "L") {
+                        camera.rotation.y += delta * rotationspeed;
                     } else {
-                        if (mob.object.rotation.y<0) mob.object.rotation.y+=rad4;
-                        mob.object.rotation.y-=delta*rotationspeed;
+                        if (camera.rotation.y < 0) camera.rotation.y += rad4;
+                        camera.rotation.y -= delta * rotationspeed;
                     }
                 }
-                
-                mob.object.rotation.y=mob.object.rotation.y%(rad4);                
+
+                camera.rotation.y = camera.rotation.y % (rad4);
             }
 
-            if (mob.walk!=undefined) {
-                if (mob.object.position.x!=mob.x || mob.object.position.z!=mob.y || mob.object.rotation.y!=wr) {
-                    if (!mob.walking) {
-                        mob.walk.play();
-                        mob.walking=true;
+            light.position.x = camera.position.x;
+            light.position.z = camera.position.z;
+        } // onTop end
+
+        // spell Effect
+        if (spellEffect != null && spellEffect.mixer != undefined) spellEffect.mixer.update(delta);
+
+        //
+        // animate mob position
+        //
+        for (let i = 0; i < mapManager.getMobDataLength(); i++) {
+            mob = mapManager.getMob(i);
+
+            if (mob.current_life == 0) {
+                mob.object.skin.opacity -= delta;
+            }
+
+            if (mob.mixer != undefined) mob.mixer.update(delta);
+
+            if (mob.object != undefined) {
+                // X
+                if (mob.object.position.x > (mob.x)) { // -1?
+                    if (mob.object.position.x - (mob.x) > delta * mobspeed) {
+                        mob.object.position.x -= delta * mobspeed;
+                    } else {
+                        mob.object.position.x = (mob.x);
                     }
-                } else {
-                    if (mob.walking) {
-                        mob.walk.stop();
-                        mob.walking=false;
+                } else if (mob.object.position.x < (mob.x)) {
+                    if ((mob.x) - mob.object.position.x > delta * mobspeed) {
+                        mob.object.position.x += delta * mobspeed;
+                    } else {
+                        mob.object.position.x = (mob.x);
                     }
                 }
-            }     
-            if (mob.die!=undefined) {
-                if (mob.current_life<1 && mob.dieing==false) {
-                    mob.dieing=true;
-                    mob.die.start();
+
+                // Y
+                if (mob.object.position.z > (mob.y)) { // -1?
+                    if (mob.object.position.z - (mob.y) > delta * mobspeed) {
+                        mob.object.position.z -= delta * mobspeed;
+                    } else {
+                        mob.object.position.z = (mob.y);
+                    }
+                } else if (mob.object.position.z < (mob.y)) {
+                    if ((mob.y) - mob.object.position.z > delta * mobspeed) {
+                        mob.object.position.z += delta * mobspeed;
+                    } else {
+                        mob.object.position.z = (mob.y);
+                    }
+                }
+
+                // Rotation
+
+                mob.object.rotation.y = mob.object.rotation.y % (rad4);
+
+                wr = mob.rotation * rad;
+                if (wr >= rad4) wr -= rad4;
+                if (mob.object.rotation.y != wr) {
+                    diff = ((wr - mob.object.rotation.y) / rad);
+                    if (diff > 0) diff_dir = "L"; else diff_dir = "R";
+                    if (diff > 2 || diff < -2) {
+                        if (diff > 0) diff_dir = "R"; else diff_dir = "L";
+                    }
+
+                    if (Math.abs(wr - mob.object.rotation.y) < delta * rotationspeed) {
+                        mob.object.rotation.y = wr;
+                    } else {
+                        if (diff_dir == "L") {
+                            mob.object.rotation.y += delta * rotationspeed;
+                        } else {
+                            if (mob.object.rotation.y < 0) mob.object.rotation.y += rad4;
+                            mob.object.rotation.y -= delta * rotationspeed;
+                        }
+                    }
+
+                    mob.object.rotation.y = mob.object.rotation.y % (rad4);
+                }
+
+                if (mob.walk != undefined) {
+                    if (mob.object.position.x != mob.x || mob.object.position.z != mob.y || mob.object.rotation.y != wr) {
+                        if (!mob.walking) {
+                            mob.walk.play();
+                            mob.walking = true;
+                        }
+                    } else {
+                        if (mob.walking) {
+                            mob.walk.stop();
+                            mob.walking = false;
+                        }
+                    }
+                }
+                if (mob.die != undefined) {
+                    if (mob.current_life < 1 && mob.dieing == false) {
+                        mob.dieing = true;
+                        mob.die.start();
+                    }
                 }
             }
         }
-    }
 
-    for (let i=0;i<mapManager.getTokenDataLength();i++) {
-        tokenObj=mapManager.getToken(i);
-        if (tokenObj.mixer!=undefined) tokenObj.mixer.update(delta);
+        for (let i = 0; i < mapManager.getTokenDataLength(); i++) {
+            tokenObj = mapManager.getToken(i);
+            if (tokenObj.mixer != undefined) tokenObj.mixer.update(delta);
+        }
+    } else { // begin no animation
+        if (onTop == 0 && spectatorMode == false) { // when being in top down view. apply no camera changes   && spectatorMode
+            if (camera == undefined) return;
+
+            camera.position.x = (partyPos.x + window.gamedata.camera.deltaX - 1);
+            camera.position.z = (partyPos.y + window.gamedata.camera.deltaY - 1);
+            camera.rotation.y = window.gamedata.direction * rad + rotationoffset;
+
+            light.position.x = camera.position.x;
+            light.position.z = camera.position.z;
+        } // onTop end
+
+        for (let i = 0; i < mapManager.getMobDataLength(); i++) {
+            mob = mapManager.getMob(i);
+            if (mob.current_life == 0) mob.object.skin.opacity = 0;
+
+            if (mob.object != undefined) {
+                mob.object.position.x = (mob.x);
+                mob.object.position.z = (mob.y);
+
+                mob.object.rotation.y = mob.rotation * rad;
+            }
+        }
     }
      
     renderer.render(scene, camera);
@@ -739,8 +757,6 @@ function spawnMob(mob) {
     if (mob.y==undefined) { console.log("spawnMob, missing id", mob); return; }
     if (mob.life==undefined) { console.log("spawnMob, missing id", mob); return; }
     if (mob.rotation==undefined) { mob.rotation=0; }
-
-// check if floor
 
     console.log("spawnMob, spawning mob ", mob);
     mapManager.addMob(mob);

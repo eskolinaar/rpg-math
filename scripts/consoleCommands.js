@@ -47,6 +47,11 @@ function disableFps() {
 	window.gamedata.fpsEnabled=false;
 }
 
+function disableAnimations() {
+	window.gamedata.scene.remove(window.gamedata.water);
+	window.gamedata.animationsEnabled=false;
+}
+
 function showCheats() {
 	console.log("CHEATS:\n"+
 	"---------------------\n"+
