@@ -392,6 +392,7 @@ function evaluateDoorState(keyname, states) {
 }
 
 export function evaluateInitialDoorStates(token) {
+    if (token.action==undefined) return;
     let state=evaluateDoorState(token.action.keyname, compileSwitchStates());
     if (state) {
         console.log("evaluateInitialDoorStates, opening", token);
