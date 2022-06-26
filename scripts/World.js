@@ -208,6 +208,8 @@ function respawn(e) {
 }
 
 function spell() {
+    if (window.gamedata.animationsEnabled==false) return;
+
     const spellObjectId = 48; // 48
     loader.load( window.gamedata.objectIndex[spellObjectId].mesh, ( gltf ) => {
 
