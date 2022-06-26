@@ -22,6 +22,7 @@ export class Expression {
         Object.getOwnPropertyNames(store).forEach((val, idx, array) => {
             this.currentValue=this.currentValue.replaceAll(val, store[val]);
         });
+        if (this.currentValue==undefined) this.currentValue="0";
         return this;
     }
 
