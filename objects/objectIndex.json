@@ -553,5 +553,29 @@
         "symbol":"letter.png",
         "mesh":"letter.glb",
         "type":"token"
+    },
+    "82": {
+        "id":"82",
+        "name":"Concrete",
+        "symbol":"ConcreteFloor.png",
+        "mesh":"ConcreteFloor.glb",
+        "type":"floor",
+        "orientation":"calc"
+    },
+    "83": {
+        "id":"83",
+        "name":"Tower",
+        "symbol":"Tower.png",
+        "mesh":"tower.glb",
+        "type":"wall",
+        "orientation":"calc"
+    },
+    "84": {
+        "id":"84",
+        "name":"Towerwall",
+        "symbol":"Towerwall.png",
+        "mesh":"towerwall.glb",
+        "type":"wall",
+        "orientation":"calc"
     }
 }
