@@ -577,5 +577,36 @@
         "mesh":"towerwall.glb",
         "type":"wall",
         "orientation":"calc"
+    },
+    "85": {
+        "id":"85",
+        "name":"ConcreteFloor",
+        "symbol":"ConcreteFloor.png",
+        "mesh":"ConcreteFloor.glb",
+        "type":"floor",
+        "orientation":"calc"
+    },
+    "86": {
+        "id":"86",
+        "name":"SparseGrassFloor.png",
+        "symbol":"SparseGrassFloor.png",
+        "mesh":"SparseGrassFloor.glb",
+        "type":"floor",
+        "orientation":"calc"
+    },
+    "87": {
+        "id":"87",
+        "name":"GreenGrassFloor",
+        "symbol":"GreenGrassFloor.png",
+        "mesh":"GreenGrassFloor.glb",
+        "type":"floor",
+        "orientation":"calc"
+    },
+    "88": {
+        "id":"88",
+        "name":"Tent",
+        "symbol":"tent.png",
+        "mesh":"tent.glb",
+        "type":"token"
     }
 }
