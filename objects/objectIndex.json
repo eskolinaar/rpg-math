@@ -269,7 +269,7 @@
         "id":"42",
         "name":"hedge",
         "mesh":"Hedge.glb",
-        "symbol":"hedge.png",
+        "symbol":"Hedge.png",
         "type":"wall"
     },
     "43":{
