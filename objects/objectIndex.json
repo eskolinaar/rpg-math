@@ -566,7 +566,7 @@
         "id":"83",
         "name":"Tower",
         "symbol":"Tower.png",
-        "mesh":"tower.glb",
+        "mesh":"tower2.glb",
         "type":"wall",
         "orientation":"calc"
     },
@@ -574,7 +574,7 @@
         "id":"84",
         "name":"Towerwall",
         "symbol":"Towerwall.png",
-        "mesh":"towerwall.glb",
+        "mesh":"towerwall2.glb",
         "type":"wall",
         "orientation":"calc"
     },
