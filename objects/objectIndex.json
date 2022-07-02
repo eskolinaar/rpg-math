@@ -578,14 +578,6 @@
         "type":"wall",
         "orientation":"calc"
     },
-    "85": {
-        "id":"85",
-        "name":"ConcreteFloor",
-        "symbol":"ConcreteFloor.png",
-        "mesh":"ConcreteFloor.glb",
-        "type":"floor",
-        "orientation":"calc"
-    },
     "86": {
         "id":"86",
         "name":"SparseGrassFloor.png",
