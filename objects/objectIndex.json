@@ -600,5 +600,13 @@
         "symbol":"tent.png",
         "mesh":"tent.glb",
         "type":"token"
+    },
+    "89": {
+        "id":"89",
+        "name":"SimpleTree6",
+        "symbol":"SimpleTree6.png",
+        "mesh":"SimpleTree6.glb",
+        "type":"wall",
+        "orientation":"calc"
     }
 }
