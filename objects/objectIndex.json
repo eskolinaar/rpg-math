@@ -608,5 +608,29 @@
         "mesh":"SimpleTree6.glb",
         "type":"wall",
         "orientation":"calc"
+    },
+    "90": {
+        "id":"90",
+        "name":"TilesFloor",
+        "symbol":"TilesFloor.png",
+        "mesh":"TilesFloor.glb",
+        "type":"floor",
+        "orientation":"calc"
+    },
+    "91": {
+        "id":"91",
+        "name":"BrickWall2",
+        "symbol":"BrickWall2.png",
+        "mesh":"BrickWall2.glb",
+        "type":"wall",
+        "orientation":"calc"
+    },
+    "92": {
+        "id":"92",
+        "name":"StoneBlockFloor",
+        "symbol":"StoneBlockFloor.png",
+        "mesh":"StoneBlockFloor2.glb",
+        "type":"floor",
+        "orientation":"calc"
     }
 }
