@@ -632,5 +632,12 @@
         "mesh":"StoneBlockFloor2.glb",
         "type":"floor",
         "orientation":"calc"
+    },
+    "93": {
+        "id":"93",
+        "name":"ring",
+        "symbol":"ring.png",
+        "mesh":"ring.glb",
+        "type":"token"
     }
 }
