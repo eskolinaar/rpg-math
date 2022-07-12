@@ -639,5 +639,13 @@
         "symbol":"ring.png",
         "mesh":"ring.glb",
         "type":"token"
+    },
+    "94": {
+        "id":"94",
+        "name":"wasp",
+        "symbol":"wasp.png",
+        "mesh":"wasp.glb",
+        "type":"mob",
+        "life": "4"
     }
 }
