@@ -647,5 +647,12 @@
         "mesh":"wasp.glb",
         "type":"mob",
         "life": "4"
+    },
+    "95": {
+        "id":"95",
+        "name":"strawberry",
+        "symbol":"strawberry.png",
+        "mesh":"strawberry.glb",
+        "type":"token"
     }
 }
