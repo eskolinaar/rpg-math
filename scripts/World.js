@@ -2,7 +2,6 @@
 
 "use strict";
 
-//import { GLTFLoader } from './GLTFLoader-r144.js';
 import {parseJSON, Position } from './helper.js';
 import { MapManager } from './MapManager.js';
 import {onTop, setPaused, directions, evaluateInitialDoorStates, spectatorMode} from './movement.js';
