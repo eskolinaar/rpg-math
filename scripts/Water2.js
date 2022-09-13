@@ -11,7 +11,7 @@ import {
 	UniformsUtils,
 	Vector2,
 	Vector4
-} from './three.module.js';
+} from './three-r144.module.js';
 import { Reflector } from './Reflector.js';
 import { Refractor } from './Refractor.js';
 

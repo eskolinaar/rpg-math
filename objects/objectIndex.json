@@ -654,5 +654,12 @@
         "symbol":"strawberry.png",
         "mesh":"strawberry.glb",
         "type":"token"
+    },
+    "96": {
+        "id":"96",
+        "name":"grass",
+        "symbol":"grass.png",
+        "mesh":"grass.glb",
+        "type":"token"
     }
 }

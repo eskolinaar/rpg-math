@@ -2,12 +2,12 @@
 
 "use strict";
 
-import { GLTFLoader } from './GLTFLoader-r124.js';
+//import { GLTFLoader } from './GLTFLoader-r144.js';
 import {parseJSON, Position } from './helper.js';
 import { MapManager } from './MapManager.js';
 import {onTop, setPaused, directions, evaluateInitialDoorStates, spectatorMode} from './movement.js';
 import { i18n, showMessage } from './game.js';
-import { Water } from './Water2.js';
+//import { Water } from './Water2.js';
 
 export var partyPos;
 export var damageLight;
@@ -36,9 +36,9 @@ var speed;
 var mobspeed;
 var plane;
 var textureLoader;
-var water;
-var Water_1_M_Normal;
-var Water_2_M_Normal;
+// var water;
+// var Water_1_M_Normal;
+// var Water_2_M_Normal;
 let spellEffect=null;
 let tokenObj=null;
 
@@ -105,7 +105,7 @@ export function loadTexturesAndMaterials(data) {
         window.gamedata.objectIndex=data_obj;
     }
 
-    loader = new GLTFLoader().setPath( 'objects/models/' );   
+    loader = new THREE.GLTFLoader().setPath( 'objects/models/' );
     // loader = new THREE.JSONLoader();
     meshQueue=[];
     for (var i in window.gamedata.objectIndex) {
@@ -696,40 +696,8 @@ function createScene() {
     window.gamedata.scene=scene;
 
     textureLoader = new THREE.TextureLoader();
-    
-    Water_1_M_Normal=textureLoader.load(
-        './scripts/Water_1_M_Normal.jpg',
-        undefined,
-        undefined,
-        error => {
-            console.log("Error loading texture './scripts/Water_1_M_Normal.jpg' " , error);
-        }
-    );   
-    Water_2_M_Normal=textureLoader.load(
-        './scripts/Water_2_M_Normal.jpg',
-        undefined,
-        undefined,
-        error => {
-            console.log("Error loading texture './scripts/Water_2_M_Normal.jpg' " , error);
-        }
-    );      
 
-    plane = new THREE.PlaneBufferGeometry( 50, 50 );
-    water = new Water( plane, {
-                color: '#ffffff',
-                scale: 4,
-                flowDirection: new THREE.Vector2( 0.3, 0.3 ),
-                textureWidth: 1024,
-                textureHeight: 1024,
-                normalMap0: Water_1_M_Normal,
-                normalMap1: Water_2_M_Normal
-            } );  
-    water.position.x=14;
-    water.position.y=1.05;
-    water.position.z=20;  
-    water.rotateX(Math.PI * - 0.5);
-    window.gamedata.water=water;
-    scene.add( water );
+    createWater();
 
     scene.fog=mapManager.getMapFog();
     light2.intensity=mapManager.getMapLight();
@@ -750,6 +718,42 @@ function createScene() {
 
     $(".startup_progress").html("");
     $(".startup_navigation").show();
+}
+
+function createWater() {
+    // Water_1_M_Normal=textureLoader.load(
+    //     './scripts/Water_1_M_Normal.jpg',
+    //     undefined,
+    //     undefined,
+    //     error => {
+    //         console.log("Error loading texture './scripts/Water_1_M_Normal.jpg' " , error);
+    //     }
+    // );
+    // Water_2_M_Normal=textureLoader.load(
+    //     './scripts/Water_2_M_Normal.jpg',
+    //     undefined,
+    //     undefined,
+    //     error => {
+    //         console.log("Error loading texture './scripts/Water_2_M_Normal.jpg' " , error);
+    //     }
+    // );
+    //
+    // plane = new THREE.PlaneBufferGeometry( 50, 50 );
+    // water = new Water( plane, {
+    //             color: '#ffffff',
+    //             scale: 4,
+    //             flowDirection: new THREE.Vector2( 0.3, 0.3 ),
+    //             textureWidth: 1024,
+    //             textureHeight: 1024,
+    //             normalMap0: Water_1_M_Normal,
+    //             normalMap1: Water_2_M_Normal
+    //         } );
+    // water.position.x=14;
+    // water.position.y=1.05;
+    // water.position.z=20;
+    // water.rotateX(Math.PI * - 0.5);
+    // window.gamedata.water=water;
+    // scene.add( water );
 }
 
 function spawnMob(mob) {

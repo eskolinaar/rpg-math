@@ -12,7 +12,7 @@ import {
 	Vector3,
 	Vector4,
 	WebGLRenderTarget
-} from './three.module.js';
+} from './three-r144.module.js';
 
 var Reflector = function ( geometry, options ) {
 
