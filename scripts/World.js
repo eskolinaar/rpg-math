@@ -40,6 +40,7 @@ var textureLoader;
 // var Water_2_M_Normal;
 let spellEffect=null;
 let tokenObj=null;
+let dummy;
 
 export function initWorld() {
     partyPos=new Position(17, 13);
@@ -375,8 +376,6 @@ function questComplete() {
 
         damageLight = new THREE.AmbientLight( 0xaa0000, 0 );
 
-        //onTop=0;
-
         rad=(90 * Math.PI / 180);
         rad4=2 * Math.PI;
         rotationoffset=Math.PI;  
@@ -588,42 +587,6 @@ export function render() {
     renderer.render(scene, camera);
 }
 
-function addFieldObject(wall, x, y) {
-    if (window.gamedata.objectIndex[wall]==undefined) {
-        if (wall!=0) {
-            console.log("Unknown Index " + wall + ". Omitting Object.");
-        }
-        return;
-    }
-    let cube;
-    cube=window.gamedata.objectIndex[wall].mesh_.clone();
-    cube.scale.x = cube.scale.y = cube.scale.z = 0.5;
-    cube.position.y=1;
-    cube.position.x=x;
-    cube.position.z=y;
-    cube.name=window.gamedata.objectIndex[wall].name;
-    if (window.gamedata.objectIndex[wall].orientation==undefined) {
-        cube.rotation.y=0;
-    } else if (window.gamedata.objectIndex[wall].orientation=="calc") {
-        cube.rotation.y=((x+y)%4)*rad;
-    } else if (window.gamedata.objectIndex[wall].orientation=="connect") {
-        let adjacentWall=mapManager.getMapData((x<2?(x-1):(x+1)), y);
-        if (window.gamedata.objectIndex[adjacentWall].type=="floor") {
-            cube.rotation.y=rad;
-        } else {
-            cube.rotation.y=0;
-        }
-    } else {
-        cube.rotation.y=0;
-    }
-    // ToDo: fix this by changing objects
-    if (wall==13 || wall==14 || wall==15) {
-        cube.position.y=1.05;
-    }
-    scene.add( cube );
-    return cube;
-}
-
 function addToken(idx, wall, x, y, rot) {
     let mob=mapManager.getTokenData()[idx];
 
@@ -703,11 +666,8 @@ function createScene() {
 
     $(".startup_progress").html("<p>"+i18n("level_build")+"</p>");
 
-    for (var my=0;my<30;my++) {
-        for (var mx=0;mx<30;mx++) {
-           addFieldObject(mapManager.getMapData(mx, my), mx, my);
-        }
-    }
+    // spawn field objects -- old version
+    createFieldObjects();
 
     $(".startup_progress").html("<p>"+i18n("mob_instance")+"</p>");
     spawnAllMapMobs();
@@ -717,6 +677,83 @@ function createScene() {
 
     $(".startup_progress").html("");
     $(".startup_navigation").show();
+}
+
+function createFieldObjects() {
+    let idx = createInstancedUsageMap();
+    for (const key in idx) {
+        console.log("key="+key+" count="+idx[key]);
+        createInstances(key, idx[key]);
+    }
+}
+
+function createInstancedUsageMap() {
+    let mapData = mapManager.getMapDataArray();
+    let usageMap = [];
+    for (let i=0;i<mapData.length;i++) {
+        if (usageMap[mapData[i]] == undefined) {
+            usageMap[mapData[i]]=1;
+        } else {
+            usageMap[mapData[i]]++;
+        }
+    }
+    console.log("createInstancedUsageMap", usageMap, mapData);
+    return usageMap;
+}
+
+function createInstances(objId, objCount) {
+    if (window.gamedata.objectIndex[objId]==undefined) {
+        if (objId!=0) {
+            console.log("Unknown Index " + objId + ". Omitting Object.");
+        }
+        return;
+    }
+
+    dummy = new THREE.Object3D();
+
+    let instancedMesh;
+    if (window.gamedata.objectIndex[objId].mesh_.geometry == undefined) {
+        console.error("could not clone geometry for "+objId);
+        return;
+    }
+    let geo = window.gamedata.objectIndex[objId].mesh_.geometry.clone();
+    geo.scale(0.5, 0.5, 0.5);
+    instancedMesh = new THREE.InstancedMesh(
+        geo,
+        window.gamedata.objectIndex[objId].mesh_.material.clone(),
+        objCount
+    );
+
+    let instancedIdx = 0;
+    for (var my=0;my<30;my++) {
+        for (var mx=0;mx<30;mx++) {
+            if (mapManager.getMapData(mx, my) == objId) {
+                dummy.position.set( mx, 1, my );
+
+                // rotation
+                if (window.gamedata.objectIndex[objId].orientation==undefined) {
+                    dummy.rotation.y=0;
+                } else if (window.gamedata.objectIndex[objId].orientation=="calc") {
+                    dummy.rotation.y=((mx+my)%4)*rad;
+                } else if (window.gamedata.objectIndex[objId].orientation=="connect") {
+                    let adjacentWall=mapManager.getMapData((mx<2?(mx-1):(mx+1)), my);
+                    if (window.gamedata.objectIndex[adjacentWall].type=="floor") {
+                        dummy.rotation.y=rad;
+                    } else {
+                        dummy.rotation.y=0;
+                    }
+                } else {
+                    dummy.rotation.y=0;
+                }
+
+                dummy.updateMatrix();
+                instancedMesh.setMatrixAt( instancedIdx, dummy.matrix );
+                instancedIdx++;
+            }
+        }
+    }
+
+    scene.add( instancedMesh );
 }
 
 function createWater() {

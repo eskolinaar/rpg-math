@@ -197,6 +197,10 @@ export class MapManager {
 	    return this.map[cell];
 	}
 
+	getMapDataArray() {
+		return this.map;
+	}
+
 	getMapFog() {
 		return this.fog;
 	}
