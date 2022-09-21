@@ -661,5 +661,13 @@
         "symbol":"grass.png",
         "mesh":"grass.glb",
         "type":"token"
+    },
+    "97": {
+        "id":"97",
+        "name":"floorandplants",
+        "symbol":"grass.png",
+        "mesh":"floorandplants.glb",
+        "type":"floor",
+        "orientation":"calc"
     }
 }

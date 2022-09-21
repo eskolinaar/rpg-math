@@ -131,6 +131,7 @@ export class RandomMath {
 	}
 
     createDOM_add(limit) {
+		console.log("createDOM_add");
 		var main=document.querySelector("#main");
 
 		var max_sum=limit;
@@ -160,6 +161,7 @@ export class RandomMath {
 	}
 
 	createDOM_sub(limit) {
+		console.log("createDOM_sub");
 		var main=document.querySelector("#main");
 
 		var max_sum=limit;
@@ -189,6 +191,7 @@ export class RandomMath {
 	}
 
 	createDOM_mul(limit) {
+		console.log("createDOM_mul");
 		var main=document.querySelector("#main");
 
 		var max_ab=Math.floor(Math.sqrt(limit));
@@ -218,6 +221,7 @@ export class RandomMath {
 	}
 
 	createDOM_div(limit) {
+		console.log("createDOM_div");
 		var main=document.querySelector("#main");
 
 		var max_ab=Math.floor(Math.sqrt(limit));
@@ -247,6 +251,7 @@ export class RandomMath {
 	}	
 
 	createDOM_mod(limit) {
+		console.log("createDOM_mod");
 		var main=document.querySelector("#main");
 
 		var max=Math.ceil(Math.random()*limit);
