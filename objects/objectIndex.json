@@ -669,5 +669,13 @@
         "mesh":"floorandplants.glb",
         "type":"floor",
         "orientation":"calc"
+    },
+    "98": {
+        "id":"98",
+        "name":"lavaelemental",
+        "symbol":"lavaelemental.png",
+        "mesh":"lavaelemental.glb",
+        "type":"mob",
+        "life": "4"
     }
 }
