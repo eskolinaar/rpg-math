@@ -693,5 +693,13 @@
         "mesh":"redtree7.glb",
         "type":"wall",
         "orientation":"calc"
+    },
+    "102": {
+        "id":"102",
+        "name":"greentree",
+        "symbol":"greentree.png",
+        "mesh":"greentree.glb",
+        "type":"wall",
+        "orientation":"calc"
     }
 }
