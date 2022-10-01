@@ -701,5 +701,13 @@
         "mesh":"greentree.glb",
         "type":"wall",
         "orientation":"calc"
+    },
+    "103": {
+        "id":"103",
+        "name":"turtle",
+        "symbol":"turtle.png",
+        "mesh":"turtle.glb",
+        "type":"mob",
+        "life": "4"
     }
 }

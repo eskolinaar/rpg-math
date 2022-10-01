@@ -853,13 +853,14 @@ function loadMob(mob) {
         let skin=getSkin(cube);
         cube.skin=skin;
         if (skin !== undefined) {
-            skin.transparent = true; // ToDo: make ghost transparent via blender shaders, then remove this
-            skin.depthWrite = false;
-            skin.side=THREE.FrontSide;
-            if (window.gamedata.objectIndex[mob.id].opacity !== undefined) {
-                skin.opacity = parseFloat(window.gamedata.objectIndex[mob.id].opacity);
-                skin.blending=THREE.AdditiveBlending;
-            }
+            // ToDo: make ghost transparent via blender shaders, then remove this
+            // skin.transparent = true;
+            // skin.depthWrite = false;
+            // skin.side=THREE.FrontSide;
+            // if (window.gamedata.objectIndex[mob.id].opacity !== undefined) {
+            //     skin.opacity = parseFloat(window.gamedata.objectIndex[mob.id].opacity);
+            //     skin.blending=THREE.AdditiveBlending;
+            // }
             // color
             if (mob.color!==undefined) {
                 skin.color.r=mob.color.r;
