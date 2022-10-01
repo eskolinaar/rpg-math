@@ -31,6 +31,10 @@ function random_shift(arr, num, max) {
 
 export class RandomMath {
 	constructor() {
+		this.registerRandomMath();
+	}
+
+	registerRandomMath() {
 		$("body").on("stageLoaded", (e) => {
 			console.log("stageLoaded observed => ", e.var.type);
 			if (e.var.type=="math_add") {
@@ -45,17 +49,16 @@ export class RandomMath {
 			if (targetMob<0) {
 				console.log("nextMath, combat already ended");
 				return;
-			}	
+			}
 			this.currentIndex++;
 			if (this.currentIndex>=100) {
 				this.stageCompleted();
 				return;
 			}
 			this.createDOM(this.stageData);
-			this.setup();			
+			this.setup();
 		});
 	}
-
 
 	createDOM(stageData) {
 		console.log("math createDOM", stageData);

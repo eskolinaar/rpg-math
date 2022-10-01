@@ -22,8 +22,12 @@ export function startCombat() {
     $("body").on("forceEndCombat", forceEndCombat);
 
     setTimeout(() => {
-        $("body").trigger({ type:"stageLoaded", var: { type:"math_add", stage:[{ "type":"math_add", "limit": window.gamedata.difficulty }] }});
+        trigger_stageLoaded();
     }, 1000);
+}
+
+function trigger_stageLoaded() {
+    $("body").trigger({ type:"stageLoaded", var: { type:"math_add", stage:[{ "type":"math_add", "limit": window.gamedata.difficulty }] }});
 }
 
 function mistake() {
@@ -106,6 +110,11 @@ export function suffer(dmg) {
     if (isNoDamageEnabled) return;
     if (targetMob<0) return;
 	if (dmg==undefined) dmg=1;
+    // if ($("#main").html().trim()=="") {
+    //     console.warn("suffer, combat caught in error state. trying to recover.");
+    //     trigger_stageLoaded();
+    //     return;
+    // }
 
     console.log("suffer for, ", dmg);  	
     $("body").trigger({ type:"suffer" });

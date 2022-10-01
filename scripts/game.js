@@ -27,7 +27,7 @@ export var isNoDamageEnabled;
 export var game_mode;
 
 export function getLanguage() {
-    let lang=navigator.language.substring(0, 2);;
+    let lang=navigator.language.substring(0, 2);
     console.log("using language ", lang);
     return lang;
 }
@@ -356,6 +356,8 @@ function initModelAndScene() {
     maptransfer.onmessage=function (ev) { 
         console.log("receiving map from editor ...", ev.data.type);
         console.log(ev.data);
+        console.log("receiving map, check mathLoader ", mathLoader);
+        mathLoader.registerRandomMath();
 
         if (ev.data.type=="transfer_map") {
             $("body").trigger("forceEndCombat");     

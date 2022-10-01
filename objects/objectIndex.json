@@ -677,5 +677,21 @@
         "mesh":"lavaelemental.glb",
         "type":"mob",
         "life": "4"
+    },
+    "99": {
+        "id":"99",
+        "name":"slur",
+        "symbol":"slur.png",
+        "mesh":"slur.glb",
+        "type":"mob",
+        "life": "4"
+    },
+    "101": {
+        "id":"101",
+        "name":"redtree",
+        "symbol":"redtree.png",
+        "mesh":"redtree7.glb",
+        "type":"wall",
+        "orientation":"calc"
     }
 }

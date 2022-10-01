@@ -615,8 +615,9 @@ function addToken(idx, wall, x, y, rot) {
         let skin=getSkin(cube);
         cube.skin=skin;
         if (skin !== undefined) {
-            skin.transparent = true;
-            skin.side=THREE.FrontSide;
+            //skin.transparent = true;
+            //skin.depthWrite = false;
+            //skin.side=THREE.DoubleSide;
             if (window.gamedata.objectIndex[mob.id].opacity !== undefined) {
                 skin.opacity = parseFloat(window.gamedata.objectIndex[mob.id].opacity);
                 skin.blending=THREE.AdditiveBlending;
@@ -702,8 +703,8 @@ function createInstancedUsageMap() {
 }
 
 function createInstances(objId, objCount) {
-    if (window.gamedata.objectIndex[objId]==undefined) {
-        if (objId!=0) {
+    if (window.gamedata.objectIndex[objId] == undefined) {
+        if (objId != 0) {
             console.log("Unknown Index " + objId + ". Omitting Object.");
         }
         return;
@@ -713,17 +714,38 @@ function createInstances(objId, objCount) {
 
     let instancedMesh;
     if (window.gamedata.objectIndex[objId].mesh_.geometry == undefined) {
-        console.error("could not clone geometry for "+objId);
-        return;
-    }
-    let geo = window.gamedata.objectIndex[objId].mesh_.geometry.clone();
-    geo.scale(0.5, 0.5, 0.5);
-    instancedMesh = new THREE.InstancedMesh(
-        geo,
-        window.gamedata.objectIndex[objId].mesh_.material.clone(),
-        objCount
-    );
+        console.error("could not clone geometry for " + objId, window.gamedata.objectIndex[objId].mesh_);
 
+        // mesh consists of multiple subobjects
+        if (window.gamedata.objectIndex[objId].mesh_.children.length>0) {
+            for (let i=0;i<window.gamedata.objectIndex[objId].mesh_.children.length;i++) {
+                let geo = window.gamedata.objectIndex[objId].mesh_.children[i].geometry.clone();
+                let mats = window.gamedata.objectIndex[objId].mesh_.children[i].material.clone()
+                geo.scale(0.5, 0.5, 0.5);
+                instancedMesh = new THREE.InstancedMesh(
+                    geo,
+                    mats,
+                    objCount
+                );
+                instancedMesh.depthWrite=false;
+                createInstanceSubObjects(instancedMesh, objId);
+            }
+        }
+    } else {
+
+        let geo = window.gamedata.objectIndex[objId].mesh_.geometry.clone();
+        let mats = window.gamedata.objectIndex[objId].mesh_.material.clone()
+        geo.scale(0.5, 0.5, 0.5);
+        instancedMesh = new THREE.InstancedMesh(
+            geo,
+            mats,
+            objCount
+        );
+        createInstanceSubObjects(instancedMesh, objId);
+    }
+}
+
+function createInstanceSubObjects(instancedMesh, objId) {
     let instancedIdx = 0;
     for (var my=0;my<30;my++) {
         for (var mx=0;mx<30;mx++) {
@@ -752,7 +774,6 @@ function createInstances(objId, objCount) {
             }
         }
     }
-
     scene.add( instancedMesh );
 }
 
@@ -832,7 +853,8 @@ function loadMob(mob) {
         let skin=getSkin(cube);
         cube.skin=skin;
         if (skin !== undefined) {
-            skin.transparent = true;
+            skin.transparent = true; // ToDo: make ghost transparent via blender shaders, then remove this
+            skin.depthWrite = false;
             skin.side=THREE.FrontSide;
             if (window.gamedata.objectIndex[mob.id].opacity !== undefined) {
                 skin.opacity = parseFloat(window.gamedata.objectIndex[mob.id].opacity);
