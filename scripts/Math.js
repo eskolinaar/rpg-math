@@ -1,6 +1,6 @@
 "use strict";
 
-import { targetMob } from './movement.js';
+import { targetMob, paused } from './movement.js';
 
 function random(max) { 
 	if (max==0) return 0;
@@ -84,6 +84,7 @@ export class RandomMath {
 
 		$(".choice").on("click", function() {
 			console.log("choice clicked ... ", $(this)[0].innerHTML);
+			if (paused) return;
 			if (parseInt($(this)[0].getAttribute("data-placeholder")) == parseInt($(".placeholder.active").index(".placeholder")+1)) {
 				$(".placeholder.active").html($(this).html());
 				$(".placeholder.active").addClass("correct");
