@@ -3,7 +3,7 @@
 import { Vector, Position } from './helper.js';
 import {mapManager, partyPos, scene, setPartyPosition, getCameraDiff, modifyCamera} from './World.js';
 import { startCombat, damage, select, playerDeath } from './combat.js';
-import { showMessage, isCheatingEnabled, savegame, i18n } from './game.js';
+import {showMessage, isCheatingEnabled, savegame, i18n, mouseTiltX} from './game.js';
 import { Expression } from  './expression.js';
 import { Quest } from "./quests.js";
 

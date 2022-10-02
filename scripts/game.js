@@ -25,6 +25,7 @@ export var savegame;
 export var isCheatingEnabled;
 export var isNoDamageEnabled;
 export var game_mode;
+export var mouseTiltX;
 
 export function getLanguage() {
     let lang=navigator.language.substring(0, 2);
@@ -229,6 +230,17 @@ function initModelAndScene() {
     window.gamedata.currentmap=0;
     window.gamedata.fpsEnabled=false;
     window.gamedata.animationsEnabled=true;
+
+    $("body").mousemove(function (ev) {
+        let xdiff = (window.innerWidth-ev.pageX)/window.innerWidth-0.5;
+        if (xdiff>0.25) {
+            mouseTiltX=xdiff-0.25;
+        } else if (xdiff<-0.25) {
+            mouseTiltX=xdiff+0.25;
+        } else {
+            mouseTiltX=0;
+        }
+    });
 
     activateRegenerationLoop(1000);  
     clearInterval(sufferTime);

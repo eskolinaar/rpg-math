@@ -5,7 +5,7 @@
 import {parseJSON, Position } from './helper.js';
 import { MapManager } from './MapManager.js';
 import {onTop, setPaused, directions, evaluateInitialDoorStates, spectatorMode} from './movement.js';
-import { i18n, showMessage } from './game.js';
+import { i18n, showMessage, mouseTiltX } from './game.js';
 // import { Water } from './Water2.js';
 
 export var partyPos;
@@ -41,6 +41,7 @@ var Water_2_M_Normal;
 let spellEffect=null;
 let tokenObj=null;
 let dummy;
+let mouseTiltFactor;
 
 export function initWorld() {
     partyPos=new Position(17, 13);
@@ -57,7 +58,9 @@ export function initWorld() {
 
     rad=(90 * Math.PI / 180);
     rad4=2 * Math.PI;
-    rotationoffset=Math.PI;  
+    rotationoffset=Math.PI;
+
+    mouseTiltFactor=(Math.PI);
 
     light2 = new THREE.AmbientLight( 0x444444, 5 );
 
@@ -433,6 +436,9 @@ export function render() {
             //
             // animate player rotation
             //
+
+            // add mouseTiltX & mouseTiltFactor to logic
+            rotationoffset = Math.PI + mouseTiltX * mouseTiltFactor;
             wr = window.gamedata.direction * rad + rotationoffset;
             if (wr >= rad4) wr -= rad4;
             if (camera.rotation.y != wr) {
@@ -863,7 +869,7 @@ function loadMob(mob) {
             if (window.gamedata.objectIndex[mob.id].opacity !== undefined) {
                 skin.transparent = true;
                 skin.depthWrite = false;
-                skin.side=THREE.FrontSide;
+                //skin.side=THREE.FrontSide;
                 skin.opacity = parseFloat(window.gamedata.objectIndex[mob.id].opacity);
                 skin.blending=THREE.AdditiveBlending;
             }

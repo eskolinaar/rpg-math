@@ -76,6 +76,7 @@ export function endCombat(m) {
     $("#movement_ui").show();
     $("#main").html("");
     $("#main").hide();
+    prepareFadeOut(m.object.skin);
     setTimeout(() => {
         $("#main").html("");
         console.log("damage, mob dies and is removed", m);
@@ -86,6 +87,11 @@ export function endCombat(m) {
         $("body").off("correct", correct);
         $("#main").show();
     }, 1200);
+}
+
+function prepareFadeOut(skin) {
+    skin.transparent = true;
+    skin.opacity = 1;
 }
 
 export function damage(dmg) {
