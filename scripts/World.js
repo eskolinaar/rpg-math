@@ -6,7 +6,7 @@ import {parseJSON, Position } from './helper.js';
 import { MapManager } from './MapManager.js';
 import {onTop, setPaused, directions, evaluateInitialDoorStates, spectatorMode} from './movement.js';
 import { i18n, showMessage } from './game.js';
-//import { Water } from './Water2.js';
+// import { Water } from './Water2.js';
 
 export var partyPos;
 export var damageLight;
@@ -35,9 +35,9 @@ var speed;
 var mobspeed;
 var plane;
 var textureLoader;
-// var water;
-// var Water_1_M_Normal;
-// var Water_2_M_Normal;
+var water;
+var Water_1_M_Normal;
+var Water_2_M_Normal;
 let spellEffect=null;
 let tokenObj=null;
 let dummy;
@@ -794,8 +794,9 @@ function createWater() {
     //         console.log("Error loading texture './scripts/Water_2_M_Normal.jpg' " , error);
     //     }
     // );
-    //
-    // plane = new THREE.PlaneBufferGeometry( 50, 50 );
+
+
+    plane = new THREE.PlaneGeometry( 50, 50 );
     // water = new Water( plane, {
     //             color: '#ffffff',
     //             scale: 4,
@@ -805,12 +806,17 @@ function createWater() {
     //             normalMap0: Water_1_M_Normal,
     //             normalMap1: Water_2_M_Normal
     //         } );
-    // water.position.x=14;
-    // water.position.y=1.05;
-    // water.position.z=20;
-    // water.rotateX(Math.PI * - 0.5);
-    // window.gamedata.water=water;
-    // scene.add( water );
+    const watermaterial =  new THREE.MeshPhongMaterial();
+    watermaterial.transparent=true;
+    watermaterial.opacity=0.25;
+    watermaterial.color=new THREE.Color("#4747d2");
+    water = new THREE.Mesh(plane, watermaterial);
+    water.position.x=14;
+    water.position.y=1.05;
+    water.position.z=20;
+    water.rotateX(Math.PI * - 0.5);
+    window.gamedata.water=water;
+    scene.add( water );
 }
 
 function spawnMob(mob) {
