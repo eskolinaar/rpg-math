@@ -814,6 +814,7 @@ function createWater() {
     water.position.x=14;
     water.position.y=1.05;
     water.position.z=20;
+    water.renderOrder=-1;
     water.rotateX(Math.PI * - 0.5);
     window.gamedata.water=water;
     scene.add( water );
