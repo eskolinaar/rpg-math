@@ -234,9 +234,11 @@ function initModelAndScene() {
     $("body").mousemove(function (ev) {
         let xdiff = (window.innerWidth-ev.pageX)/window.innerWidth-0.5;
         if (xdiff>0.25) {
-            mouseTiltX=xdiff-0.25;
+            mouseTiltX=0.25;
+            //mouseTiltX=xdiff-0.25;
         } else if (xdiff<-0.25) {
-            mouseTiltX=xdiff+0.25;
+            mouseTiltX=-0.25;
+            //mouseTiltX=xdiff+0.25;
         } else {
             mouseTiltX=0;
         }
