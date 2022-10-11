@@ -709,5 +709,37 @@
         "mesh":"turtle.glb",
         "type":"mob",
         "life": "4"
+    },
+    "104": {
+        "id":"104",
+        "name":"sandfloor",
+        "symbol":"SandFloor.png",
+        "mesh":"SandFloor.glb",
+        "type":"floor",
+        "orientation":"calc"
+    },
+    "105": {
+        "id":"105",
+        "name":"pavedfloor",
+        "symbol":"PavedFloor.png",
+        "mesh":"PavedFloor.glb",
+        "type":"floor",
+        "orientation":"calc"
+    },
+    "106": {
+        "id":"106",
+        "name":"marblefloor",
+        "symbol":"MarbleFloor.png",
+        "mesh":"MarbleFloor.glb",
+        "type":"floor",
+        "orientation":"calc"
+    },
+    "107": {
+        "id":"107",
+        "name":"marblewall",
+        "symbol":"MarbleWall.png",
+        "mesh":"MarbleWall.glb",
+        "type":"wall",
+        "orientation":"calc"
     }
 }

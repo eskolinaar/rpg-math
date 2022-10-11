@@ -394,7 +394,48 @@ $(document).ready(function () {
     $("#token").on("click", "ul li", function () {
         clearActiveListItem();
         $(this).addClass("active");
-    });        
+
+        // update details form
+        let tid=$("#token ul li.active").attr("data-id");
+        let token=mapdata.token[tid];
+        console.log("token clicked", token);
+        //updateListHtml("token");
+        if (token!=undefined) {
+            if (token.x!==undefined) $("#token_x").val(token.x); else $("#token_x").val("");
+            if (token.y!==undefined) $("#token_y").val(token.y); else $("#token_y").val("");
+            if (token.mode!==undefined) $("#token_mode").val(token.mode); else $("#token_mode").val("");
+            if (token.direction!==undefined) $("#token_direction").val(token.direction); else $("#token_direction").val("");
+
+            if (token.message==undefined) token.message={};
+            if (token.message.en==undefined) token.message.en="";
+            if (token.message.de==undefined) token.message.de="";
+            if (token.message.en!==undefined) $("#token_message_en").val(token.message.en); else $("#token_message_en").val("");
+            if (token.message.de!==undefined) $("#token_message_de").val(token.message.de); else $("#token_message_de").val("");
+        }
+    });
+
+    $("#token_details").on("keyup", "input", function (e) {
+        let mid = $("#token ul li.active").attr("data-id");
+        let token = mapdata.token[mid];
+        console.log("change", e, token);
+        let fname = e.target.getAttribute("data-fieldname");
+        let val = e.target.value;
+        if (val == "") {
+            val = undefined;
+            delete mapdata.token[mid][fname];
+            console.log("change [delete]", e, token, fname, val);
+            return;
+        }
+        let fnames=fname.split(".");
+        if (fnames.length<2) {
+            mapdata.token[mid][fname] = val;
+        } else {
+            mapdata.token[mid][fnames[0]][fnames[1]] = val;
+        }
+        repaint();
+        //updateListHtml("token");
+        console.log("change", e, token, fname, val);
+    });
 
     $("#mobs .remove").on("click", function () {
         let mid=$("#mobs ul li.active").attr("data-id");
