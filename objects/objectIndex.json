@@ -741,5 +741,46 @@
         "mesh":"MarbleWall.glb",
         "type":"wall",
         "orientation":"calc"
+    },
+    "108": {
+        "id":"108",
+        "name":"sandwall",
+        "symbol":"SandWall.png",
+        "mesh":"SandWall.glb",
+        "type":"wall",
+        "orientation":"calc"
+    },
+    "110": {
+        "id":"110",
+        "name":"SandIndoorFloor",
+        "symbol":"SandIndoorFloor.png",
+        "mesh":"SandIndoorFloor.glb",
+        "type":"floor",
+        "orientation":"calc"
+    },
+    "111": {
+        "id":"111",
+        "name":"SandIndoorPool",
+        "symbol":"SandIndoorPool.png",
+        "mesh":"SandIndoorPool.glb",
+        "type":"wall",
+        "orientation":"calc"
+    },
+    "112": {
+        "id":"112",
+        "name":"SandIndoorBridge",
+        "symbol":"SandIndoorBridge.png",
+        "mesh":"SandIndoorBridge.glb",
+        "type":"floor",
+        "orientation":"calc"
+    },
+    "113": {
+        "id":"113",
+        "name":"SandPillar",
+        "symbol":"SandPillar.png",
+        "mesh":"SandPillar.glb",
+        "type":"token"
     }
+
+
 }
