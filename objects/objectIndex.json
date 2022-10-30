@@ -780,6 +780,44 @@
         "symbol":"SandPillar.png",
         "mesh":"SandPillar.glb",
         "type":"token"
+    },
+    "114":{
+        "id":"114",
+        "name":"Wolf",
+        "mesh":"Wolf2022.glb",
+        "symbol":"Wolf2022.png",
+        "type":"mob",
+        "life":"5"
+    },
+    "115":{
+        "id":"115",
+        "name":"sandslur",
+        "mesh":"SandSlur.glb",
+        "symbol":"sandslur.png",
+        "type":"mob",
+        "life":"4"
+    },
+    "116":{
+        "id":"116",
+        "name":"pumpkinman",
+        "mesh":"pumpkinman.glb",
+        "symbol":"pumpkinman.png",
+        "type":"mob",
+        "life":"3"
+    },
+    "117":{
+        "id":"117",
+        "name":"pumpkin",
+        "mesh":"pumpkin.glb",
+        "symbol":"pumpkin.png",
+        "type":"token"
+    },
+    "118":{
+        "id":"118",
+        "name":"grave",
+        "mesh":"Grave.glb",
+        "symbol":"grave.png",
+        "type":"wall"
     }
 
 
