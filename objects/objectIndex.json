@@ -772,7 +772,7 @@
         "symbol":"SandIndoorBridge.png",
         "mesh":"SandIndoorBridge.glb",
         "type":"floor",
-        "orientation":"calc"
+        "orientation":"connect"
     },
     "113": {
         "id":"113",
