@@ -342,12 +342,23 @@ export class MapManager {
 		showMessage("simple_message");
 	}
 
-	showSwitchDialog(message, keyname) {
-		console.log("showMobMessage, showing simple message", message);
-		this.openSwitchDialog=keyname;
-		$(".switch_message_de .switch_text_placeholder").html(message.de.replaceAll("\n", "<br>"));
-		$(".switch_message_en .switch_text_placeholder").html(message.en.replaceAll("\n", "<br>"));
-		let state = this.loadSwitchState(keyname);
+	showSwitchDialog(action) {
+		console.log("showMobMessage, showing simple message", action.message);
+		this.openSwitchDialog=action.keyname;
+		$(".switch_message_de .switch_text_placeholder").html(action.message.de.replaceAll("\n", "<br>"));
+		$(".switch_message_en .switch_text_placeholder").html(action.message.en.replaceAll("\n", "<br>"));
+		// default values
+		$(".switch_message_de button.switch_off").text("Aus");
+		$(".switch_message_de button.switch_on").text("Ein");
+		$(".switch_message_en button.switch_off").text("Off");
+		$(".switch_message_en button.switch_on").text("On");
+		if (action.labels !== undefined) {
+			$(".switch_message_de button.switch_off").text(action.labels.off.de);
+			$(".switch_message_de button.switch_on").text(action.labels.on.de);
+			$(".switch_message_en button.switch_off").text(action.labels.off.en);
+			$(".switch_message_en button.switch_on").text(action.labels.on.en);
+		}
+		let state = this.loadSwitchState(action.keyname);
 		if (state=="1") {
 			$("[data-id=switch_on]").addClass("active");
 			$("[data-id=switch_off]").removeClass("active");

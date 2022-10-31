@@ -1,0 +1,6 @@
+{
+  "mode":"mapChangeOnQuestComplete",
+  "maps":[
+    "m2022-10-31-halloween.map.json"
+  ]
+}

@@ -818,6 +818,13 @@
         "mesh":"Grave.glb",
         "symbol":"grave.png",
         "type":"wall"
+    },
+    "119":{
+        "id":"119",
+        "name":"treat",
+        "mesh":"Treat.glb",
+        "symbol":"treat.png",
+        "type":"token"
     }
 
 

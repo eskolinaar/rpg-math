@@ -18,6 +18,9 @@ TOKEN:
 
     // token mit message
       {"id":"28","x":2,"y":8,"rotation":1, "action": {"type": "message", "message": {"en":"Hello","de":"Hallo"}}}
+
+    // hindernis
+    {"id":"59","x":8,"y":12,"action":{"type":"obstacle"}},
 ]
 
 

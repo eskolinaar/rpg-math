@@ -345,7 +345,7 @@ function checkTokenPosition(position, trigger) {
                     mapManager.announceQuest(token.action.quest, null, i);
                 } else
                 if (token.action.type=="switch") {
-                    mapManager.showSwitchDialog(token.action.message, token.action.keyname);
+                    mapManager.showSwitchDialog(token.action);
                 }
                 // no action for obstacle
             }
