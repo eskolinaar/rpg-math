@@ -825,6 +825,14 @@
         "mesh":"Treat.glb",
         "symbol":"treat.png",
         "type":"token"
+    },
+    "120":{
+        "id":"120",
+        "name":"ratman",
+        "mesh":"Ratman.glb",
+        "symbol":"ratman.png",
+        "type":"mob",
+        "life":"4"
     }
 
 
