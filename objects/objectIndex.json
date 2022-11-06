@@ -833,7 +833,29 @@
         "symbol":"ratman.png",
         "type":"mob",
         "life":"4"
+    },
+    "122":{
+        "id":"122",
+        "name":"ratman_white",
+        "mesh":"ratman_white.glb",
+        "symbol":"ratman_white.png",
+        "type":"mob",
+        "life":"4"
+    },
+    "123":{
+        "id":"123",
+        "name":"ratman_black",
+        "mesh":"ratman_black.glb",
+        "symbol":"ratman_black.png",
+        "type":"mob",
+        "life":"4"
+    },
+    "124":{
+        "id":"124",
+        "name":"skeleton",
+        "mesh":"skeleton.glb",
+        "symbol":"skeleton.png",
+        "type":"mob",
+        "life":"4"
     }
-
-
 }
