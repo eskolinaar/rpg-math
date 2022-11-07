@@ -857,5 +857,12 @@
         "symbol":"skeleton.png",
         "type":"mob",
         "life":"4"
+    },
+    "125":{
+        "id":"125",
+        "name":"cheese",
+        "mesh":"cheese.glb",
+        "symbol":"cheese.png",
+        "type":"token"
     }
 }
