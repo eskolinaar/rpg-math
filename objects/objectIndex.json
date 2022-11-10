@@ -864,5 +864,29 @@
         "mesh":"cheese.glb",
         "symbol":"cheese.png",
         "type":"token"
+    },
+    "126":{
+        "id":"126",
+        "name":"ratman_brown",
+        "mesh":"ratman_brown.glb",
+        "symbol":"ratman_brown.png",
+        "type":"mob",
+        "life":"4"
+    },
+    "127":{
+        "id":"127",
+        "name":"wuschi",
+        "mesh":"wuschi.glb",
+        "symbol":"wuschi.png",
+        "type":"mob",
+        "life":"4"
+    },
+    "128":{
+        "id":"128",
+        "name":"waterslur",
+        "mesh":"waterslur.glb",
+        "symbol":"waterslur.png",
+        "type":"mob",
+        "life":"4"
     }
 }
