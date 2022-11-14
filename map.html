@@ -170,12 +170,33 @@
                 <input id="token_y" data-fieldname="y" type="text" placeholder="y">
                 <span>Direction</span>
                 <input id="token_direction" data-fieldname="direction" type="text" placeholder="1, 2, 3, 4">
-                <span>Mode</span>
-                <input id="token_mode" data-fieldname="mode" type="text" placeholder="pick, message, obstacle, switch, door, travel, quest">
-                <span>Message-EN</span>
-                <input id="token_message_en" data-fieldname="message.en" type="text" placeholder="Looks good">
+                <span>Type</span>
+                <input id="token_type" data-fieldname="action.type" type="text" placeholder="pick, message, obstacle, switch, door, travel, quest">
                 <span>Message-DE</span>
-                <input id="token_message_de" data-fieldname="message.de" type="text" placeholder="Schaut gut aus">
+                <input id="token_message_de" data-fieldname="action.message.de" type="text" placeholder="Schaut gut aus">
+                <span>Message-EN</span>
+                <input id="token_message_en" data-fieldname="action.message.en" type="text" placeholder="Looks good">
+                <span>Keyname (door/switch/pick)</span>
+                <input id="token_keyname" data-fieldname="action.keyname" type="text" placeholder="Schaut gut aus">
+                <span>Switch Label ON DE (switch)</span>
+                <input id="token_label_on_de" data-fieldname="action.labels.on.de" type="text" placeholder="Ein">
+                <span>Switch Label OFF DE (switch)</span>
+                <input id="token_label_off_de" data-fieldname="action.labels.off.de" type="text" placeholder="Aus">
+                <span>Switch Label ON EN (switch)</span>
+                <input id="token_label_on_en" data-fieldname="action.labels.on.en" type="text" placeholder="On">
+                <span>Switch Label OFF EN (switch)</span>
+                <input id="token_label_off_en" data-fieldname="action.labels.off.en" type="text" placeholder="Off">
+                <span>Target-Filename (travel)</span>
+                <input id="token_travel_mapname" data-fieldname="action.map" type="text" placeholder="targetmap.map.json">
+                <span>Target-X (travel)</span>
+                <input id="token_travel_x" data-fieldname="action.x" type="text" placeholder="1..30">
+                <span>Target-Y (travel)</span>
+                <input id="token_travel_y" data-fieldname="action.y" type="text" placeholder="1..30">
+                <span>Target-Direction (travel)</span>
+                <input id="token_travel_direction" data-fieldname="action.direction" type="text" placeholder="1, 2, 3, 4">
+
+
+
             </div>
             <div id="char" class="section" data-pane="start">
                 <label>Char</label>

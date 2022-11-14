@@ -888,5 +888,12 @@
         "symbol":"waterslur.png",
         "type":"mob",
         "life":"4"
+    },
+    "129":{
+        "id":"129",
+        "name":"bread",
+        "mesh":"bread.glb",
+        "symbol":"bread.png",
+        "type":"token"
     }
 }

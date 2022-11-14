@@ -399,18 +399,46 @@ $(document).ready(function () {
         let tid=$("#token ul li.active").attr("data-id");
         let token=mapdata.token[tid];
         console.log("token clicked", token);
-        //updateListHtml("token");
         if (token!=undefined) {
-            if (token.x!==undefined) $("#token_x").val(token.x); else $("#token_x").val("");
-            if (token.y!==undefined) $("#token_y").val(token.y); else $("#token_y").val("");
-            if (token.mode!==undefined) $("#token_mode").val(token.mode); else $("#token_mode").val("");
-            if (token.direction!==undefined) $("#token_direction").val(token.direction); else $("#token_direction").val("");
+            $("#token_x").val("");
+            $("#token_y").val("");
+            $("#token_type").val("");
+            $("#token_direction").val("");
+            $("#token_keyname").val("");
+            $("#token_travel_mapname").val("");
+            $("#token_travel_x").val("");
+            $("#token_travel_y").val("");
+            $("#token_travel_direction").val("");
+            $("#token_message_en").val("");
+            $("#token_message_de").val("");
+            $("#token_label_off_de").val("");
+            $("#token_label_on_de").val("");
+            $("#token_label_off_en").val("");
+            $("#token_label_on_en").val("");
 
-            if (token.message==undefined) token.message={};
-            if (token.message.en==undefined) token.message.en="";
-            if (token.message.de==undefined) token.message.de="";
-            if (token.message.en!==undefined) $("#token_message_en").val(token.message.en); else $("#token_message_en").val("");
-            if (token.message.de!==undefined) $("#token_message_de").val(token.message.de); else $("#token_message_de").val("");
+            if (token.x!==undefined) $("#token_x").val(token.x);
+            if (token.y!==undefined) $("#token_y").val(token.y);
+            if (token.action!==undefined && token.action.type!==undefined) $("#token_type").val(token.action.type);
+            if (token.direction!==undefined) $("#token_direction").val(token.direction);
+            if (token.action !== undefined) {
+                if (token.action.keyname !== undefined) $("#token_keyname").val(token.action.keyname);
+                if (token.action.map !== undefined) $("#token_travel_mapname").val(token.action.map);
+                if (token.action.x !== undefined) $("#token_travel_x").val(token.action.x);
+                if (token.action.y !== undefined) $("#token_travel_y").val(token.action.y);
+                if (token.action.direction !== undefined) $("#token_travel_direction").val(token.action.direction);
+                if (token.action.message !== undefined) {
+                    if (token.action.message.en == undefined) token.action.message.en = "";
+                    if (token.action.message.de == undefined) token.action.message.de = "";
+                    if (token.action.message.en !== undefined) $("#token_message_en").val(token.action.message.en);
+                    if (token.action.message.de !== undefined) $("#token_message_de").val(token.action.message.de);
+                }
+                if (token.action.labels !== undefined) {
+                    if (token.action.labels?.off.de !== undefined) $("#token_label_off_de").val(token.action.labels.off.de);
+                    if (token.action.labels?.on.de !== undefined) $("#token_label_on_de").val(token.action.labels.on.de);
+                    if (token.action.labels?.off.en !== undefined) $("#token_label_off_en").val(token.action.labels.off.en);
+                    if (token.action.labels?.on.en !== undefined) $("#token_label_on_en").val(token.action.labels.on.en);
+                }
+            }
         }
     });
 
@@ -429,8 +457,18 @@ $(document).ready(function () {
         let fnames=fname.split(".");
         if (fnames.length<2) {
             mapdata.token[mid][fname] = val;
-        } else {
+        } else if (fnames.length<3) {
+            if (mapdata.token[mid][fnames[0]] == undefined) mapdata.token[mid][fnames[0]]={};
             mapdata.token[mid][fnames[0]][fnames[1]] = val;
+        } else if (fnames.length<4) {
+            if (mapdata.token[mid][fnames[0]] == undefined) mapdata.token[mid][fnames[0]]={};
+            if (mapdata.token[mid][fnames[0]][fnames[1]] == undefined) mapdata.token[mid][fnames[0]][fnames[1]]={};
+            mapdata.token[mid][fnames[0]][fnames[1]][fnames[2]] = val;
+        } else {
+            if (mapdata.token[mid][fnames[0]] == undefined) mapdata.token[mid][fnames[0]]={};
+            if (mapdata.token[mid][fnames[0]][fnames[1]] == undefined) mapdata.token[mid][fnames[0]][fnames[1]]={};
+            if (mapdata.token[mid][fnames[0]][fnames[1]][fnames[2]] == undefined) mapdata.token[mid][fnames[0]][fnames[1]][fnames[2]]={};
+            mapdata.token[mid][fnames[0]][fnames[1]][fnames[2]][fnames[3]] = val;
         }
         repaint();
         //updateListHtml("token");

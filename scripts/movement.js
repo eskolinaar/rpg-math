@@ -19,7 +19,7 @@ export var directions = {
     8: new Vector(0, -1)
 };
 
-export var movement_blocking_token_types = ["obstacle", "switch", "quest", "message"];
+export var movement_blocking_token_types = ["obstacle", "switch", "quest", "message", "travel"];
 
 export var mm=new Vector(-1, -1);
 export var targetMob=-1;
@@ -331,7 +331,10 @@ function checkTokenPosition(position, trigger) {
                 } else
                 if (token.action.type=="travel") {
                     if (token.action.map==undefined) {
+                        console.log("checkTokenPosition, travel to ", parseInt(token.action.x), parseInt(token.action.y));
                         setPartyPosition(new Position(parseInt(token.action.x), parseInt(token.action.y)));
+                        // TODO: adjust all maps to be +1/+1 so token.x can equal token.action.x
+                        //setPartyPosition(new Position(parseInt(token.action.x)+1, parseInt(token.action.y)+1));
                     } else {
                         // map change
                         mapManager.disposeMobs();

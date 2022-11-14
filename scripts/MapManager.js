@@ -345,8 +345,13 @@ export class MapManager {
 	showSwitchDialog(action) {
 		console.log("showMobMessage, showing simple message", action.message);
 		this.openSwitchDialog=action.keyname;
-		$(".switch_message_de .switch_text_placeholder").html(action.message.de.replaceAll("\n", "<br>"));
-		$(".switch_message_en .switch_text_placeholder").html(action.message.en.replaceAll("\n", "<br>"));
+		if (action.message !== undefined) {
+			$(".switch_message_de .switch_text_placeholder").html(action.message.de.replaceAll("\n", "<br>"));
+			$(".switch_message_en .switch_text_placeholder").html(action.message.en.replaceAll("\n", "<br>"));
+		} else {
+			$(".switch_message_de .switch_text_placeholder").html("switch_message_de empty");
+			$(".switch_message_en .switch_text_placeholder").html("switch_message_en empty");
+		}
 		// default values
 		$(".switch_message_de button.switch_off").text("Aus");
 		$(".switch_message_de button.switch_on").text("Ein");
