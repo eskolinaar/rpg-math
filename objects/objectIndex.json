@@ -895,5 +895,12 @@
         "mesh":"bread.glb",
         "symbol":"bread.png",
         "type":"token"
+    },
+    "130":{
+        "id":"130",
+        "name":"door4directions",
+        "mesh":"door4directions.glb",
+        "symbol":"door4directions.png",
+        "type":"token"
     }
 }
