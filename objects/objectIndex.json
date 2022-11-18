@@ -931,5 +931,13 @@
         "mesh":"gift2022_green.glb",
         "symbol":"gift_green.png",
         "type":"token"
+    },
+    "135":{
+        "id":"135",
+        "name":"witch",
+        "mesh":"witch.glb",
+        "symbol":"witch.png",
+        "type":"mob",
+        "life":"6"
     }
 }
