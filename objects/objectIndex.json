@@ -902,5 +902,34 @@
         "mesh":"door4directions.glb",
         "symbol":"door4directions.png",
         "type":"token"
+    },
+    "131":{
+        "id":"131",
+        "name":"snowman",
+        "mesh":"snowman.glb",
+        "symbol":"snowman.png",
+        "type":"mob",
+        "life":"4"
+    },
+    "132":{
+        "id":"132",
+        "name":"gift",
+        "mesh":"gift2022.glb",
+        "symbol":"gift.png",
+        "type":"token"
+    },
+    "133":{
+        "id":"133",
+        "name":"gift_yellow",
+        "mesh":"gift2022_yellow.glb",
+        "symbol":"gift_yellow.png",
+        "type":"token"
+    },
+    "134":{
+        "id":"134",
+        "name":"gift_green",
+        "mesh":"gift2022_green.glb",
+        "symbol":"gift_green.png",
+        "type":"token"
     }
 }
