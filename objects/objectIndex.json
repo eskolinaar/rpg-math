@@ -947,5 +947,12 @@
         "symbol":"rudi_xmas.png",
         "type":"mob",
         "life":"3"
+    },
+    "137":{
+        "id":"137",
+        "name":"snowfloor",
+        "mesh":"snowfloor.glb",
+        "symbol":"snowfloor.png",
+        "type":"floor"
     }
 }
