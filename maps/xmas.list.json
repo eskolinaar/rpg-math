@@ -1,0 +1,6 @@
+{
+  "mode":"mapChangeOnQuestComplete",
+  "maps":[
+    "xmas-witch.map.json"
+  ]
+}
