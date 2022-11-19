@@ -939,5 +939,13 @@
         "symbol":"witch.png",
         "type":"mob",
         "life":"6"
+    },
+    "135":{
+        "id":"135",
+        "name":"rudi_xmas",
+        "mesh":"rudi_xmas.glb",
+        "symbol":"rudi_xmas.png",
+        "type":"mob",
+        "life":"3"
     }
 }
