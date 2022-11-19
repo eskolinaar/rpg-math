@@ -940,8 +940,8 @@
         "type":"mob",
         "life":"6"
     },
-    "135":{
-        "id":"135",
+    "136":{
+        "id":"136",
         "name":"rudi_xmas",
         "mesh":"rudi_xmas.glb",
         "symbol":"rudi_xmas.png",
