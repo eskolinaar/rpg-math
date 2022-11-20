@@ -25,7 +25,7 @@
   {"id":"132","x":19,"y":9},
   {"id":"69","x":22,"y":8,"action":{"type":"obstacle"}},
   {"id":"29","x":18,"y":11,"action":{"type":"message","message":{"de":"Liebste Hildegard,\n\n ich habe deinen Tee ausprobiert.\n Er schmeckt lecker.\n\n Deine Hermine","en":"If i had a hammer, i would hammer in the morning."}}},
-  {"id":"29","x":24,"y":9,"action":{"type":"message","message":{"de":"Wer will guten Kuchen backen, \nder muss haben sieben Sachen, \nEier und Schmalz, \nZucker und Salz, \nMilch und Mehl, \nSafran macht den Kuchen gehl!","en":"I am still looking for a good cookie recipe."}}}
+  {"id":"29","x":24,"y":9,"action":{"type":"message","message":{"de":"Nehmt euch vor Hänsel und Gretel in Acht. Diese Kinder schieben gerne arme Hexen in den Ofen.","en":"I am still looking for a good cookie recipe."}}}
 ],
 "quest":{"event":"token","filter":"","amount":"3","template":{"en":"{}/{} present recovered","de":"{}/{} Geschenke gefunden"}}, 
 "introtext": {"de":"Hexen haben die Weihnachtsgeschenke gestohlen. Lass uns eingreifen.","en":"Witches have stolen the christmas presents. Let's intervene."}

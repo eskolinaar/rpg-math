@@ -954,5 +954,20 @@
         "mesh":"snowfloor.glb",
         "symbol":"snowfloor.png",
         "type":"floor"
+    },
+    "138":{
+        "id":"138",
+        "name":"tentacle",
+        "mesh":"tentacle.glb",
+        "symbol":"tentacle.png",
+        "type":"mob",
+        "life":"3"
+    },
+    "139":{
+        "id":"139",
+        "name":"house2022",
+        "mesh":"house2022.glb",
+        "symbol":"house2022.png",
+        "type":"token"
     }
 }
