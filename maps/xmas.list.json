@@ -1,6 +1,7 @@
 {
   "mode":"mapChangeOnQuestComplete",
   "maps":[
-    "xmas-witch.map.json"
+	"m2022-11-21-xmas-letters.map.json",
+    "m2022-11-19-xmas-witch.map.json"
   ]
 }
