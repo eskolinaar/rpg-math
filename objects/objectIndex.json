@@ -969,5 +969,12 @@
         "mesh":"house2022.glb",
         "symbol":"house2022.png",
         "type":"token"
+    },
+    "140":{
+        "id":"140",
+        "name":"barrel",
+        "mesh":"barrel.glb",
+        "symbol":"barrel.png",
+        "type":"token"
     }
 }
