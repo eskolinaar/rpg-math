@@ -42,6 +42,7 @@ let spellEffect=null;
 let tokenObj=null;
 let dummy;
 let mouseTiltFactor;
+var canvas_emptyheight;
 
 export function initWorld() {
     partyPos=new Position(17, 13);
@@ -155,17 +156,50 @@ function loadSky() {
 
 export function registerWindowResizeHandler() {
     $(window).on("resize", () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
+
+        let canvas_width=window.innerWidth;
+        let canvas_height=window.innerHeight;
+
+        if (window.innerHeight>window.innerWidth*0.8) {
+            canvas_height=window.innerWidth*0.8;
+            canvas_emptyheight=window.innerHeight-canvas_height;
+            if (!$("body").hasClass("mobile")) {
+                $("body").addClass("mobile");
+            }
+        } else {
+            canvas_emptyheight=0;
+            if ($("body").hasClass("mobile")) {
+                $("body").removeClass("mobile");
+            }
+        }
+
+        camera.aspect = canvas_width / canvas_height;
         camera.updateProjectionMatrix();
 
-        renderer.setSize( window.innerWidth, window.innerHeight );       
+        renderer.setSize( canvas_width, canvas_height );
     });
 }
 
 export function onMapLoaded() {
     partyPos=mapManager.getCharPosition();
 
-    camera = new THREE.PerspectiveCamera( 60, (window.innerWidth)/window.innerHeight, 0.05, 1000 );
+    let canvas_width=window.innerWidth;
+    let canvas_height=window.innerHeight;
+
+    if (window.innerHeight>window.innerWidth*0.8) {
+        canvas_height=window.innerWidth*0.8;
+        canvas_emptyheight=window.innerHeight-canvas_height;
+        if (!$("body").hasClass("mobile")) {
+            $("body").addClass("mobile");
+        }
+    } else {
+        canvas_emptyheight=0;
+        if ($("body").hasClass("mobile")) {
+            $("body").removeClass("mobile");
+        }
+    }
+
+    camera = new THREE.PerspectiveCamera( 60, (canvas_width)/canvas_height, 0.05, 1000 );
     camera.position.x=partyPos.x+window.gamedata.camera.deltaX-1;
     camera.position.z=partyPos.y+window.gamedata.camera.deltaY-1;
     camera.position.y=window.gamedata.camera.deltaZ; 
@@ -173,22 +207,19 @@ export function onMapLoaded() {
     window.gamedata.worldcam=camera;
 
     scene = new THREE.Scene();
-
     renderer = new THREE.WebGLRenderer({
         canvas : (document.getElementById("three_outputcanvas"))
     });
-    renderer.setSize(window.innerWidth, window.innerHeight );
-    document.body.appendChild( renderer.domElement );    
+    renderer.setSize(canvas_width, canvas_height);
+    document.body.appendChild( renderer.domElement );
 
     $("#player_life")[0].max=window.gamedata.player.life;
     $("#player_life")[0].value=window.gamedata.player.current_life;
-
     if (window.gamedata.objectIndex==undefined) {
         $.get("objects/objectIndex.json", loadTexturesAndMaterials);
     } else {
         loadTexturesAndMaterials();
     }
-
 }
 
 function respawn(e) {

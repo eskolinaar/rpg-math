@@ -4,6 +4,46 @@ canvas#three_outputcanvas {
     left:0px;
 }
 
+body.mobile canvas#three_outputcanvas {
+	top:calc(56px + 6vw);
+}
+
+body.mobile div#quest_ui {
+	top:calc(28px + 3vw);
+	border-bottom-left-radius:0px;
+	left:0px;
+}
+
+body.mobile div#difficulty_ui {
+	border-bottom-right-radius:0px;
+	right: 0px;
+}
+
+body.mobile ul li.plate.when_mobile {
+	display: block;
+	margin: 0;
+}
+
+body.mobile .when_desktop {
+	display: none;
+}
+
+body.mobile .arrow_left {
+	width: 40vw;
+	margin-left: 0;
+	margin-right: 10vw;
+}
+body.mobile .arrow_right {
+	width: 40vw;
+	margin-right: 0;
+	margin-left: 0;
+}
+
+body.mobile #movement_ui {
+	left: 5vw;
+	width: 90vw;
+}
+
 body, html {
     overflow: hidden;
     
@@ -13,6 +53,10 @@ body {
 	background-image: url(../objects/bg.png);
 	background-size:auto 100%;
 	min-height:100vh;
+}
+
+body ul li.plate.when_mobile {
+	display: none;
 }
 
 button.mode h2 {
@@ -524,6 +568,7 @@ input[type="file"] {
 	    right: 0;
 	    padding: 80px 2vw 4vw 2vw;
 	    font-size: 16px;
+		max-height:100vh;
 	}
 
 	ui-globe#player_life {
@@ -599,11 +644,11 @@ input[type="file"] {
 	.language_ui button { margin:0; }
 	h1 { margin-top: 55px; margin-bottom: 5px; }
 	#quest_ui { left:0; opacity: 0.7; border-bottom-left-radius:0; }
-	#difficulty_ui { opacity:0; }
+
 	.statistic_summary { padding:0 0 0 20px; }
 	div.success_message_de.message h1 + p, div.success_message_en.message h1 + p { display: none; }
 	.statistic_summary + button { margin-top: 5px; }
-	#movement_ui { left:35px; width:auto; }
+	#movement_ui { left:35px; width:auto; right:35px; }
 
 	#main {
 	    z-index: 10;
