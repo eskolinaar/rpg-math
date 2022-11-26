@@ -231,6 +231,8 @@ function initModelAndScene() {
     window.gamedata.fpsEnabled=false;
     window.gamedata.animationsEnabled=true;
 
+    mouseTiltX=0;
+
     $("body").mousemove(function (ev) {
         let xdiff = (window.innerWidth-ev.pageX)/window.innerWidth-0.5;
         if (xdiff>0.48) {

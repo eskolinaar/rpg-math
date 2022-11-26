@@ -93,6 +93,14 @@ export function initWorld() {
         mapManager=new MapManager();
         console.log("checking for map editor map");
         $("body").trigger({ type:"checkMapEditor" });
+    } else if (window.location.hash.startsWith("#map=")) {
+        let mapname=window.location.hash.substring(5);
+        console.log("loading directly linked map", mapname);
+        window.location.hash="";
+        mapManager=new MapManager();
+        mapManager.loadMap(mapname);
+        showMessage("startup_message");
+        console.log("debug camera rotation, ", window.gamedata.direction);
     } else if (mapManager==undefined || mapManager==null) {
         mapManager=new MapManager();
         window.gamedata.mapManager=mapManager;
