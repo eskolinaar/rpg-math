@@ -6,16 +6,24 @@ function random(max) {
 	if (max==0) return 0;
 	return Math.floor(Math.random() * Math.floor(max))+1; 
 }
-function random_choice(max, arr) {
-	var low=Math.floor(arr[0]-0.3*max);
-	var high=Math.floor(arr[0]+0.3*max);
-	if (low<1) {
-		high=high-low+1;
-		low=1;
-	}	
-	var num=Math.floor(Math.random() * (high - low)) + low;
+function random_choice(arr, min, max) {
+	let low=Math.floor(arr[0]-0.3*max);
+	if (low<Math.floor(arr[0]/2)) {
+		low=Math.floor(arr[0]/2);
+	}
+	let high=Math.floor(arr[0]+0.3*max);
+	if (high>Math.floor(2*arr[0])) {
+		high=Math.floor(2*arr[0]);
+	}
+	console.log("random_choice", arr, max, low, high);
+	if (low<1) low=1;
+	if (low<min) low=min;
+	if (high>max) high=max;
+	let num=Math.floor(Math.random() * (high - low)) + low;
+	console.log("random_choice, raw", arr, num);
 	num=random_shift(arr, num, max);
 	num=random_shift(arr, num, max);
+	console.log("random_choice, after shift", arr, num);
 	return num;
 }
 function random_shift(arr, num, max) {
@@ -152,8 +160,8 @@ export class RandomMath {
 	// solution
 		var choices=[];
 		choices.push(sum);
-		choices.push(random_choice(max_sum, choices));
-		choices.push(random_choice(max_sum, choices));
+		choices.push(random_choice(choices, Math.max(a,b)+1, max_sum));
+		choices.push(random_choice(choices, Math.max(a,b)+1, max_sum));
 		choices.sort(() => 0.5-Math.random());		
 
 		main.appendChild(makePlateList({
@@ -182,8 +190,8 @@ export class RandomMath {
 	// solution
 		var choices=[];
 		choices.push(b);
-		choices.push(random_choice(max_sum, choices));
-		choices.push(random_choice(max_sum, choices));
+		choices.push(random_choice(choices, 1, sum));
+		choices.push(random_choice(choices, 1, sum));
 		choices.sort(() => 0.5-Math.random());		
 
 		main.appendChild(makePlateList({
@@ -212,8 +220,8 @@ export class RandomMath {
 	// solution
 		var choices=[];
 		choices.push(mul);
-		choices.push(random_choice(max_ab*max_ab, choices));
-		choices.push(random_choice(max_ab*max_ab, choices));
+		choices.push(random_choice(choices, Math.max(a,b), max_ab*max_ab));
+		choices.push(random_choice(choices, Math.max(a,b), max_ab*max_ab));
 		choices.sort(() => 0.5-Math.random());		
 
 		main.appendChild(makePlateList({
@@ -242,8 +250,8 @@ export class RandomMath {
 	// solution
 		var choices=[];
 		choices.push(b);
-		choices.push(random_choice(a+b, choices));
-		choices.push(random_choice(a+b, choices));
+		choices.push(random_choice(choices, 1, a+b));
+		choices.push(random_choice(choices, 1, a+b));
 		choices.sort(() => 0.5-Math.random());		
 
 		main.appendChild(makePlateList({
@@ -271,8 +279,8 @@ export class RandomMath {
 	// solution
 		var choices=[];
 		choices.push(b);
-		choices.push(random_choice(max, choices));
-		choices.push(random_choice(max, choices));
+		choices.push(random_choice(choices, 1, a-1));
+		choices.push(random_choice(choices, 1, a-1));
 		choices.sort(() => 0.5-Math.random());		
 
 		main.appendChild(makePlateList({

@@ -118,9 +118,8 @@ export function loadTexturesAndMaterials(data) {
     }
 
     loader = new THREE.GLTFLoader().setPath( 'objects/models/' );
-    // loader = new THREE.JSONLoader();
     meshQueue=[];
-    for (var i in window.gamedata.objectIndex) {
+    for (let i in window.gamedata.objectIndex) {
         if (!window.gamedata.objectIndex.hasOwnProperty(i)) {
             continue;
         }
@@ -143,12 +142,12 @@ export function loadTexturesAndMaterials(data) {
 }
 
 function loadSky() {
-    var skyloader = new THREE.TextureLoader();
+    let skyloader = new THREE.TextureLoader();
     skyloader.load(
         "objects/sky.png",
         texture => {
-            var objGeometry = new THREE.SphereBufferGeometry(60, 20, 20);
-            var objMaterial = new THREE.MeshPhongMaterial({
+            let objGeometry = new THREE.SphereBufferGeometry(60, 20, 20);
+            let objMaterial = new THREE.MeshPhongMaterial({
               map: texture,
               shading: THREE.FlatShading,
               side: THREE.BackSide
