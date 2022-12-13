@@ -34,6 +34,8 @@ export class MapManager {
 		this.mapName=mapName;
 		savegame.saveGameValue("currentmap", mapName);
 
+		$(".pause_message_maplink").html("<a href='"+window.document.location.href+"#map="+this.mapName+"'>"+this.mapName+"</a>");
+
 		this.map=[];
 		for (let i=0;i<30*30;i++) { this.map.push(0); }
 	    $.get( "maps/"+this.mapName, (data) => {
@@ -73,6 +75,10 @@ export class MapManager {
 
 		if (this.mapName==undefined) this.mapName=data_obj.mapName;
 		savegame.setMap(this.mapName);
+		$(".pause_message_mapname").text("");
+		if (data_obj.mapname!=undefined) {
+			$(".pause_message_mapname").html("<br><br>"+data_obj.mapname);
+		}
 
 		if (this.map==undefined) this.map=[];
         this.map=data_obj.fielddata;

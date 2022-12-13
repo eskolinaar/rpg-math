@@ -1,6 +1,6 @@
 { 
 "version":"21.01.001", 
-"mapname":"undefined", 
+"mapname":"Ghosts",
 "height": "30", 
 "width": "30",
 "fog": "0x444444 0.1 8",

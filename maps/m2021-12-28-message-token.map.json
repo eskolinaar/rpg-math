@@ -1,6 +1,6 @@
 { 
 "version":"21.12.001",
-"mapname":"message-token",
+"mapname":"Testmap message-token",
 "height": "30", 
 "width": "30",
 "fog": "0x224466 0.1 8",
