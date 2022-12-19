@@ -976,5 +976,13 @@
         "mesh":"barrel.glb",
         "symbol":"barrel.png",
         "type":"token"
+    },
+    "141":{
+        "id":"141",
+        "name":"flowerok",
+        "mesh":"Flowerok.glb",
+        "symbol":"Flowerok.png",
+        "type":"mob",
+        "life":"3"
     }
 }
