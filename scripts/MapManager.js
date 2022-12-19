@@ -19,6 +19,7 @@ export class MapManager {
 		this.intro=null;
 		this.questTemplates=null;
 		this.fog=null;
+		this.fog_data=null;
 		this.light=null;
 		this.pendingQuest=null;
 		this.pendingQuestNPC=null;
@@ -109,16 +110,8 @@ export class MapManager {
 			"dir":window.gamedata.direction
 		});
 
-		if (data_obj.fog==undefined) {
-			console.log("loadMapInternal, using fog fallback");
-			this.fog=new THREE.Fog(0x224466, 0.1, 8);
-		} else if (data_obj.fog=="none") {
-			this.fog=undefined;
-		} else {
-			console.log("loadMapInternal, using fog "+data_obj.fog);
-			let fog_arr=data_obj.fog.split(" ");
-			this.fog=new THREE.Fog(fog_arr[0], fog_arr[1], fog_arr[2]);
-		}
+		this.fog_data=data_obj.fog;
+		this.updateFog();
 
 		if (data_obj.light==undefined) {
 			this.light=5;
@@ -161,6 +154,21 @@ export class MapManager {
 		$(".level_introtext").text(intro_i18n);
 		$("button.needs_map").show();
     }
+
+	updateFog() {
+		let fog_multiplicator=parseInt($("#fog_multiplicator").val());
+
+		if (this.fog_data==undefined) {
+			console.log("loadMapInternal, using fog fallback");
+			this.fog=new THREE.Fog(0x224466, 0.1 * fog_multiplicator, 8 * fog_multiplicator);
+		} else if (this.fog_data=="none") {
+			this.fog=undefined;
+		} else {
+			console.log("loadMapInternal, using fog "+this.fog_data);
+			let fog_arr=this.fog_data.split(" ");
+			this.fog=new THREE.Fog(fog_arr[0], fog_arr[1] * fog_multiplicator, fog_arr[2] * fog_multiplicator);
+		}
+	}
 
 	chooseTemplate(tpl) {
 		let out="";

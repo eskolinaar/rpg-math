@@ -330,7 +330,13 @@ function initModelAndScene() {
     $("#quest_ui").on("click", () => {
         setPaused(true);
         showMessage("startup_message");
-    });        
+    });
+    $("#brightness_multiplicator").on("change", () => {
+        $("body").trigger({ type:"updateSettings" });
+    });
+    $("#fog_multiplicator").on("change", () => {
+        $("body").trigger({ type:"updateSettings" });
+    });
     $("body").on("enableCheats", function () {
         isCheatingEnabled=true;
     });

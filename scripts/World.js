@@ -52,7 +52,7 @@ export function initWorld() {
     speed=4;
     mobspeed=1;
 
-    light = new THREE.PointLight( 0xaaaaaa, 2.5, 7 ); // soft white light
+    light = new THREE.PointLight( 0xaaaaaa, 2.5 * getBrightness(), 7 ); // soft white light
     light.position.x=partyPos.x-1;
     light.position.z=partyPos.y-1;
     light.position.y=2.3;
@@ -63,7 +63,7 @@ export function initWorld() {
 
     mouseTiltFactor=(Math.PI);
 
-    light2 = new THREE.AmbientLight( 0x444444, 5 );
+    light2 = new THREE.AmbientLight( 0x444444, 5 * getBrightness() );
 
     damageLight = new THREE.AmbientLight( 0xaa0000, 0 );
 
@@ -88,6 +88,11 @@ export function initWorld() {
     $("body").off("teleport");
     $("body").on("teleport", () => { resetCameraPosition(); });
 
+    $("body").off("updateSettings");
+    $("body").on("updateSettings", () => { updateSettings(); });
+
+    // scene.remove(m.object);
+
     if (window.location.hash=="#bc_map") {
         window.location.hash="";
         mapManager=new MapManager();
@@ -107,6 +112,17 @@ export function initWorld() {
     } else {
         mapManager.loadMap(window.gamedata.maps[window.gamedata.currentmap]);
     }
+}
+
+function getBrightness() {
+    return parseInt($("#brightness_multiplicator").val());
+}
+
+function updateSettings() {
+    light.intensity = 2.5 * getBrightness();
+    light2.intensity = 5 * getBrightness();
+    mapManager.updateFog();
+    scene.fog = mapManager.getMapFog();
 }
 
 export function loadTexturesAndMaterials(data) {
@@ -294,7 +310,6 @@ function spell() {
             spellEffect.go=getActionByName(spellEffect.mixer, spellEffect.animations, "Go");
             spellEffect.go.clampWhenFinished=true;
             spellEffect.go.iterations=1;
-            //spellEffect.go.timeScale=6; // if spell.glb is used. speed up animation by ~5
             spellEffect.go.loop=THREE.LoopOnce;
             spellEffect.mixer.addEventListener( 'finished', function( e ) {
                 scene.remove(spellEffect.object);
@@ -351,7 +366,6 @@ function loadMeshObject(idx) {
         }
 
         meshQueue.shift();
-        //$("body").trigger({ type:"loadMeshes", var: meshQueue.length });
         $(".startup_progress").html("<p>"+i18n("loading")+" "+meshQueue.length+" "+i18n("files")+"</p>");
 
         if (meshQueue.length>0) loadMeshObject(meshQueue[0]); else createScene();        
@@ -408,12 +422,12 @@ function questComplete() {
         speed=4;
         mobspeed=1;
 
-        light = new THREE.PointLight( 0xaaaaaa, 2.5, 7 ); // soft white light
+        light = new THREE.PointLight( 0xaaaaaa, 2.5 * getBrightness(), 7 ); // soft white light
         light.position.x=partyPos.x-1;
         light.position.z=partyPos.y-1;
         light.position.y=2.3;
 
-        light2 = new THREE.AmbientLight( 0x444444, 3 );
+        light2 = new THREE.AmbientLight( 0x444444, 5 * getBrightness() );
 
         damageLight = new THREE.AmbientLight( 0xaa0000, 0 );
 
@@ -707,7 +721,7 @@ function createScene() {
     createWater();
 
     scene.fog=mapManager.getMapFog();
-    light2.intensity=mapManager.getMapLight();
+    light2.intensity=mapManager.getMapLight()*getBrightness();
 
     $(".startup_progress").html("<p>"+i18n("level_build")+"</p>");
 
