@@ -140,12 +140,26 @@
         </div>
         <div class="settings_message_de message">
             <p>
-                <label for="brightness_multiplicator">Helligkeit</label>
-                <input id="brightness_multiplicator" type="range" min="1" max="5" value="1">
+                <label for="brightness_multiplicator_de">Helligkeit</label>
+                <input id="brightness_multiplicator_de" data-sync="brightness_multiplicator_en" class="brightness_multiplicator" type="range" min="1" max="5" value="1">
             </p>
             <p>
-                <label for="fog_multiplicator">Nebel-Sichtweite</label>
-                <input id="fog_multiplicator" type="range" min="1" max="5" value="1">
+                <label for="fog_multiplicator_de">Nebel-Sichtweite</label>
+                <input id="fog_multiplicator_de" data-sync="fog_multiplicator_en" class="fog_multiplicator" type="range" min="1" max="5" value="1">
+            </p>
+            <button data-id="startup_message">Zur&uuml;ck</button>
+            <button data-id="howto_message">Wie geht das nochmal mit dem zaubern?</button>
+            <button data-id="impressum_message">Wer bist du nochmal? (Impressum)</button>
+            <button data-id="game_mode">Ich will zum Hauptmen&uuml;</button>
+        </div>
+        <div class="settings_message_en message">
+            <p>
+                <label for="brightness_multiplicator_en">Helligkeit</label>
+                <input id="brightness_multiplicator_en" data-sync="brightness_multiplicator_de" class="brightness_multiplicator" type="range" min="1" max="5" value="1">
+            </p>
+            <p>
+                <label for="fog_multiplicator_en">Nebel-Sichtweite</label>
+                <input id="fog_multiplicator_en" data-sync="fog_multiplicator_de" class="fog_multiplicator" type="range" min="1" max="5" value="1">
             </p>
             <button data-id="startup_message">Zur&uuml;ck</button>
             <button data-id="howto_message">Wie geht das nochmal mit dem zaubern?</button>
@@ -197,6 +211,7 @@
                 <button data-id="howto_message">howto</button>
                 <button data-id="impressum_message">impressum</button>
                 <button data-id="game_mode">main menu</button>
+                <button data-id="settings_message">settings</button>
             </div>
         </div>    
         <div class="impressum_message_de message">

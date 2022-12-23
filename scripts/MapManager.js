@@ -156,7 +156,7 @@ export class MapManager {
     }
 
 	updateFog() {
-		let fog_multiplicator=parseInt($("#fog_multiplicator").val());
+		let fog_multiplicator=parseInt($(".fog_multiplicator").eq(0).val());
 
 		if (this.fog_data==undefined) {
 			console.log("loadMapInternal, using fog fallback");

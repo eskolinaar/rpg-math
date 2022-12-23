@@ -331,10 +331,12 @@ function initModelAndScene() {
         setPaused(true);
         showMessage("startup_message");
     });
-    $("#brightness_multiplicator").on("change", () => {
+    $(".brightness_multiplicator").on("change", (el) => {
+        $("#"+$(el.target).attr("data-sync")).val(el.target.value);
         $("body").trigger({ type:"updateSettings" });
     });
-    $("#fog_multiplicator").on("change", () => {
+    $(".fog_multiplicator").on("change", (el) => {
+        $("#"+$(el.target).attr("data-sync")).val(el.target.value);
         $("body").trigger({ type:"updateSettings" });
     });
     $("body").on("enableCheats", function () {

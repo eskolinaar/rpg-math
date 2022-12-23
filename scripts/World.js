@@ -115,7 +115,7 @@ export function initWorld() {
 }
 
 function getBrightness() {
-    return parseInt($("#brightness_multiplicator").val());
+    return parseInt($(".brightness_multiplicator").eq(0).val());
 }
 
 function updateSettings() {
