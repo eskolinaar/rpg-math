@@ -984,5 +984,21 @@
         "symbol":"Flowerok.png",
         "type":"mob",
         "life":"3"
+    },
+    "142":{
+        "id":"142",
+        "name":"wizard",
+        "mesh":"wizard.glb",
+        "symbol":"wizard.png",
+        "type":"mob",
+        "life":"5"
+    },
+    "143":{
+        "id":"143",
+        "name":"wizard_blue",
+        "mesh":"wizard_blue.glb",
+        "symbol":"wizard_blue.png",
+        "type":"mob",
+        "life":"5"
     }
 }

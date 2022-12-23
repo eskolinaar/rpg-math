@@ -959,7 +959,7 @@ function loadMob(mob) {
                 mob.attack.clampWhenFinished=true;
                 mob.attack.iterations=1;
                 mob.attack.loop=THREE.LoopOnce;
-                mob.attack.setDuration(0.5);
+                mob.attack.setDuration(0.8);
             }
         }          
     }, undefined, ( e ) => {
