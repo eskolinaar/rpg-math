@@ -560,6 +560,21 @@ input[type="file"] {
 	display:none;
 }
 
+div.custom_difficulty label {
+	display: inline-block;
+	min-width: 125px;
+	margin-left:60px;
+}
+
+div.custom_difficulty input + span {
+	display: inline-block;
+	border-radius: 5px;
+	text-align: center;
+	width: 60px;
+	background-color: #888;
+	border: 1px solid #fff;
+}
+
 @media (orientation: portrait) {
 	.message {
 	    top: 0px;

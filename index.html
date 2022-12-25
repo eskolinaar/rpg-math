@@ -166,20 +166,77 @@
             <button data-id="impressum_message">Wer bist du nochmal? (Impressum)</button>
             <button data-id="game_mode">Ich will zum Hauptmen&uuml;</button>
         </div>
-        <div class="custom_difficulty_de message">
+        <div class="custom_difficulty custom_difficulty_de message">
             <p>Hier kannst du deine eigene Schwierigkeit w&auml;hlen.</p>
             <div style="text-align:left">
-                <ui-number id="custom_difficulty_add">Addition</ui-number>
-                <ui-number id="custom_difficulty_sub">Subtraktion</ui-number>
-                <ui-number id="custom_difficulty_mul">Multiplikation</ui-number>
-                <ui-number id="custom_difficulty_div">Division</ui-number>
-                <ui-number id="custom_difficulty_mod">Modulo</ui-number>
+                <p>
+                    <label for="custom_difficulty_add_de">Addition</label>
+                    <input id="custom_difficulty_add_de" data-sync="custom_difficulty_add_en" class="custom_difficulty custom_difficulty_add" type="range" min="0" step="10" max="100" value="0">
+                    <span>0</span>
+                </p>
+                <p>
+                    <label for="custom_difficulty_sub_de">Subtraktion</label>
+                    <input id="custom_difficulty_sub_de" data-sync="custom_difficulty_sub_en" class="custom_difficulty custom_difficulty_sub" type="range" min="0" step="10" max="100" value="0">
+                    <span>0</span>
+                </p>
+                <p>
+                    <label for="custom_difficulty_mul_de">Multiplikation</label>
+                    <input id="custom_difficulty_mul_de" data-sync="custom_difficulty_mul_en" class="custom_difficulty custom_difficulty_mul" type="range" min="0" step="50" max="200" value="0">
+                    <span>0</span>
+                </p>
+                <p>
+                    <label for="custom_difficulty_div_de">Division</label>
+                    <input id="custom_difficulty_div_de" data-sync="custom_difficulty_div_en" class="custom_difficulty custom_difficulty_div" type="range" min="0" step="50" max="200" value="0">
+                    <span>0</span>
+                </p>
+                <p>
+                    <label for="custom_difficulty_mod_de">Modulo</label>
+                    <input id="custom_difficulty_mod_de" data-sync="custom_difficulty_mod_en" class="custom_difficulty custom_difficulty_mod" type="range" min="0" step="50" max="200" value="0">
+                    <span>0</span>
+                </p>
             </div>
             <button data-id="" data-difficulty="*" class="play">
                 <img class="play_icon" src="./objects/symbol/Play.svg">
             </button> 
             <!-- <button data-id="startup_message">Zur&uuml;ck</button> -->
         </div>
+
+
+        <div class="custom_difficulty custom_difficulty_en message">
+            <p>Choose your own difficulty</p>
+            <div style="text-align:left">
+                <p>
+                    <label for="custom_difficulty_add_en">Addition</label>
+                    <input id="custom_difficulty_add_en" data-sync="custom_difficulty_add_de" class="custom_difficulty custom_difficulty_add" type="range" min="0" step="10" max="100" value="10">
+                    <span>0</span>
+                </p>
+                <p>
+                    <label for="custom_difficulty_sub_en">Subtraction</label>
+                    <input id="custom_difficulty_sub_en" data-sync="custom_difficulty_sub_de" class="custom_difficulty custom_difficulty_sub" type="range" min="0" step="10" max="100" value="0">
+                    <span>0</span>
+                </p>
+                <p>
+                    <label for="custom_difficulty_mul_en">Multiplication</label>
+                    <input id="custom_difficulty_mul_en" data-sync="custom_difficulty_mul_de" class="custom_difficulty custom_difficulty_mul" type="range" min="0" step="50" max="200" value="0">
+                    <span>0</span>
+                </p>
+                <p>
+                    <label for="custom_difficulty_div_en">Division</label>
+                    <input id="custom_difficulty_div_en" data-sync="custom_difficulty_div_de" class="custom_difficulty custom_difficulty_div" type="range" min="0" step="50" max="200" value="0">
+                    <span>0</span>
+                </p>
+                <p>
+                    <label for="custom_difficulty_mod_en">Modulo</label>
+                    <input id="custom_difficulty_mod_en" data-sync="custom_difficulty_mod_de" class="custom_difficulty custom_difficulty_mod" type="range" min="0" step="50" max="200" value="0">
+                    <span>0</span>
+                </p>
+            </div>
+            <button data-id="" data-difficulty="*" class="play">
+                <img class="play_icon" src="./objects/symbol/Play.svg">
+            </button>
+            <!-- <button data-id="startup_message">Zur&uuml;ck</button> -->
+        </div>
+
         <div class="startup_message_en message">
             <button data-id="fullscreen"><img src="./objects/symbol/FullScreen.svg"></button>
             <h1>math riddle crawler</h1>
@@ -206,7 +263,13 @@
                         subtractions up to 100<br>
                         multiplications up to 100</p>
                         <img class="play_icon" src="./objects/symbol/Play.svg">
-                </button>  
+                </button>
+                <button data-id="custom_difficulty" class="play">
+                    <h2>Custom</h2>
+                    <img src="./objects/symbol/golem.jpg">
+                    <p>Additionen, <br>Subtraktionen <br>und mehr</p>
+                    <img class="play_icon" src="./objects/symbol/Play.svg">
+                </button>
                 <br><br>
                 <button data-id="howto_message">howto</button>
                 <button data-id="impressum_message">impressum</button>

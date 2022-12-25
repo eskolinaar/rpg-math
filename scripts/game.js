@@ -170,7 +170,7 @@ function initDifficulty(initType) {
 }
 
 function checkAndSetDifficultyValue(typekey) {
-    let dval=parseInt($("#custom_difficulty_"+typekey).val());
+    let dval=parseInt($(".custom_difficulty_"+typekey).eq(0).val());
     if (dval==undefined || !Number.isInteger(dval) || dval==0) {
         console.log("skipping custom difficulty '"+dval+"' for typekey='"+typekey+"'");
         return;
@@ -338,6 +338,12 @@ function initModelAndScene() {
     $(".fog_multiplicator").on("change", (el) => {
         $("#"+$(el.target).attr("data-sync")).val(el.target.value);
         $("body").trigger({ type:"updateSettings" });
+    });
+    $("input.custom_difficulty").on("change", (changed) => {
+        $("#"+$(changed.target).attr("data-sync")).val(changed.target.value);
+        $("input.custom_difficulty").each((idx, el)=> {
+            $(el).next().text($(el).val());
+        });
     });
     $("body").on("enableCheats", function () {
         isCheatingEnabled=true;
