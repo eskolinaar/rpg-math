@@ -333,11 +333,18 @@ function initModelAndScene() {
     });
     $(".brightness_multiplicator").on("change", (el) => {
         $("#"+$(el.target).attr("data-sync")).val(el.target.value);
+        $(el.target).next().text($(el.target).val());
         $("body").trigger({ type:"updateSettings" });
     });
     $(".fog_multiplicator").on("change", (el) => {
         $("#"+$(el.target).attr("data-sync")).val(el.target.value);
+        $(el.target).next().text($(el.target).val());
         $("body").trigger({ type:"updateSettings" });
+    });
+    $(".animations_enabled").on("change", (el) => {
+        console.log("animations enabled", $(el.target)[0].checked);
+        // TODO: Add en version and sync
+        window.gamedata.animationsEnabled=$(el.target)[0].checked;
     });
     $("input.custom_difficulty").on("change", (changed) => {
         $("#"+$(changed.target).attr("data-sync")).val(changed.target.value);

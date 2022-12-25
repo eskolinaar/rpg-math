@@ -560,13 +560,17 @@ input[type="file"] {
 	display:none;
 }
 
-div.custom_difficulty label {
+.settings_message  p {
+	text-align: left;
+}
+
+div.custom_difficulty label, .settings_message label {
 	display: inline-block;
 	min-width: 125px;
 	margin-left:60px;
 }
 
-div.custom_difficulty input + span {
+input[type=range] + span {
 	display: inline-block;
 	border-radius: 5px;
 	text-align: center;
