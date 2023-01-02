@@ -1000,5 +1000,62 @@
         "symbol":"wizard_blue.png",
         "type":"mob",
         "life":"5"
+    },
+    "144":{
+        "id":"144",
+        "name":"homewall",
+        "mesh":"HomeWall.glb",
+        "symbol":"homewall.png",
+        "type":"wall"
+    },
+    "145":{
+        "id":"145",
+        "name":"WoodenHomeFloor",
+        "mesh":"WoodenHomeFloor.glb",
+        "symbol":"WoodenHomeFloor.png",
+        "type":"floor",
+        "orientation":"calc"
+    },
+    "146":{
+        "id":"146",
+        "name":"bed",
+        "mesh":"bed.glb",
+        "symbol":"bed.png",
+        "type":"token"
+    },
+    "147":{
+        "id":"147",
+        "name":"desk",
+        "mesh":"desk.glb",
+        "symbol":"desk.png",
+        "type":"token"
+    },
+    "148":{
+        "id":"148",
+        "name":"chair",
+        "mesh":"chair.glb",
+        "symbol":"chair.png",
+        "type":"token"
+    },
+    "149":{
+        "id":"149",
+        "name":"wardrobe",
+        "mesh":"wardrobe.glb",
+        "symbol":"wardrobe.png",
+        "type":"token"
+    },
+    "150":{
+        "id":"150",
+        "name":"hay",
+        "mesh":"hay.glb",
+        "symbol":"hay.png",
+        "type":"token"
+    },
+    "151":{
+        "id":"151",
+        "name":"chest2023",
+        "mesh":"chest2023.glb",
+        "symbol":"chest2023.png",
+        "type":"token"
     }
 }
