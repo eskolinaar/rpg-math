@@ -39,6 +39,16 @@ export class Vector {
 	}
 }
 
+export function notify(message) {
+	let fbmessage = message?.de || message?.en || message || null;
+	if (fbmessage == null) { console.log("notify, failed for undefined message", message); return; }
+	$("#notification_"+window.gamedata.language).text(fbmessage);
+	$("#notification_"+window.gamedata.language).fadeIn(400);
+	setTimeout(() => {
+		$("#notification_"+window.gamedata.language).fadeOut(400);
+	}, 1000);
+}
+
 export class Position {
 	constructor(x, y) {
 		this.x=x;

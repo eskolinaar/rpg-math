@@ -2,12 +2,14 @@
 
 import { mapManager, scene } from './World.js';
 import { targetMob, resetTargetMob, paused, setPaused, resetPlayerPosition } from './movement.js';
-import { showMessage, isNoDamageEnabled } from './game.js';
+import {showMessage, isNoDamageEnabled, i18n} from './game.js';
+import {notify} from "./helper.js";
 
 export function startCombat() {
     let m=mapManager.getMob(targetMob);
     console.log("startCombat, combat started with ", m);
     console.log("startCombat, targetMob is ", targetMob);
+    notify(i18n("combat_begins"));
     if (m.current_life==undefined) m.current_life=m.life;
 
     $(".mob_life").attr("max", m.life);
@@ -76,6 +78,7 @@ export function endCombat(m) {
     $("#movement_ui").show();
     $("#main").html("");
     $("#main").hide();
+    notify(i18n("combat_ends"));
     prepareFadeOut(m.object.skin);
     setTimeout(() => {
         $("#main").html("");

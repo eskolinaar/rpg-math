@@ -106,7 +106,9 @@
         "name":"WoodBlocks",
         "mesh":"wood_blocks.glb",
         "symbol":"WoodBlocks.png",
-        "type":"token"
+        "type":"token",
+        "de": "Holz",
+        "en": "log"
     },
     "19":{
         "id":"19",
@@ -145,56 +147,72 @@
         "name":"Potion",
         "mesh":"potion.glb",
         "symbol":"potion.png",
-        "type":"token"
+        "type":"token",
+        "de": "Trank",
+        "en": "potion"
     },
     "26":{
         "id":"26",
         "name":"key3",
         "mesh":"key3.glb",
         "symbol":"key3_purple.png",
-        "type":"token"
+        "type":"token",
+        "de": "Schlüssel",
+        "en": "key"
     },
     "27":{
         "id":"27",
         "name":"key2",
         "mesh":"key2.glb",
         "symbol":"key2_blue.png",
-        "type":"token"
+        "type":"token",
+        "de": "Schlüssel",
+        "en": "key"
     },
     "28":{
         "id":"28",
         "name":"portal",
         "mesh":"portal.glb",
         "symbol":"portal.png",
-        "type":"token"
+        "type":"token",
+        "de": "Portal",
+        "en": "portal"
     },
     "29":{
         "id":"29",
         "name":"book",
         "mesh":"book.glb",
         "symbol":"book.png",
-        "type":"token"
+        "type":"token",
+        "de": "Buch",
+        "en": "book"
     },
     "30":{
         "id":"30",
         "name":"gem",
         "mesh":"gem.glb",
         "symbol":"gem.png",
-        "type":"token"
+        "type":"token",
+        "de": "Edelstein",
+        "en": "gem"
     },  
     "31":{
         "id":"31",
         "name":"box",
         "mesh":"box.glb",
         "symbol":"box.png",
-        "type":"token"
+        "type":"token",
+        "de": "Kiste",
+        "en": "box"
     },
     "32":{
         "id":"32",
         "name":"key",
         "mesh":"key.glb",
         "symbol":"key_stone.png",
-        "type":"token"
+        "type":"token",
+        "de": "Schlüssel",
+        "en": "key"
     },
     "33":{
         "id":"33",
@@ -225,7 +243,9 @@
         "name":"chest",
         "mesh":"chest06-2021.glb",
         "symbol":"chest6.png",
-        "type":"token"        
+        "type":"token",
+        "de": "Kiste",
+        "en": "chest"
     },
     "37":{
         "id":"37",
@@ -256,7 +276,9 @@
         "name":"travel",
         "mesh":"TravelIndicator.glb",
         "symbol":"TravelIndicator.png",
-        "type":"token"
+        "type":"token",
+        "de": "Wegpunkt",
+        "en": "waypoint"
     },
     "41":{
         "id":"41",
@@ -285,7 +307,9 @@
         "name":"carrot",
         "mesh":"carrot.glb",
         "symbol":"carrot.png",
-        "type":"token"
+        "type":"token",
+        "de": "Karotte",
+        "en": "carrot"
     },
     "45":{
         "id":"45",
@@ -325,14 +349,18 @@
         "symbol":"ForceField.png",
         "mesh":"ForceField.glb",
         "type":"token",
-        "opacity": "0.5"
+        "opacity": "0.5",
+        "de": "Kraftfeld",
+        "en": "forcefield"
     },
     "51": {
         "id":"51",
         "name":"Door2Wing",
         "symbol":"Door2Wing.png",
         "mesh":"Door2Wing3.glb",
-        "type":"token"
+        "type":"token",
+        "de": "Tor",
+        "en": "door"
     },
     "52": {
         "id":"52",
@@ -363,7 +391,9 @@
         "name":"button",
         "symbol":"button.png",
         "mesh":"button.glb",
-        "type":"token"
+        "type":"token",
+        "de": "Schalter",
+        "en": "lever"
     },
     "56": {
         "id":"56",
@@ -395,7 +425,9 @@
         "symbol":"Well.png",
         "mesh":"Well.glb",
         "type":"token",
-        "orientation":"calc"
+        "orientation":"calc",
+        "de": "Brunnen",
+        "en": "well"
     },
     "60": {
         "id":"60",
@@ -403,28 +435,36 @@
         "symbol":"Bell.png",
         "mesh":"Bell.glb",
         "type":"token",
-        "orientation":"calc"
+        "orientation":"calc",
+        "de": "Glocke",
+        "en": "bell"
     },
     "61": {
         "id":"61",
         "name":"cage",
         "symbol":"Cage.png",
         "mesh":"Cage.glb",
-        "type":"token"
+        "type":"token",
+        "de": "Käfig",
+        "en": "cage"
     },
     "62": {
         "id":"62",
         "name":"boulder",
         "symbol":"boulder.png",
         "mesh":"boulder.glb",
-        "type":"token"
+        "type":"token",
+        "de": "Felsen",
+        "en": "boulder"
     },
     "63": {
         "id":"63",
         "name":"paw",
         "symbol":"paw.png",
         "mesh":"paw.glb",
-        "type":"token"
+        "type":"token",
+        "de": "Pfotenabdruck",
+        "en": "paw print"
     },
     "64": {
         "id":"64",
@@ -447,112 +487,144 @@
         "name":"campfire",
         "symbol":"campfire.png",
         "mesh":"campfire.glb",
-        "type":"token"
+        "type":"token",
+        "de": "Lagerfeuer",
+        "en": "campfire"
     },
     "67": {
         "id":"67",
         "name":"crystal",
         "symbol":"crystal.png",
         "mesh":"crystal.glb",
-        "type":"token"
+        "type":"token",
+        "de": "Kristall",
+        "en": "crystal"
     },
     "68": {
         "id":"68",
         "name":"stoneportal",
         "symbol":"stoneportal.png",
         "mesh":"stoneportal.glb",
-        "type":"token"
+        "type":"token",
+        "de": "Steinportal",
+        "en": "stoneportal"
     },
     "69": {
         "id":"69",
         "name":"cookingpot",
         "symbol":"cookingpot.png",
         "mesh":"cookingpot.glb",
-        "type":"token"
+        "type":"token",
+        "de": "Kochtopf",
+        "en": "cookingpot"
     },
     "70": {
         "id":"70",
         "name":"egg_twig",
         "symbol":"egg_twig.png",
         "mesh":"egg_twig.glb",
-        "type":"token"
+        "type":"token",
+        "de": "Ei",
+        "en": "egg"
     },
     "71": {
         "id":"71",
         "name":"egg_rainbow",
         "symbol":"egg_rainbow.png",
         "mesh":"egg_rainbow.glb",
-        "type":"token"
+        "type":"token",
+        "de": "Ei",
+        "en": "egg"
     },
     "72": {
         "id":"72",
         "name":"egg_rabbit",
         "symbol":"egg_rabbit.png",
         "mesh":"egg_rabbit.glb",
-        "type":"token"
+        "type":"token",
+        "de": "Ei",
+        "en": "egg"
     },
     "73": {
         "id":"73",
         "name":"egg_monster",
         "symbol":"egg_monster.png",
         "mesh":"egg_monster.glb",
-        "type":"token"
+        "type":"token",
+        "de": "Ei",
+        "en": "egg"
     },
     "74": {
         "id":"74",
         "name":"egg_k1",
         "symbol":"egg_k1.png",
         "mesh":"egg_k1.glb",
-        "type":"token"
+        "type":"token",
+        "de": "Ei",
+        "en": "egg"
     },
     "75": {
         "id":"75",
         "name":"egg_k2",
         "symbol":"egg_k2.png",
         "mesh":"egg_k2.glb",
-        "type":"token"
+        "type":"token",
+        "de": "Ei",
+        "en": "egg"
     },
     "76": {
         "id":"76",
         "name":"egg_twig2",
         "symbol":"egg_twig2.png",
         "mesh":"egg_twig2.glb",
-        "type":"token"
+        "type":"token",
+        "de": "Ei",
+        "en": "egg"
     },
     "77": {
         "id":"77",
         "name":"apple",
         "symbol":"apple.png",
         "mesh":"apple.glb",
-        "type":"token"
+        "type":"token",
+        "de": "Apfel",
+        "en": "apple"
     },
     "78": {
         "id":"78",
         "name":"sign",
         "symbol":"sign.png",
         "mesh":"sign.glb",
-        "type":"token"
+        "type":"token",
+        "de": "Wegweiser",
+        "en": "sign"
     },
     "79": {
         "id":"79",
         "name":"sword",
         "symbol":"sword.png",
         "mesh":"sword.glb",
-        "type":"token"
+        "type":"token",
+        "de": "Schwert",
+        "en": "sword"
     },
     "80": {
         "id":"80",
         "name":"house",
         "symbol":"house.png",
         "mesh":"house.glb",
-        "type":"token"
+        "type":"token",
+        "de": "Haus",
+        "en": "house"
     },
     "81": {
         "id":"81",
         "name":"letter",
         "symbol":"letter.png",
         "mesh":"letter.glb",
-        "type":"token"
+        "type":"token",
+        "de": "Brief",
+        "en": "letter"
     },
     "82": {
         "id":"82",
@@ -599,7 +671,9 @@
         "name":"Tent",
         "symbol":"tent.png",
         "mesh":"tent.glb",
-        "type":"token"
+        "type":"token",
+        "de": "Zelt",
+        "en": "tent"
     },
     "89": {
         "id":"89",
@@ -638,7 +712,9 @@
         "name":"ring",
         "symbol":"ring.png",
         "mesh":"ring.glb",
-        "type":"token"
+        "type":"token",
+        "de": "Ring",
+        "en": "ring"
     },
     "94": {
         "id":"94",
@@ -653,14 +729,18 @@
         "name":"strawberry",
         "symbol":"strawberry.png",
         "mesh":"strawberry.glb",
-        "type":"token"
+        "type":"token",
+        "de": "Erdbeere",
+        "en": "strawberry"
     },
     "96": {
         "id":"96",
         "name":"grass",
         "symbol":"grass.png",
         "mesh":"grass.glb",
-        "type":"token"
+        "type":"token",
+        "de": "Gras",
+        "en": "grass"
     },
     "97": {
         "id":"97",
@@ -779,7 +859,9 @@
         "name":"SandPillar",
         "symbol":"SandPillar.png",
         "mesh":"SandPillar.glb",
-        "type":"token"
+        "type":"token",
+        "de": "Sockel",
+        "en": "pillar"
     },
     "114":{
         "id":"114",
@@ -810,7 +892,9 @@
         "name":"pumpkin",
         "mesh":"pumpkin.glb",
         "symbol":"pumpkin.png",
-        "type":"token"
+        "type":"token",
+        "de": "Kürbis",
+        "en": "pumpkin"
     },
     "118":{
         "id":"118",
@@ -824,7 +908,9 @@
         "name":"treat",
         "mesh":"Treat.glb",
         "symbol":"treat.png",
-        "type":"token"
+        "type":"token",
+        "de": "Süßigkeit",
+        "en": "bonbon"
     },
     "120":{
         "id":"120",
@@ -863,7 +949,9 @@
         "name":"cheese",
         "mesh":"cheese.glb",
         "symbol":"cheese.png",
-        "type":"token"
+        "type":"token",
+        "de": "Käse",
+        "en": "cheese"
     },
     "126":{
         "id":"126",
@@ -894,14 +982,18 @@
         "name":"bread",
         "mesh":"bread.glb",
         "symbol":"bread.png",
-        "type":"token"
+        "type":"token",
+        "de": "Brot",
+        "en": "bread"
     },
     "130":{
         "id":"130",
         "name":"door4directions",
         "mesh":"door4directions.glb",
         "symbol":"door4directions.png",
-        "type":"token"
+        "type":"token",
+        "de": "Tor",
+        "en": "door"
     },
     "131":{
         "id":"131",
@@ -916,21 +1008,27 @@
         "name":"gift",
         "mesh":"gift2022.glb",
         "symbol":"gift.png",
-        "type":"token"
+        "type":"token",
+        "de": "Geschenk",
+        "en": "present"
     },
     "133":{
         "id":"133",
         "name":"gift_yellow",
         "mesh":"gift2022_yellow.glb",
         "symbol":"gift_yellow.png",
-        "type":"token"
+        "type":"token",
+        "de": "Geschenk",
+        "en": "present"
     },
     "134":{
         "id":"134",
         "name":"gift_green",
         "mesh":"gift2022_green.glb",
         "symbol":"gift_green.png",
-        "type":"token"
+        "type":"token",
+        "de": "Geschenk",
+        "en": "present"
     },
     "135":{
         "id":"135",
@@ -968,14 +1066,18 @@
         "name":"house2022",
         "mesh":"house2022.glb",
         "symbol":"house2022.png",
-        "type":"token"
+        "type":"token",
+        "de": "Haus",
+        "en": "house"
     },
     "140":{
         "id":"140",
         "name":"barrel",
         "mesh":"barrel.glb",
         "symbol":"barrel.png",
-        "type":"token"
+        "type":"token",
+        "de": "Fass",
+        "en": "barrel"
     },
     "141":{
         "id":"141",
@@ -1021,41 +1123,53 @@
         "name":"bed",
         "mesh":"bed.glb",
         "symbol":"bed.png",
-        "type":"token"
+        "type":"token",
+        "de": "Bett",
+        "en": "bed"
     },
     "147":{
         "id":"147",
         "name":"desk",
         "mesh":"desk.glb",
         "symbol":"desk.png",
-        "type":"token"
+        "type":"token",
+        "de": "Tisch",
+        "en": "desk"
     },
     "148":{
         "id":"148",
         "name":"chair",
         "mesh":"chair.glb",
         "symbol":"chair.png",
-        "type":"token"
+        "type":"token",
+        "de": "Sessel",
+        "en": "chair"
     },
     "149":{
         "id":"149",
         "name":"wardrobe",
         "mesh":"wardrobe.glb",
         "symbol":"wardrobe.png",
-        "type":"token"
+        "type":"token",
+        "de": "Schrank",
+        "en": "wardrobe"
     },
     "150":{
         "id":"150",
         "name":"hay",
         "mesh":"hay.glb",
         "symbol":"hay.png",
-        "type":"token"
+        "type":"token",
+        "de": "Heuballen",
+        "en": "hay"
     },
     "151":{
         "id":"151",
         "name":"chest2023",
         "mesh":"chest2023.glb",
         "symbol":"chest2023.png",
-        "type":"token"
+        "type":"token",
+        "de": "Kiste",
+        "en": "chest"
     }
 }

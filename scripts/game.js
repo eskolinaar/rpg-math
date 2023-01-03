@@ -13,7 +13,7 @@ import { RandomMath } from './Math.js';
 import { suffer } from './combat.js';
 import { Statistic } from './statistics.js';
 import { initAnimations } from './combatAnimations.js';
-import {parseJSON, shuffle} from './helper.js';
+import {notify, parseJSON, shuffle} from './helper.js';
 import { SaveGame } from "./savegame.js";
 
 var mathLoader;
@@ -80,6 +80,18 @@ export function i18n(key) {
                 return "S&uuml;den";
             case 'west':
                 return "Westen";
+            case 'found':
+                return "gefunden";
+            case 'combat_begins':
+                return "Kampf beginnt";
+            case 'combat_ends':
+                return "Kampf beendet";
+            case 'quest_accept':
+                return "Neue Quest gestartet";
+            case 'no_damage':
+                return "Schadensimmunität aktiv";
+            case 'enable_cheats':
+                return "Cheats aktiviert";
         }
     }
     switch (key) {
@@ -105,6 +117,18 @@ export function i18n(key) {
             return "south";
         case 'west':
             return "west";
+        case 'found':
+            return "found";
+        case 'combat_begins':
+            return "combat begins"
+        case 'combat_ends':
+            return "combat complete";
+        case 'quest_accept':
+            return "new quest accepted";
+        case 'no_damage':
+            return "damage immunity active";
+        case 'enable_cheats':
+            return "cheats activated";
     }
 }
 
@@ -259,8 +283,8 @@ function initModelAndScene() {
 
     showMessage("game_mode");
     $(".startup_navigation").hide();
-    $("#quest_complete_de").hide();
-    $("#quest_complete_en").hide();
+    $("#notification_de").hide();
+    $("#notification_en").hide();
     $(".message button").off("click");
     $(".language_ui button").on("click", function () {
         window.gamedata.language=$(this).attr("data-lang");
@@ -303,6 +327,7 @@ function initModelAndScene() {
             }
         } else if (did=="quest_accept") {
             mapManager.acceptQuest();
+            notify(i18n("quest_accept"));
             resumeGame();
         } else if (did=="quest_dismiss") {
             resumeGame();
@@ -353,9 +378,11 @@ function initModelAndScene() {
         });
     });
     $("body").on("enableCheats", function () {
+        notify(i18n("enable_cheats"));
         isCheatingEnabled=true;
     });
     $("body").on("noDamage", function () {
+        notify(i18n("no_damage"));
         isNoDamageEnabled=true;
     });
     $("body").on("click", ".clearLocalStorage", function () {

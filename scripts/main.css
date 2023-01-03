@@ -486,7 +486,7 @@ button.play:hover img.play_icon {
 	opacity:1;
 }
 
-#quest_complete_de {
+#notification_de {
     position: absolute;
     top: 39vh;
     color: white;
@@ -497,7 +497,7 @@ button.play:hover img.play_icon {
     text-shadow: 0 0 3px black;
 }
 
-#quest_complete_en {
+#notification_en {
     position: absolute;
     top: 39vh;
     color: white;

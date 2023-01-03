@@ -1,6 +1,6 @@
 "use strict";
 
-import { Vector, Position } from './helper.js';
+import {Vector, Position, notify} from './helper.js';
 import {mapManager, partyPos, scene, setPartyPosition, getCameraDiff, modifyCamera} from './World.js';
 import { startCombat, damage, select, playerDeath } from './combat.js';
 import {showMessage, isCheatingEnabled, savegame, i18n, mouseTiltX} from './game.js';
@@ -433,7 +433,13 @@ export function evaluateDoorStates(changedVarName) {
 }
 
 function pickToken(tok, i) {
-    console.log("pickToken", tok.object, i);
+    console.log("pickToken", tok.object, i, window.gamedata.objectIndex[tok.id].name);
+    let objectname = window.gamedata.objectIndex[tok.id][window.gamedata.language];
+    if (objectname == undefined) {
+        console.log("pickToken, notification name undefined", window.gamedata.objectIndex[tok.id], window.gamedata.language);
+    } else {
+        notify(objectname + " " + i18n("found"));
+    }
     $("body").trigger({ type:"token", filter:tok.id });
     if (tok?.action?.keyname!=undefined) {
         mapManager.openSwitchDialog=tok.action.keyname;

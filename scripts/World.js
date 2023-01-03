@@ -389,9 +389,11 @@ function questComplete() {
         mapManager.quest.dispose();
         mapManager.quest = undefined;
     }
-    $("#quest_complete_"+window.gamedata.language).fadeIn(400);
+    $("#notification_de").text("Quest abgeschlossen!");
+    $("#notification_en").text("Quest complete!");
+    $("#notification_"+window.gamedata.language).fadeIn(400);
     setTimeout(() => {
-        $("#quest_complete_"+window.gamedata.language).fadeOut(400);
+        $("#notification_"+window.gamedata.language).fadeOut(400);
         showMessage("success_message");
     }, 1000);
     window.gamedata.lastMobId=0;
