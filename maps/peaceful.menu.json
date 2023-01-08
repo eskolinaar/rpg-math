@@ -1,0 +1,20 @@
+{
+	"mode":"mapChangeOnQuestComplete",
+	"maps":[
+		{
+			"file": "m2021-09-16-peaceful1.map.json",
+			"de": "Hasenhunger",
+			"en": "hungry rabbits"
+		},
+		{
+			"file": "m2021-09-17-peaceful3.map.json",
+			"de": "Der vergessene Schlüssel",
+			"en": "A key left behind"
+		},
+		{
+			"file": "m2021-09-17-peaceful2.map.json",
+			"de": "Karotten-Höhle",
+			"en": "carrot cave"
+		}
+    ]
+}

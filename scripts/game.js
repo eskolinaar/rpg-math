@@ -442,25 +442,73 @@ function initModelAndScene() {
     $("body").on("click", "button.load", function (ev) {
         $("body").trigger("forceEndCombat");
         let maplist=$(ev.currentTarget).attr("data-load");
-        console.log("should load maplist", maplist);
+        if (maplist.indexOf(".list.json")!==undefined && maplist.indexOf(".list.json")>-1
+                || maplist.indexOf(".menu.json")!==undefined && maplist.indexOf(".menu.json")>-1) {
 
-        $.get("maps/"+maplist, function (data) {
-            console.log("got maplist");
-            let maplist_obj=parseJSON(data);
-            game_mode=maplist_obj.mode;
-            window.gamedata.maps=maplist_obj.maps;
-            savegame.setSaveMode(maplist_obj.savemode == undefined?"none":maplist_obj.savemode);
+            console.log("load maplist", maplist);
+
+            $.get("maps/" + maplist, function (data) {
+                console.log("got maplist");
+                let maplist_obj = parseJSON(data);
+                game_mode = maplist_obj.mode;
+                if (maplist.indexOf(".menu.json")>-1) {
+                    window.gamedata.maps = extractMapFileNames(maplist_obj.maps);
+                } else {
+                    window.gamedata.maps = maplist_obj.maps;
+                }
+                savegame.setSaveMode(maplist_obj.savemode == undefined ? "none" : maplist_obj.savemode);
+                savegame.saveGameValue("maplist", maplist);
+                if (maplist_obj.order != undefined && maplist_obj.order == "random") {
+                    shuffle(window.gamedata.maps);
+                }
+                mapManager.loadMap(window.gamedata.maps[0]);
+                showMessage("startup_message");
+            });
+        } else {
+            console.log("loading single map");
+            window.gamedata.maps=[ maplist ];
+            savegame.setSaveMode("none");
             savegame.saveGameValue("maplist", maplist);
-            if (maplist_obj.order!=undefined && maplist_obj.order=="random") {
-                shuffle(window.gamedata.maps);
-            }
+            game_mode="mapChangeOnQuestComplete";
             mapManager.loadMap(window.gamedata.maps[0]);
             showMessage("startup_message");
-        });         
+        }
+    });
+    $("body").on("click", "button.submenu", function (ev) {
+        $("body").trigger("forceEndCombat");
+        let maplist=$(ev.currentTarget).attr("data-load");
+        console.log("load maplist", maplist);
+        $.get("maps/" + maplist, function (data) {
+            let maplist_obj = parseJSON(data);
+            game_mode = maplist_obj.mode;
+            savegame.setSaveMode(maplist_obj.savemode == undefined ? "none" : maplist_obj.savemode);
+            savegame.saveGameValue("maplist", maplist);
+
+            let menu = `<button data-load="${maplist}" class="mode load"><h2>Alle</h2></button>`;
+            for (const singlemap of maplist_obj.maps) {
+                menu += `<button data-load="${singlemap.file}" class="mode load"><h4>${singlemap.de}</h4></button>`;
+            }
+            $(".submenu_de .dynamic").html(menu);
+
+            menu = `<button data-load="${maplist}" class="mode load"><h2>All</h2></button>`;
+            for (const singlemap of maplist_obj.maps) {
+                menu += `<button data-load="${singlemap.file}" class="mode load"><h3>${singlemap.en}</h3></button>`;
+            }
+            $(".submenu_en .dynamic").html(menu);
+            showMessage("submenu");
+        });
     });
 
     initWorld();
     registerWindowResizeHandler();
+}
+
+function extractMapFileNames(obj) {
+    let fnames=[];
+    for (const singlemap of obj) {
+        fnames.push(singlemap.file);
+    }
+    return fnames;
 }
 
 $(document).ready(initGame);

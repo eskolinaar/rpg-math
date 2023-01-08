@@ -1171,5 +1171,31 @@
         "type":"token",
         "de": "Kiste",
         "en": "chest"
+    },
+    "152":{
+        "id":"152",
+        "name":"demon",
+        "mesh":"demon.glb",
+        "symbol":"demon.png",
+        "type":"mob",
+        "life":"5"
+    },
+    "153":{
+        "id":"153",
+        "name":"healingwell",
+        "mesh":"healingwell.glb",
+        "symbol":"healingwell.png",
+        "type":"token",
+        "de": "Heilbrunnen",
+        "en": "healing well"
+    },
+    "154":{
+        "id":"154",
+        "name":"redrings",
+        "mesh":"redrings.glb",
+        "symbol":"redrings.png",
+        "type":"token",
+        "de": "Ringportal",
+        "en": "ring portal"
     }
 }
