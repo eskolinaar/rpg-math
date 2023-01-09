@@ -1197,5 +1197,32 @@
         "type":"token",
         "de": "Ringportal",
         "en": "ring portal"
+    },
+    "155":{
+        "id":"155",
+        "name":"bench",
+        "mesh":"bench.glb",
+        "symbol":"bench.png",
+        "type":"token",
+        "de": "Bank",
+        "en": "bench"
+    },
+    "156":{
+        "id":"156",
+        "name":"ladder",
+        "mesh":"ladder.glb",
+        "symbol":"ladder.png",
+        "type":"token",
+        "de": "Leiter",
+        "en": "ladder"
+    },
+    "157":{
+        "id":"157",
+        "name":"bathtub",
+        "mesh":"bathtub.glb",
+        "symbol":"bathtub.png",
+        "type":"token",
+        "de": "Badewanne",
+        "en": "bathtub"
     }
 }
