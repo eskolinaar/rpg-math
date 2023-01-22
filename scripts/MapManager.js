@@ -21,6 +21,7 @@ export class MapManager {
 		this.fog=null;
 		this.fog_data=null;
 		this.light=null;
+		this.lightColor=null;
 		this.pendingQuest=null;
 		this.pendingQuestNPC=null;
 		this.pendingQuestToken=null;
@@ -115,8 +116,16 @@ export class MapManager {
 
 		if (data_obj.light==undefined) {
 			this.light=5;
+			this.lightColor="#444444";
 		} else {
-			this.light=parseFloat(data_obj.light);
+			if (data_obj.light.split(" ").length<2) {
+				this.light = parseFloat(data_obj.light);
+				this.lightColor="#444444";
+			} else {
+				let lightSplit = data_obj.light.split(" ");
+				this.light = parseFloat(lightSplit[0]);
+				this.lightColor=lightSplit[1];
+			}
 		}
 
 		if (data_obj.quest!=undefined) {
@@ -221,6 +230,10 @@ export class MapManager {
 
 	getMapLight() {
 		return this.light;
+	}
+
+	getMapLightColor() {
+		return this.lightColor;
 	}
 
 	getMapDataByPosition(position) {

@@ -26,8 +26,8 @@ var rad;
 var rad4;
 var rotationoffset;
 var rotationspeed;
-var light;
-var light2;
+var partylight;
+var ambientlight;
 var diff_dir;
 var renderer;
 var meshQueue;
@@ -52,10 +52,10 @@ export function initWorld() {
     speed=4;
     mobspeed=1;
 
-    light = new THREE.PointLight( 0xaaaaaa, 2.5 * getBrightness(), 7 ); // soft white light
-    light.position.x=partyPos.x-1;
-    light.position.z=partyPos.y-1;
-    light.position.y=2.3;
+    partylight = new THREE.PointLight( 0xaaaaaa, 2.5 * getBrightness(), 7 ); // soft white partylight
+    partylight.position.x=partyPos.x-1;
+    partylight.position.z=partyPos.y-1;
+    partylight.position.y=2.3;
 
     rad=(90 * Math.PI / 180);
     rad4=2 * Math.PI;
@@ -63,7 +63,7 @@ export function initWorld() {
 
     mouseTiltFactor=(Math.PI);
 
-    light2 = new THREE.AmbientLight( 0x444444, 5 * getBrightness() );
+    ambientlight = new THREE.AmbientLight( 0x444444, 5 * getBrightness() );
 
     damageLight = new THREE.AmbientLight( 0xaa0000, 0 );
 
@@ -119,8 +119,8 @@ function getBrightness() {
 }
 
 function updateSettings() {
-    light.intensity = 2.5 * getBrightness();
-    light2.intensity = 5 * getBrightness();
+    partylight.intensity = 2.5 * getBrightness();
+    ambientlight.intensity = 5 * getBrightness();
     mapManager.updateFog();
     scene.fog = mapManager.getMapFog();
 }
@@ -424,12 +424,12 @@ function questComplete() {
         speed=4;
         mobspeed=1;
 
-        light = new THREE.PointLight( 0xaaaaaa, 2.5 * getBrightness(), 7 ); // soft white light
-        light.position.x=partyPos.x-1;
-        light.position.z=partyPos.y-1;
-        light.position.y=2.3;
+        partylight = new THREE.PointLight( 0xaaaaaa, 2.5 * getBrightness(), 7 ); // soft white partylight
+        partylight.position.x=partyPos.x-1;
+        partylight.position.z=partyPos.y-1;
+        partylight.position.y=2.3;
 
-        light2 = new THREE.AmbientLight( 0x444444, 5 * getBrightness() );
+        ambientlight = new THREE.AmbientLight( 0x444444, 5 * getBrightness() );
 
         damageLight = new THREE.AmbientLight( 0xaa0000, 0 );
 
@@ -516,8 +516,8 @@ export function render() {
                 camera.rotation.y = camera.rotation.y % (rad4);
             }
 
-            light.position.x = camera.position.x;
-            light.position.z = camera.position.z;
+            partylight.position.x = camera.position.x;
+            partylight.position.z = camera.position.z;
         } // onTop end
 
         // spell Effect
@@ -627,8 +627,8 @@ export function render() {
             camera.position.z = (partyPos.y + window.gamedata.camera.deltaY - 1);
             camera.rotation.y = window.gamedata.direction * rad + rotationoffset;
 
-            light.position.x = camera.position.x;
-            light.position.z = camera.position.z;
+            partylight.position.x = camera.position.x;
+            partylight.position.z = camera.position.z;
         } // onTop end
 
         for (let i = 0; i < mapManager.getMobDataLength(); i++) {
@@ -713,8 +713,8 @@ function addToken(idx, wall, x, y, rot) {
 }
 
 function createScene() {
-    scene.add( light );
-    scene.add( light2 );
+    scene.add( partylight );
+    scene.add( ambientlight );
     scene.add( damageLight );
     window.gamedata.scene=scene;
 
@@ -723,7 +723,10 @@ function createScene() {
     createWater();
 
     scene.fog=mapManager.getMapFog();
-    light2.intensity=mapManager.getMapLight()*getBrightness();
+    ambientlight.intensity=mapManager.getMapLight()*getBrightness();
+    if (mapManager.getMapLightColor()!=undefined) {
+        ambientlight.color = new THREE.Color(mapManager.getMapLightColor());
+    }
 
     $(".startup_progress").html("<p>"+i18n("level_build")+"</p>");
 
@@ -1006,8 +1009,8 @@ export function moveCameraTop() {
     camera.position.z=17;
     camera.position.x=15;    
 
-    console.log(light2);  
-    light2.intensity=10;
+    console.log(ambientlight);
+    ambientlight.intensity=10;
 }
 
 export function setPartyPosition(pos) {
