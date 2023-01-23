@@ -211,12 +211,10 @@ export class MapManager {
 	getMapData(x, y) {
 		if (x instanceof Position) return this.getMapDataByPosition(x);
 
-	    var cell=y*30+x;
+	    let cell=y*30+x;
 	    if (this.map==undefined || this.map[cell]==undefined) {
-	    	//console.log("map or cell undefined.");
 	    	return 0;
 	    }
-	    //console.log("getMapData", cell, this.map, this.map[cell]);
 	    return this.map[cell];
 	}
 
@@ -237,7 +235,7 @@ export class MapManager {
 	}
 
 	getMapDataByPosition(position) {
-	    var cell=position.y*30+position.x;
+	    let cell=position.y*30+position.x;
 	    if (this.map==undefined || this.map[cell]==undefined) {
 	    	//console.log("2. map or cell undefined.");
 	    	return 0;
@@ -249,7 +247,7 @@ export class MapManager {
 	isFloor(x, y) {
 		if (x instanceof Position) return this.isFloorByPosition(x);
 
-    	var fieldvalue=this.getMapData(x, y);
+    	let fieldvalue=this.getMapData(x, y);
     	if (window.gamedata.objectIndex[fieldvalue].type=="floor") return true;
     	return false;
 	}

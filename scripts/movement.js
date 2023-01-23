@@ -190,29 +190,52 @@ function checkPositionQuest(coordinates) {
 
 // mob movement
 
+function canMobWalk(mob, mobPos, i) {
+    return mapManager.isFloor(mobPos.apply(directions[mob.rotation + 2]))
+        && checkMobPositionByPosition(i, mobPos.apply(directions[mob.rotation + 2]))
+        && checkTokenPosition(mobPos.apply(directions[mob.rotation + 2]), false) == null;
+}
+
 export function mobWalk() {
     //console.log("mobWald inactive. remove return statement.");
     //return;
-    var free_will=0;
+    let free_will=0;
 
-    for (var i=0;i<mapManager.getMobDataLength();i++) {
-        free_will=Math.floor(Math.random()*6);
-        var mob=mapManager.getMob(i);
+    for (let i=0;i<mapManager.getMobDataLength();i++) {
+        let mob=mapManager.getMob(i);
+        let mobPos=new Position(mob.x, mob.y);
 
         if (mob.movement != undefined && mob.movement=="none") continue;
-        
+
         if (mob.rotation>3) mob.rotation=0;
-        if (mob.rotation<0) mob.rotation=3;        
-        
+        if (mob.rotation<0) mob.rotation=3;
+
+        if (mob.movement != undefined && mob.movement=="aggressive") {
+            if (canMobWalk(mob, mobPos, i)) {
+                if (getDistance(mobPos)>getDistance(mobPos.apply(directions[mob.rotation+2]))) {
+                    [mob.x, mob.y] = mobPos.apply(directions[mob.rotation + 2]).asArray();
+                    continue;
+                }
+            }
+            if (getDistance(mobPos)>getDistance(mobPos.apply(directions[mob.rotation+1]))) {
+                mob.rotation--;
+                if (mob.rotation<0) mob.rotation=3;
+            } else if (getDistance(mobPos)>getDistance(mobPos.apply(directions[mob.rotation+3]))) {
+                mob.rotation++;
+                if (mob.rotation>3) mob.rotation=0;
+            }
+            checkCombat();
+            continue;
+        }
+
+        // default movement or undefined
+        free_will=Math.floor(Math.random()*6);
         if (free_will<4) {
             // move forward
-            var mobPos=new Position(mob.x, mob.y);
+
 
             // todo: verify that token position check works
-            if (mapManager.isFloor(mobPos.apply(directions[mob.rotation+2])) 
-                && checkMobPositionByPosition(i, mobPos.apply(directions[mob.rotation+2]))
-                && checkTokenPosition(mobPos.apply(directions[mob.rotation+2]), false)==null
-                ) {
+            if (canMobWalk(mob, mobPos, i)) {
                 [mob.x, mob.y]=mobPos.apply(directions[mob.rotation+2]).asArray();
             } else rotateLeftOrRight(mob); 
         }
@@ -299,6 +322,12 @@ function rotateLeftOrRight(mob) {
     if (Math.floor(Math.random()*2)>1) mob.rotation--; else mob.rotation++;
     if (mob.rotation>3) mob.rotation=0;
     if (mob.rotation<0) mob.rotation=3;
+}
+
+function getDistance(mob) {
+    let dist=Math.abs(mob.x-partyPos.x+1)+Math.abs(mob.y-partyPos.y+1);
+    console.log("getDistance", mob, partyPos, dist);
+    return dist;
 }
 
 function checkMobPosition(idx, x, y) {
