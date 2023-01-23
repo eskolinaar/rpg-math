@@ -128,7 +128,10 @@ export function suffer(dmg) {
     console.log("suffer for, ", dmg);  	
     $("body").trigger({ type:"suffer" });
     console.log("suffer, ", mapManager.getMob(targetMob), targetMob);
-    let m=mapManager.getMob(targetMob)?.attack?.reset().play();
+    let m=mapManager.getMob(targetMob);
+    m?.attack?.reset().play();
+    m?.idle?.stop();
+    setTimeout(() => { m?.idle?.play(); }, 800);
 
     window.gamedata.player.current_life=parseInt(window.gamedata.player.current_life)-parseInt(dmg);
     if (window.gamedata.player.current_life<1) window.gamedata.player.current_life=0;
