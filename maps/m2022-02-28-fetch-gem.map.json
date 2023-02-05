@@ -3,7 +3,7 @@
 "mapname":"undefined", 
 "height": "30", 
 "width": "30",
-"fog": "none",
+"fog": "#aaccee 8 16",
 "light": "5",
 "x" : "6", 
 "y" : "9", 

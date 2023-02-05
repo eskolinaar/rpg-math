@@ -3,7 +3,7 @@
 "mapname":"easter-egg-hunt",
 "height": "30", 
 "width": "30",
-"fog": "#224466 0.1 8",
+"fog": "#88aacc 8 16",
 "light": "5",
 "x" : "18", 
 "y" : "19", 

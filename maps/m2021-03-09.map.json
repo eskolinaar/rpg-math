@@ -3,6 +3,8 @@
 "mapname":"Woody maze",
 "height": "30", 
 "width": "30",
+"fog": "#aabbcc 3 7",
+"light": "11",
 "x" : "15", 
 "y" : "15", 
 "direction" : "2", 

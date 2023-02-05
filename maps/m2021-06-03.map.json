@@ -3,6 +3,8 @@
 "mapname":"Chest in the labyrinth",
 "height": "30", 
 "width": "30",
+"fog": "#aabbcc 3 7",
+"light": "11",
 "x" : "8", 
 "y" : "24", 
 "direction" : "1", 

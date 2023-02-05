@@ -3,7 +3,7 @@
   "mapname":"Testmap token-with-quest",
   "height": "30",
   "width": "30",
-  "fog": "#224466 0.1 8",
+  "fog": "#88aacc 8 16",
   "light": "5",
   "x" : "3",
   "y" : "3",

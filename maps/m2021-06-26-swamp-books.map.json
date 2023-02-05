@@ -3,6 +3,8 @@
 	"mapname":"Books in the swamp",
 	"height": "30", 
 	"width": "30",
+	"fog": "#244744 2 5",
+	"light": "10",
 	"x" : "17", 
 	"y" : "5", 
 	"direction" : "3", 
