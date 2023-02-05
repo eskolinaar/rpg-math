@@ -2,7 +2,7 @@
     "1":{
         "id":"1",
         "name":"InsetStoneFloor",
-        "mesh":"InsetStoneFloor2.glb",
+        "mesh":"InsetStoneFloor3.glb",
         "symbol":"InsetStoneFloor.png",
         "type":"floor",
         "orientation":"calc"
@@ -233,7 +233,7 @@
     "35":{
         "id":"35",
         "name":"stonemosswall",
-        "mesh":"StoneMossWall2.glb",
+        "mesh":"StoneMossWall.glb",
         "symbol":"StoneMossWall.png",
         "type":"wall",
         "orientation":"calc"        

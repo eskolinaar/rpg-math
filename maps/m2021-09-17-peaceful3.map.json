@@ -3,6 +3,8 @@
 "mapname":"Friedliche Hasen 3",
 "height": "30", 
 "width": "30",
+"fog": "none",
+"light": "11",
 "x" : "18", 
 "y" : "10", 
 "direction" : "1", 
