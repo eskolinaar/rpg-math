@@ -80,7 +80,7 @@
     "15":{
         "id":"15",
         "name":"Watcher",       
-        "mesh":"Watcher2021red_b30.glb",
+        "mesh":"Watcher03-2023.glb",
         "symbol":"Watcher_bonerig_b28_v2.png",
         "type":"mob",
         "life":"3"
@@ -1232,5 +1232,32 @@
         "symbol":"goblin.png",
         "type":"mob",
         "life":"3"
+    },
+    "159":{
+        "id":"159",
+        "name":"treasure",
+        "mesh":"chest022023.glb",
+        "symbol":"chest022023.png",
+        "type":"token",
+        "de": "Schatzkiste",
+        "en": "treasure"
+    },
+    "160":{
+        "id":"160",
+        "name":"star",
+        "mesh":"star.glb",
+        "symbol":"star.png",
+        "type":"token",
+        "de": "Stern",
+        "en": "star"
+    },
+    "161":{
+        "id":"161",
+        "name":"coin",
+        "mesh":"coin.glb",
+        "symbol":"coin.png",
+        "type":"token",
+        "de": "Münze",
+        "en": "coin"
     }
 }

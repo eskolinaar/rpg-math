@@ -1,0 +1,11 @@
+adjust speed
+
+open monster gallery
+
+enableCheats();
+
+setInterval(() => {
+    let x=window.gamedata.mapManager.charPos.x+1;
+    teleport(x, 15, false);
+    window.gamedata.mapManager.charPos.x++;
+}, 2000);

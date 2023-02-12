@@ -13,10 +13,12 @@ function enableCheats() {
 	// enables kill command on key "k"
 }
 
-function teleport(x, y) {
+function teleport(x, y, hard) {
 	$("body").trigger("forceEndCombat");     
 	$("body").trigger("move", { x:x, y:y });
-	$("body").trigger("teleport");
+	if (hard!==false) {
+		$("body").trigger("teleport");
+	}
 }
 
 function getPosition() {
