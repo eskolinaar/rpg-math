@@ -132,11 +132,13 @@ export class MapManager {
 			if (this.quest!=undefined) this.quest.dispose();
 
 			this.questTemplates=data_obj.quest.template;
+			this.questProgressTemplates=data_obj.quest?.progressTemplate;
 			this.quest = new Quest(
 				data_obj.quest.event,
 				data_obj.quest.filter,
 				data_obj.quest.amount,
 				this.chooseTemplate(data_obj.quest.template),
+				this.chooseTemplate(data_obj.quest?.progressTemplate),
 				"#quest_ui",
 				data_obj.quest.complete_event==undefined?"quest_complete":this.pendingQuest.complete_event,
 				false
@@ -180,6 +182,7 @@ export class MapManager {
 	}
 
 	chooseTemplate(tpl) {
+		if (tpl === undefined) return undefined;
 		let out="";
         if (tpl[window.gamedata.language] == undefined) {
 			if (tpl["en"] == undefined) {
@@ -201,7 +204,7 @@ export class MapManager {
 	changeLanguage(new_lang) {
 		if (this.intro==undefined) return;
 		$(".level_introtext").text(this.intro[new_lang]);	
-		this.quest.changeLanguage(this.chooseTemplate(this.questTemplates));	
+		this.quest.changeLanguage(this.chooseTemplate(this.questTemplates), this.chooseTemplate(this.questProgressTemplates));
 	}
 
 	getCharPosition() {
@@ -359,16 +362,25 @@ export class MapManager {
 		showMessage("quest_message");
 	}
 
-	showMobMessage(message) {
-		console.log("showMobMessage, showing simple message", message);
+	/**
+	 * Populate simple_message_de/en and show it.
+	 * Optionally hook an event for quest tracking.
+	 *
+	 * @param message to be shown
+	 * @param firstTime only trigger quest event once
+	 * @param eventQualifier to differentiate between mob/token types for quest tracking
+	 */
+	showSimpleMessage(message, firstTime, eventQualifier) {
+		console.log("showSimpleMessage, showing simple message", message, firstTime, eventQualifier);
 		$(".simple_message_de .simple_text_placeholder").html(message.de.replaceAll("\n", "<br>"));
 		$(".simple_message_en .simple_text_placeholder").html(message.en.replaceAll("\n", "<br>"));
+		$(".simple_message_de button[data-id], .simple_message_en button[data-id]").attr("data-event", (firstTime?eventQualifier:null));
 		setPaused(true);
 		showMessage("simple_message");
 	}
 
 	showSwitchDialog(action) {
-		console.log("showMobMessage, showing simple message", action.message);
+		console.log("showSwitchDialog, showing dialog", action.message);
 		this.openSwitchDialog=action.keyname;
 		if (action.message !== undefined) {
 			$(".switch_message_de .switch_text_placeholder").html(action.message.de.replaceAll("\n", "<br>"));
@@ -411,6 +423,7 @@ export class MapManager {
 			this.pendingQuest.filter,
 			this.pendingQuest.amount,
 			this.chooseTemplate(this.pendingQuest.template),
+			this.chooseTemplate(this.pendingQuest?.progressTemplate),
 			"#quest_ui",
 			this.pendingQuest.complete_event===undefined?"quest_complete":this.pendingQuest.complete_event,
 			true

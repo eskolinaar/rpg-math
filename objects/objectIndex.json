@@ -1259,5 +1259,14 @@
         "type":"token",
         "de": "Münze",
         "en": "coin"
+    },
+    "162":{
+        "id":"162",
+        "name":"krapfen",
+        "mesh":"krapfen.glb",
+        "symbol":"krapfen.png",
+        "type":"token",
+        "de": "krapfen",
+        "en": "doughnut"
     }
 }

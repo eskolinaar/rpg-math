@@ -157,7 +157,8 @@ function step(vector) {
                 mapManager.announceQuest(mob.quest, mobidx, null);
             } else if (mob.message!=undefined) {
                 rotateMobToPlayer(mobidx);
-                mapManager.showMobMessage(mob.message);
+                mapManager.showSimpleMessage(mob.message, !(mob.message?.triggered===true), "mob"+mob.id);
+                mob.message.triggered=true;
             }
         }
     } else
@@ -371,7 +372,8 @@ function checkTokenPosition(position, trigger) {
                     }
                 } else
                 if (token.action.type=="message") {
-                    mapManager.showMobMessage(token.action.message);
+                    mapManager.showSimpleMessage(token.action.message, !(token.action?.triggered===true), "token"+token.id);
+                    token.action.triggered=true;
                 } else
                 if (token.action.type=="quest") {
                     mapManager.announceQuest(token.action.quest, null, i);

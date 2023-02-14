@@ -227,6 +227,13 @@ function resumeGame() {
     setPaused(false);
 }
 
+function checkQuestProgress(message_button) {
+    console.log("checkQuestProgress", message_button);
+    if (message_button.attr("data-event")!==undefined) {
+        $("body").trigger({ type:"message", filter:message_button.attr("data-event") });
+    }
+}
+
 function initModelAndScene() {
     setPaused(true);
     window.gamedata={};
@@ -330,6 +337,9 @@ function initModelAndScene() {
             notify(i18n("quest_accept"));
             resumeGame();
         } else if (did=="quest_dismiss") {
+            resumeGame();
+        } else if (did=="message_dismiss") {
+            checkQuestProgress($(this));
             resumeGame();
         } else if (did=="switch_off") {
             mapManager.saveSwitchState(0);
