@@ -1,0 +1,6 @@
+{
+  "mode":"mapChangeOnQuestComplete",
+  "maps":[
+    "m2023-02-17-carnival.map.json"
+  ]
+}
