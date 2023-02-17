@@ -339,8 +339,8 @@ function initModelAndScene() {
         } else if (did=="quest_dismiss") {
             resumeGame();
         } else if (did=="message_dismiss") {
-            checkQuestProgress($(this));
             resumeGame();
+            checkQuestProgress($(this));
         } else if (did=="switch_off") {
             mapManager.saveSwitchState(0);
             resumeGame();
