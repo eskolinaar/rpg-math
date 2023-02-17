@@ -466,7 +466,7 @@ export function evaluateDoorStates(changedVarName) {
 function pickToken(tok, i) {
     console.log("pickToken", tok.object, i, window.gamedata.objectIndex[tok.id].name);
     let objectname = window.gamedata.objectIndex[tok.id][window.gamedata.language];
-    if (tok.action.message!==undefined) {
+    if (tok?.action?.message!==undefined) {
         notify(tok.action.message[window.gamedata.language]);
     } else
     if (objectname == undefined) {

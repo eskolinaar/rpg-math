@@ -357,7 +357,7 @@
         "id":"51",
         "name":"Door2Wing",
         "symbol":"Door2Wing.png",
-        "mesh":"Door2Wing3.glb",
+        "mesh":"Door2Wing4.glb",
         "type":"token",
         "de": "Tor",
         "en": "door"
@@ -1266,7 +1266,16 @@
         "mesh":"krapfen.glb",
         "symbol":"krapfen.png",
         "type":"token",
-        "de": "krapfen",
+        "de": "Krapfen",
         "en": "doughnut"
+    },
+    "163":{
+        "id":"163",
+        "name":"SimpleDoor",
+        "mesh":"SimpleDoor.glb",
+        "symbol":"SimpleDoor.png",
+        "type":"token",
+        "de": "Tür",
+        "en": "Door"
     }
 }
