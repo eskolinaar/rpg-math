@@ -13,7 +13,7 @@
 "mobs":[], 
 "token":[
   {"id":"29","x":8,"y":4,"rotation":"3","action":{"type":"switch","keyname":"a","message":{"en":"Just imagine this book is a switch.","de":"Stell dir einfach vor dieses Buch wäre ein Schalter."}}},
-  {"id":"51","x":12,"y":4,"rotation":"1","action":{"type": "door","keyname":"a"}}
+  {"id":"51","x":12,"y":4,"rotation":"1","action":{"type": "door","keyname":"a","lazy":"true"}}
 ],
 "quest":{"event":"","filter":"","amount":"","template":{"en":"","de":""}}, 
 "introtext": {"de":"","en":""}

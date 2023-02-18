@@ -13,6 +13,27 @@ TOKEN:
     // Tür
     {"id":"50","x":10,"y":5,"action":{"type": "door","keyname":"a&b"}}
 
+    // lazy Tür - wird erst geöffnet wenn man dagegenläuft
+    {"id":"51","x":12,"y":4,"rotation":"1","action":{"type": "door","keyname":"a","lazy":"true"}}
+
+    // pickup token mit variable
+    {"id":"67","x":18,"y":8,"action":{"type":"pick","keyname":"crystal"}},
+
+    // pickup token mit custom event
+    {"id":"133","x":11,"y":17,"action":{"type":"pick","event":"progress"}},
+
+    // message token mit custom event
+    { "id":"93", "x":15, "y":10,
+        "action":{
+          "type":"message",
+          "event":"progress",
+          "message": {
+            "de":"Text deutsch",
+            "en":"Text english"
+          }
+        }
+    }
+
     // Portal mit Map-Wechsel
     {"id":"40","x":20,"y":0, "action": { "type":"travel", "map":"mapchange2.map.json", "x":"6", "y":"28", "direction":"1" }}
 
@@ -84,6 +105,19 @@ MONSTER:
     "complete_message": {"en":"Yummy.","de":"Danke. Die Karotten waren lecker."}
   }
 }
+
+// NPC mit custom event und variable
+  {
+    "id":"136", "x":15, "y":14, "life":"3",
+    "mode":"peaceful", "movement":"none", "rotation":"1",
+    "message": {
+      "de":"bla",
+      "en":"bla",
+      "keyname": "testvariable",
+      "event": "progress"
+    }
+  }
+
 
 
 ]

@@ -157,7 +157,8 @@ function step(vector) {
                 mapManager.announceQuest(mob.quest, mobidx, null);
             } else if (mob.message!=undefined) {
                 rotateMobToPlayer(mobidx);
-                mapManager.showSimpleMessage(mob.message, !(mob.message?.triggered===true), "mob"+mob.id);
+                if (mob.message?.keyname!==undefined) mapManager.saveVariableState(mob.message.keyname, 1);
+                mapManager.showSimpleMessage(mob.message, !(mob.message?.triggered===true), "mob"+mob.id, mob.message?.event);
                 mob.message.triggered=true;
             }
         }
@@ -372,7 +373,8 @@ function checkTokenPosition(position, trigger) {
                     }
                 } else
                 if (token.action.type=="message") {
-                    mapManager.showSimpleMessage(token.action.message, !(token.action?.triggered===true), "token"+token.id);
+                    if (token.action?.keyname!==undefined) mapManager.saveVariableState(token.action.keyname, 1);
+                    mapManager.showSimpleMessage(token.action.message, !(token.action?.triggered===true), "token"+token.id, token.action?.event);
                     token.action.triggered=true;
                 } else
                 if (token.action.type=="quest") {
@@ -396,7 +398,11 @@ function checkDoorOpen(position) {
         if (token.x==position.x && token.y==position.y) {
             if (token.action==undefined || token.action.type==undefined) return true;
             if (token.action.type=="door") {
-                return evaluateDoorState(token.action.keyname, compileSwitchStates());
+                // lazy door may open upon walking against it. but not be open at that time.
+                // so get state first, then evaluate
+                let doorState = token.isOpen;//calculateDoorState(token.action.keyname, compileSwitchStates());
+                reevaluateCurrentDoorState(token);
+                return doorState;
             }
             return true; // is no door
         }
@@ -419,25 +425,26 @@ function compileSwitchStates() {
     return states;
 }
 
-function evaluateDoorState(keyname, states) {
+function calculateDoorState(keyname, states) {
     let state = (new Expression(keyname).solveAll(states).getValue());
-    console.log("evaluateDoorState, solving to ", state);
+    console.log("calculateDoorState, solving %s to %s", keyname, state);
     return state=="1";
 }
 
-export function evaluateInitialDoorStates(token) {
+export function reevaluateCurrentDoorState(token) {
     if (token.action==undefined) return;
-    let state=evaluateDoorState(token.action.keyname, compileSwitchStates());
+    let state=calculateDoorState(token.action.keyname, compileSwitchStates());
     if (state) {
-        console.log("evaluateInitialDoorStates, opening", token);
+        console.log("reevaluateCurrentDoorState, opening", token);
         token.open.play();
         token.close.stop();
+        token.isOpen=true;
     } else {
-        console.log("evaluateInitialDoorStates, closing", token);
+        console.log("reevaluateCurrentDoorState, closing", token);
         token.close.play();
         token.open.stop();
+        token.isOpen=false;
     }
-
 }
 
 export function evaluateDoorStates(changedVarName) {
@@ -447,18 +454,21 @@ export function evaluateDoorStates(changedVarName) {
         if (token.action===undefined) continue;
         if (token.action.type===undefined || token.action.type!="door") continue;
         if (token.action.keyname===undefined) continue;
+        if (token.action.lazy!==undefined && token.action.lazy=="true" && token.isOpen==false) continue;
         if (changedVarName!=undefined && !token.action.keyname.includes(changedVarName)) continue;
 
         // create expression for token.action.keyname evaluate with switchStates
-        let state=evaluateDoorState(token.action.keyname, states);
+        let state=calculateDoorState(token.action.keyname, states);
         if (state) {
             console.log("evaluateDoorStates, opening", i);
             window.gamedata.mapManager.getTokenData()[i].open.play();
             window.gamedata.mapManager.getTokenData()[i].close.stop();
+            window.gamedata.mapManager.getTokenData()[i].isOpen=true;
         } else {
             console.log("evaluateDoorStates, closing", i);
             window.gamedata.mapManager.getTokenData()[i].close.play();
             window.gamedata.mapManager.getTokenData()[i].open.stop();
+            window.gamedata.mapManager.getTokenData()[i].isOpen=false;
         }
     }
 }
@@ -475,9 +485,11 @@ function pickToken(tok, i) {
         notify(objectname + " " + i18n("found"));
     }
     $("body").trigger({ type:"token", filter:tok.id });
+    if (tok?.action?.event!==undefined) {
+        $("body").trigger({ type:tok.action.event });
+    }
     if (tok?.action?.keyname!=undefined) {
-        mapManager.openSwitchDialog=tok.action.keyname;
-        mapManager.saveSwitchState(1);
+        mapManager.saveVariableState(tok.action.keyname, 1);
     }
     scene.remove(tok.object);
     mapManager.removeToken(i);   

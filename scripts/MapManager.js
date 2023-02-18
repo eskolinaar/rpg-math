@@ -368,13 +368,14 @@ export class MapManager {
 	 *
 	 * @param message to be shown
 	 * @param firstTime only trigger quest event once
-	 * @param eventQualifier to differentiate between mob/token types for quest tracking
+	 * @param eventQualifier to filter for mob/token types within quest tracking
 	 */
-	showSimpleMessage(message, firstTime, eventQualifier) {
+	showSimpleMessage(message, firstTime, eventQualifier, customEvent) {
 		console.log("showSimpleMessage, showing simple message", message, firstTime, eventQualifier);
 		$(".simple_message_de .simple_text_placeholder").html(message.de.replaceAll("\n", "<br>"));
 		$(".simple_message_en .simple_text_placeholder").html(message.en.replaceAll("\n", "<br>"));
-		$(".simple_message_de button[data-id], .simple_message_en button[data-id]").attr("data-event", (firstTime?eventQualifier:null));
+		$(".simple_message_de button[data-id], .simple_message_en button[data-id]").attr("data-event-qualifier", (firstTime?eventQualifier:null));
+		$(".simple_message_de button[data-id], .simple_message_en button[data-id]").attr("data-custom-event", (firstTime&&customEvent!==undefined?customEvent:null));
 		setPaused(true);
 		showMessage("simple_message");
 	}
@@ -437,6 +438,12 @@ export class MapManager {
 		this.pendingQuestNPC=null;
 		this.pendingQuestToken=null;
 		this.pendingQuest=null;
+	}
+
+	saveVariableState(varname, newvalue) {
+		console.log("saveVariableState, ", varname, newvalue);
+		savegame.saveMapValue("switch#"+varname, newvalue);
+		evaluateDoorStates(varname);
 	}
 
 	saveSwitchState(newstate) {

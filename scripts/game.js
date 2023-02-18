@@ -227,10 +227,19 @@ function resumeGame() {
     setPaused(false);
 }
 
-function checkQuestProgress(message_button) {
+/**
+ * 1.) Check if a quest progress has to be notified
+ * 2.) Check if a custom event has to be fired.
+ *
+ * @param message_button
+ */
+function checkMessageTriggers(message_button) {
     console.log("checkQuestProgress", message_button);
-    if (message_button.attr("data-event")!==undefined) {
-        $("body").trigger({ type:"message", filter:message_button.attr("data-event") });
+    if (message_button.attr("data-event-qualifier")!==undefined) {
+        $("body").trigger({ type:"message", filter:message_button.attr("data-event-qualifier") });
+    }
+    if (message_button.attr("data-custom-event")!==undefined) {
+        $("body").trigger({ type: message_button.attr("data-custom-event") });
     }
 }
 
@@ -340,7 +349,7 @@ function initModelAndScene() {
             resumeGame();
         } else if (did=="message_dismiss") {
             resumeGame();
-            checkQuestProgress($(this));
+            checkMessageTriggers($(this));
         } else if (did=="switch_off") {
             mapManager.saveSwitchState(0);
             resumeGame();

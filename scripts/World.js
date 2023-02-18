@@ -4,7 +4,13 @@
 
 import {parseJSON, Position } from './helper.js';
 import { MapManager } from './MapManager.js';
-import {onTop, setPaused, directions, evaluateInitialDoorStates, spectatorMode} from './movement.js';
+import {
+    onTop,
+    setPaused,
+    directions,
+    reevaluateCurrentDoorState,
+    spectatorMode
+} from './movement.js';
 import { i18n, showMessage, mouseTiltX } from './game.js';
 // import { Water } from './Water2.js';
 
@@ -703,7 +709,7 @@ function addToken(idx, wall, x, y, rot) {
                 mob.close.iterations=1;
                 mob.close.loop=THREE.LoopOnce;
             }
-            evaluateInitialDoorStates(mob);
+            reevaluateCurrentDoorState(mob);
             console.log("addToken, added", mob);
         }
     }, undefined, ( e ) => {
