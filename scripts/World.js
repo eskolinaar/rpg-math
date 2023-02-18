@@ -654,14 +654,14 @@ export function render() {
 }
 
 function addToken(idx, wall, x, y, rot) {
-    let mob=mapManager.getTokenData()[idx];
+    let tokenObject=mapManager.getTokenData()[idx];
 
-    if (window.gamedata.objectIndex[mob.id]==undefined) {
-        console.log("Unknown Index "+mob.id+". Omitting Object.");
+    if (window.gamedata.objectIndex[tokenObject.id]==undefined) {
+        console.log("Unknown Index "+tokenObject.id+". Omitting Object.");
         return;
     }
 
-    loader.load( window.gamedata.objectIndex[mob.id].mesh, ( gltf ) => {
+    loader.load( window.gamedata.objectIndex[tokenObject.id].mesh, ( gltf ) => {
 
         objidx=0;
         for (let i=0;i<gltf.scene.children.length;i++) {
@@ -670,47 +670,60 @@ function addToken(idx, wall, x, y, rot) {
             }
         }
 
-        let cube = gltf.scene.children[ objidx ];
-        cube.scale.x=cube.scale.y=cube.scale.z=0.5;
-        cube.position.y=1.05;
-        cube.position.x=x;
-        cube.position.z=y;
-        cube.rotation.y=rot*rad;
+        let meshObject = gltf.scene.children[ objidx ];
+        meshObject.scale.x=meshObject.scale.y=meshObject.scale.z=0.5;
+        meshObject.position.y=1.05;
+        meshObject.position.x=x;
+        meshObject.position.z=y;
+        meshObject.rotation.y=rot*rad;
 
         // opacity
-        let skin=getSkin(cube);
-        cube.skin=skin;
+        let skin=getSkin(meshObject);
+        meshObject.skin=skin;
         if (skin !== undefined) {
             //skin.transparent = true;
             //skin.depthWrite = false;
             //skin.side=THREE.DoubleSide;
-            if (window.gamedata.objectIndex[mob.id].opacity !== undefined) {
-                skin.opacity = parseFloat(window.gamedata.objectIndex[mob.id].opacity);
+            if (window.gamedata.objectIndex[tokenObject.id].opacity !== undefined) {
+                skin.opacity = parseFloat(window.gamedata.objectIndex[tokenObject.id].opacity);
                 skin.blending=THREE.AdditiveBlending;
             }
         } else {
-            console.log("transparency failed for ", mob.id, window.gamedata.objectIndex[mob.id].opacity);
+            console.log("transparency failed for ", tokenObject.id, window.gamedata.objectIndex[tokenObject.id].opacity);
         }
 
-        scene.add( cube );
-        mob.object=cube;
+        scene.add( meshObject );
+        tokenObject.object=meshObject;
         if (gltf.animations!=undefined && gltf.animations.length>0) {
-            mob.animations=gltf.animations;
-            mob.mixer=new THREE.AnimationMixer(cube);
-            mob.open=getActionByName(mob.mixer, mob.animations, "Open");
-            if (mob.open!=undefined) {
-                mob.open.clampWhenFinished=true;
-                mob.open.iterations=1;
-                mob.open.loop=THREE.LoopOnce;
+            tokenObject.animations=gltf.animations;
+            tokenObject.mixer=new THREE.AnimationMixer(meshObject);
+            tokenObject.open=getActionByName(tokenObject.mixer, tokenObject.animations, "Open");
+            if (tokenObject.open!=undefined) {
+                tokenObject.open.clampWhenFinished=true;
+                tokenObject.open.iterations=1;
+                tokenObject.open.loop=THREE.LoopOnce;
             }
-            mob.close=getActionByName(mob.mixer, mob.animations, "Close");
-            if (mob.close!=undefined) {
-                mob.close.clampWhenFinished=true;
-                mob.close.iterations=1;
-                mob.close.loop=THREE.LoopOnce;
+            tokenObject.close=getActionByName(tokenObject.mixer, tokenObject.animations, "Close");
+            if (tokenObject.close!=undefined) {
+                tokenObject.close.clampWhenFinished=true;
+                tokenObject.close.iterations=1;
+                tokenObject.close.loop=THREE.LoopOnce;
             }
-            reevaluateCurrentDoorState(mob);
-            console.log("addToken, added", mob);
+
+            tokenObject.on=getActionByName(tokenObject.mixer, tokenObject.animations, "On");
+            if (tokenObject.on!=undefined) {
+                tokenObject.on.clampWhenFinished=true;
+                tokenObject.on.iterations=1;
+                tokenObject.on.loop=THREE.LoopOnce;
+            }
+            tokenObject.off=getActionByName(tokenObject.mixer, tokenObject.animations, "Off");
+            if (tokenObject.off!=undefined) {
+                tokenObject.off.clampWhenFinished=true;
+                tokenObject.off.iterations=1;
+                tokenObject.off.loop=THREE.LoopOnce;
+            }
+            reevaluateCurrentDoorState(tokenObject);
+            console.log("addToken, added", tokenObject);
         }
     }, undefined, ( e ) => {
         console.error( e );

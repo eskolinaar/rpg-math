@@ -1277,5 +1277,14 @@
         "type":"token",
         "de": "Tür",
         "en": "Door"
+    },
+    "164":{
+        "id":"164",
+        "name":"Buzzer",
+        "mesh":"buzzer.glb",
+        "symbol":"buzzer.png",
+        "type":"token",
+        "de": "Buzzer",
+        "en": "Buzzer"
     }
 }

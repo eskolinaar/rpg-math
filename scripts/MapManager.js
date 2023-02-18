@@ -26,6 +26,7 @@ export class MapManager {
 		this.pendingQuestNPC=null;
 		this.pendingQuestToken=null;
 		this.openSwitchDialog=null;
+		this.openSwitchToken=null;
 		this.loadMap(mapName);
 	}
 
@@ -256,14 +257,10 @@ export class MapManager {
 	}
 
 	isFloorByPosition(position) {
-		if (position==undefined) { console.log("position is undefined"); return false; }
-		if (this.map==undefined) { console.log("map is undefined"); return false; }
-		if (this.getMapData(position)==0) {
-			//console.log("requesting properties for invalid objectIndex. position=", position)	
-			// fixme. this maybe happens when starting map before its completely loaded
-			return false;
-		}
-		if (window.gamedata.objectIndex[this.getMapData(position)]==undefined) { console.log("OIdx is undefined", window.gamedata.objectIndex, this.getMapData(position)); return false; }
+		if (position===undefined) { console.log("position is undefined"); return false; }
+		if (this.map===undefined) { console.log("map is undefined"); return false; }
+		if (this.getMapData(position)==0) return false;
+		if (window.gamedata.objectIndex[this.getMapData(position)]===undefined) { console.log("OIdx is undefined", window.gamedata.objectIndex, this.getMapData(position)); return false; }
     	if (window.gamedata.objectIndex[this.getMapData(position)].type=="floor") {
     		return true;
     	}	
@@ -380,9 +377,11 @@ export class MapManager {
 		showMessage("simple_message");
 	}
 
-	showSwitchDialog(action) {
+	showSwitchDialog(token) {
+		let action=token.action;
 		console.log("showSwitchDialog, showing dialog", action.message);
 		this.openSwitchDialog=action.keyname;
+		this.openSwitchToken=token;
 		if (action.message !== undefined) {
 			$(".switch_message_de .switch_text_placeholder").html(action.message.de.replaceAll("\n", "<br>"));
 			$(".switch_message_en .switch_text_placeholder").html(action.message.en.replaceAll("\n", "<br>"));

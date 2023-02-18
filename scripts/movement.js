@@ -191,7 +191,6 @@ function checkPositionQuest(coordinates) {
 }
 
 // mob movement
-
 function canMobWalk(mob, mobPos, i) {
     return mapManager.isFloor(mobPos.apply(directions[mob.rotation + 2]))
         && checkMobPositionByPosition(i, mobPos.apply(directions[mob.rotation + 2]))
@@ -199,8 +198,6 @@ function canMobWalk(mob, mobPos, i) {
 }
 
 export function mobWalk() {
-    //console.log("mobWald inactive. remove return statement.");
-    //return;
     let free_will=0;
 
     for (let i=0;i<mapManager.getMobDataLength();i++) {
@@ -212,6 +209,9 @@ export function mobWalk() {
         if (mob.rotation>3) mob.rotation=0;
         if (mob.rotation<0) mob.rotation=3;
 
+        //
+        // AGRESSIVE mode
+        //
         if (mob.movement != undefined && mob.movement=="aggressive") {
             if (canMobWalk(mob, mobPos, i)) {
                 if (getDistance(mobPos)>getDistance(mobPos.apply(directions[mob.rotation+2]))) {
@@ -230,13 +230,11 @@ export function mobWalk() {
             continue;
         }
 
-        // default movement or undefined
+        //
+        // DEFAULT mode
+        //
         free_will=Math.floor(Math.random()*6);
         if (free_will<4) {
-            // move forward
-
-
-            // todo: verify that token position check works
             if (canMobWalk(mob, mobPos, i)) {
                 [mob.x, mob.y]=mobPos.apply(directions[mob.rotation+2]).asArray();
             } else rotateLeftOrRight(mob); 
@@ -381,9 +379,14 @@ function checkTokenPosition(position, trigger) {
                     mapManager.announceQuest(token.action.quest, null, i);
                 } else
                 if (token.action.type=="switch") {
-                    mapManager.showSwitchDialog(token.action);
+                    mapManager.showSwitchDialog(token);
                 }
                 // no action for obstacle
+            }
+            if (trigger==false && token?.action?.type!==undefined && token.action.type=="door") {
+                // mobs dont trigger
+                // mobs may walk through open doors
+                return token.isOpen?null:"door";
             }
             return (token.action==undefined || token.action.type==undefined)?"pick":token.action.type;
         }
@@ -400,7 +403,7 @@ function checkDoorOpen(position) {
             if (token.action.type=="door") {
                 // lazy door may open upon walking against it. but not be open at that time.
                 // so get state first, then evaluate
-                let doorState = token.isOpen;//calculateDoorState(token.action.keyname, compileSwitchStates());
+                let doorState = token.isOpen;
                 reevaluateCurrentDoorState(token);
                 return doorState;
             }
@@ -432,18 +435,31 @@ function calculateDoorState(keyname, states) {
 }
 
 export function reevaluateCurrentDoorState(token) {
-    if (token.action==undefined) return;
+    if (token.action===undefined || token.action.keyname===undefined) return;
     let state=calculateDoorState(token.action.keyname, compileSwitchStates());
-    if (state) {
-        console.log("reevaluateCurrentDoorState, opening", token);
-        token.open.play();
-        token.close.stop();
-        token.isOpen=true;
-    } else {
-        console.log("reevaluateCurrentDoorState, closing", token);
-        token.close.play();
-        token.open.stop();
-        token.isOpen=false;
+    if (token.action.type=="door") {
+        if (state) {
+            console.log("reevaluateCurrentDoorState, opening", token);
+            if (token?.open !== undefined) token.open.play();
+            if (token?.close !== undefined) token.close.stop();
+            token.isOpen = true;
+        } else {
+            console.log("reevaluateCurrentDoorState, closing", token);
+            if (token?.close !== undefined) token.close.play();
+            if (token?.open !== undefined) token.open.stop();
+            token.isOpen = false;
+        }
+    }
+    if (token.action.type=="switch") {
+        if (state) {
+            console.log("reevaluateCurrentDoorState, switch is on", token);
+            if (token?.on !== undefined) token.on.play();
+            if (token?.off !== undefined) token.off.stop();
+        } else {
+            console.log("reevaluateCurrentDoorState, switch is off", token);
+            if (token?.off !== undefined) token.off.play();
+            if (token?.on !== undefined) token.on.stop();
+        }
     }
 }
 

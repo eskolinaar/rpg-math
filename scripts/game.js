@@ -352,12 +352,30 @@ function initModelAndScene() {
             checkMessageTriggers($(this));
         } else if (did=="switch_off") {
             mapManager.saveSwitchState(0);
+            if (mapManager.openSwitchToken!==undefined && mapManager.openSwitchToken!=null) {
+                let token=mapManager.openSwitchToken;
+                console.log("switch_off, playing off animation for %o", token);
+                if (token?.off!==undefined) token.off.play();
+                if (token?.on!==undefined) token.on.stop();
+            }
             resumeGame();
         } else if (did=="switch_on") {
             mapManager.saveSwitchState(1);
+            if (mapManager.openSwitchToken!==undefined && mapManager.openSwitchToken!=null) {
+                let token=mapManager.openSwitchToken;
+                console.log("switch_on, playing on animation for %o", token);
+                if (token?.on!==undefined) token.on.play();
+                if (token?.off!==undefined) token.off.stop();
+                if (token?.action?.event!==undefined) {
+                    if (!(token.action?.triggered===true)) {
+                        $("body").trigger({ type: token.action.event });
+                    }
+                    token.action.triggered=true;
+                }
+            }
             resumeGame();
         } else {
-            console.log("showing, ."+did);
+            console.log("showing, .%s", did);
 
             if (mapManager.getQuest()!=undefined && mapManager.getQuest().isComplete()) {
                 showMessage("success_message");
