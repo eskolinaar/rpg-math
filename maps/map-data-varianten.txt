@@ -3,26 +3,43 @@ TOKEN:
 
 "token":[
 
-
-    // Ausrichtung
+    // Token with direction/rotation.
+    // This is by default a pick-Token
     {"id":"36","x":12,"y":12,"rotation":2},
 
-    // Schalter
-    {"id":"55","x":8,"y":5,"action":{"type":"switch","keyname":"a","message":{"en":"switch a","de":"Schalter A."}}},
-
-    // Tür
-    {"id":"50","x":10,"y":5,"action":{"type": "door","keyname":"a&b"}}
-
-    // lazy Tür - wird erst geöffnet wenn man dagegenläuft
-    {"id":"51","x":12,"y":4,"rotation":"1","action":{"type": "door","keyname":"a","lazy":"true"}}
-
-    // pickup token mit variable
+    // pickup token with variable
     {"id":"67","x":18,"y":8,"action":{"type":"pick","keyname":"crystal"}},
 
-    // pickup token mit custom event
+    // pickup token with custom event
     {"id":"133","x":11,"y":17,"action":{"type":"pick","event":"progress"}},
 
-    // message token mit custom event
+    // switch
+    {"id":"55","x":8,"y":5,"action":{"type":"switch","keyname":"a","message":{"en":"switch a","de":"Schalter A."}}},
+
+    // switch with optional event triggered the first time it is switched on
+    // may have animations for "On" and "Off"
+    {"id":"55","x":8,"y":5,"action":{"type":"switch","keyname":"a","event":"buzz","message":{"en":"This is a switch","de":"Das ist ein Schalter"}}},
+
+    // door
+    // keyname a&b configures that this door opens once condition "a" AND "b" are fulfilled
+    // may have animations for "Open" and "Close"
+    {"id":"50","x":10,"y":5,"action":{"type": "door","keyname":"a&b"}}
+
+    // lazy door - opens when you approach it (and the key requirement is fulfilled)
+    {"id":"51","x":12,"y":4,"rotation":"1","action":{"type": "door","keyname":"a","lazy":"true"}}
+
+    // token with message
+    {
+        "id":"28",
+        "x":2,
+        "y":8,
+        "action": {
+            "type": "message",
+            "message": { "en":"Hello", "de":"Hallo" }
+        }
+    }
+
+    // message token with custom event. fired when closing the message window the first time
     { "id":"93", "x":15, "y":10,
         "action":{
           "type":"message",
@@ -34,21 +51,28 @@ TOKEN:
         }
     }
 
-    // Portal mit Map-Wechsel
+    // container token.
+    // may have animations for "Open" and "Close"
+    // may have keyname for a variable change tied to it (attribute "keyname")
+    // may have an event configured, that fires the first time it is opened (attribute "event")
+    // may be configured to only open once, and not close again (attribute "once")
+    {
+        "id":"159",
+        "x":18,
+        "y":12,
+        "action":{
+          "type":"container",
+          "keyname":"treasure1",
+          "event": "buzz",
+          "once": true
+        },
+        "rotation":"1"
+    }
+
+    // Portal with map-change
     {"id":"40","x":20,"y":0, "action": { "type":"travel", "map":"mapchange2.map.json", "x":"6", "y":"28", "direction":"1" }}
 
-// token mit message
-{
-    "id":"28",
-    "x":2,
-    "y":8,
-    "action": {
-        "type": "message",
-        "message": { "en":"Hello", "de":"Hallo" }
-    }
-}
-
-    // hindernis
+    // token that cannot be walked on. just like a wall
     {"id":"59","x":8,"y":12,"action":{"type":"obstacle"}},
 ]
 
@@ -66,7 +90,7 @@ QUESTEN:
 	}
 }
 
-// Kill Quest mit bestimmtem Mob
+// Kill Quest with specific mob
 "quest":{
     "event":"kill",
     "filter":"16",
@@ -77,7 +101,30 @@ QUESTEN:
     }
 }
 
+// Message Quest triggers when NPC is talked to or Object is inspected
+// here a filter for the mob is set
+"quest":{
+  "event":"message","filter":"mob122","amount":"4",
+  "template":{
+    "en":"{}/{} delivered",
+    "de":"{}/{} ausgeliefert"
+  },
+  "progressTemplate":{
+    "en":"Doughnut delivered",
+    "de":"Krapfen ausgeliefert"
+  }
+},
 
+// Position Quest - reach a specific position. (x=8, y=12) in this case.
+"quest":{
+    "event":"position",
+    "filter":"8/12",
+    "amount":"1",
+    "template":{
+        "en":"Reach the destination",
+        "de":"Ereiche das Ziel"
+    }
+}
 
 MONSTER:
 =====
@@ -87,13 +134,16 @@ MONSTER:
 // standard enemy
 {"id":"15","x":4,"y":20,"life":"3"},
 
-// NPC mit Message, friedlicher, stationär, fixe Ausrichtung
+// agressive mob will walk directly towards the player
+{"id":"15","x":17,"y":15,"life":"3","movement":"aggressive"}
+
+// NPC with Message, friendly, not moving, pre determined direction
 {
   "id":"45","x":14,"y":13,"life":"3","mode":"peaceful","movement":"none","rotation":"0",
-  "message": {"en":"Hello, i am a bear. The carrot will show you the way to the next map.","de":"Hallo, ich bin ein Bär. Die Karotte in der Ecke zeigt die den Weg zur nächsten Karte."}
+  "message": {"en":"Hello, i am a bear. The carrot will show you the way to the next map.","de":"Hallo, ich bin ein Bär. Die Karotte in der Ecke zeigt dir den Weg zur nächsten Karte."}
 },
 
-// NPC mit Quest
+// NPC with Quest
 {
   "id":"43","x":13,"y":14,"life":"3","mode":"peaceful","movement":"none","rotation":"0",
   "quest": {
@@ -106,7 +156,7 @@ MONSTER:
   }
 }
 
-// NPC mit custom event und variable
+// NPC with custom event and variable
   {
     "id":"136", "x":15, "y":14, "life":"3",
     "mode":"peaceful", "movement":"none", "rotation":"1",

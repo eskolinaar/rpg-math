@@ -19,7 +19,7 @@ export var directions = {
     8: new Vector(0, -1)
 };
 
-export var movement_blocking_token_types = ["obstacle", "switch", "quest", "message", "travel"];
+export var movement_blocking_token_types = ["obstacle", "switch", "quest", "message", "travel", "container"];
 
 export var mm=new Vector(-1, -1);
 export var targetMob=-1;
@@ -380,7 +380,33 @@ function checkTokenPosition(position, trigger) {
                 } else
                 if (token.action.type=="switch") {
                     mapManager.showSwitchDialog(token);
+                } else
+                if (token.action.type=="container") {
+                    if (token.action?.once!==undefined && token.action?.triggered) {
+                        console.log("checkTokenPosition, skipping already opened container %o", token);
+                        return token.action.type;
+                    }
+                    if (token.isOpen) {
+                        console.log("checkTokenPosition, playing Close animation for container %o", token);
+                        if (token?.close !== undefined) token.close.play();
+                        if (token?.open !== undefined) token.open.stop();
+                        token.isOpen=false;
+                        if (token.action?.keyname !== undefined) mapManager.saveVariableState(token.action.keyname, 0);
+                    } else {
+                        console.log("checkTokenPosition, playing Open animation for container %o", token);
+                        if (token?.open !== undefined) token.open.play();
+                        if (token?.close !== undefined) token.close.stop();
+                        token.isOpen = true;
+                        if (token.action?.keyname !== undefined) mapManager.saveVariableState(token.action.keyname, 1);
+                        if (token.action?.event !== undefined) {
+                            if (!(token.action?.triggered === true)) {
+                                $("body").trigger({type: token.action.event});
+                            }
+                            token.action.triggered = true;
+                        }
+                    }
                 }
+
                 // no action for obstacle
             }
             if (trigger==false && token?.action?.type!==undefined && token.action.type=="door") {
@@ -437,7 +463,7 @@ function calculateDoorState(keyname, states) {
 export function reevaluateCurrentDoorState(token) {
     if (token.action===undefined || token.action.keyname===undefined) return;
     let state=calculateDoorState(token.action.keyname, compileSwitchStates());
-    if (token.action.type=="door") {
+    if (token.action.type=="door" || token.action.type=="container") {
         if (state) {
             console.log("reevaluateCurrentDoorState, opening", token);
             if (token?.open !== undefined) token.open.play();
