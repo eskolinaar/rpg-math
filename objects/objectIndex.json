@@ -88,7 +88,7 @@
     "16":{
         "id":"16",
         "name":"Blob",
-        "mesh":"blob7.glb",
+        "mesh":"blob8.glb",
         "symbol":"blob5d.png",
         "type":"mob",
         "life":"5"
@@ -1286,5 +1286,14 @@
         "type":"token",
         "de": "Buzzer",
         "en": "Buzzer"
+    },
+    "165":{
+        "id":"165",
+        "name":"GridDoor",
+        "mesh":"GridDoor.glb",
+        "symbol":"GridDoor.png",
+        "type":"token",
+        "de": "Gitter",
+        "en": "GridDoor"
     }
 }
