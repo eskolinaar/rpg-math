@@ -13,12 +13,12 @@
   "mobs":[{"id":"15","x":13,"y":4,"life":"3"}],
   "token":[
   {
-    "id":"164","x":8,"y":4,"rotation":"3",
+    "id":"166","x":8,"y":4,"rotation":"2",
     "action":{
       "type":"switch","keyname":"a","event":"buzz",
       "message":{
-        "en":"Push the buzzer",
-        "de":"Drück den Buzzer."
+        "en":"Use the lever",
+        "de":"Beweg den Hebel"
       }
     }
   },

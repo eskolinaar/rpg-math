@@ -1295,5 +1295,14 @@
         "type":"token",
         "de": "Gitter",
         "en": "GridDoor"
+    },
+    "166":{
+        "id":"166",
+        "name":"Lever",
+        "mesh":"lever.glb",
+        "symbol":"lever.png",
+        "type":"token",
+        "de": "Hebel",
+        "en": "Lever"
     }
 }
