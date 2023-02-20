@@ -386,8 +386,8 @@ export class MapManager {
 			$(".switch_message_de .switch_text_placeholder").html(action.message.de.replaceAll("\n", "<br>"));
 			$(".switch_message_en .switch_text_placeholder").html(action.message.en.replaceAll("\n", "<br>"));
 		} else {
-			$(".switch_message_de .switch_text_placeholder").html("switch_message_de empty");
-			$(".switch_message_en .switch_text_placeholder").html("switch_message_en empty");
+			$(".switch_message_de .switch_text_placeholder").html("Willst du ein oder ausschalten?");
+			$(".switch_message_en .switch_text_placeholder").html("Do you want it on or off?");
 		}
 		// default values
 		$(".switch_message_de button.switch_off").text("Aus");

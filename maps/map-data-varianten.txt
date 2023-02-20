@@ -3,6 +3,20 @@ TOKEN:
 
 "token":[
 
+    // Token types:
+    // pick, message, switch, door, obstacle, container, quest, travel, visual
+    // ------------------------------------------------------------------------
+    // pick - this token can be walked on to be picked up. doing so will trigger the pick event.
+    // message - walking against this token will show an informative message
+    // switch - walking against this token will show an message that can ask the user for a 2-way decision
+    // door - this token can be movement blocking or movement allowing depending on the state of variables
+    // obstacle - this token blocks movement like a wall
+    // container - this token can be opened or closed
+    // quest - this token can offer a quest
+    // travel - this token will send you to another place when walked on. like a map change or teleport
+    // visual - this token looks good. maybe. it has no further function in game
+
+
     // Token with direction/rotation.
     // This is by default a pick-Token
     {"id":"36","x":12,"y":12,"rotation":2},
