@@ -162,18 +162,18 @@ function step(vector) {
                 mob.message.triggered=true;
             }
         }
-    } else
-    if (mapManager.isFloor(partyPos.apply(mm).apply(vector))
-        && checkMobPositionByPosition(-1, partyPos.apply(mm).apply(vector))
-        && checkDoorOpen(partyPos.apply(mm).apply(vector))
-    ) {
-        let tokentype = checkTokenPosition(partyPos.apply(mm).apply(vector), true);
-        if (movement_blocking_token_types.indexOf(tokentype)>=0) {
-            console.log("obstacle blocking movement");
-            return;
-        }
-        partyPos.add(vector);
+        return;
     }
+
+    // this triggers switches etc. so a switch or message on/in a wall can have an action
+    let tokenType=checkTokenPosition(partyPos.apply(mm).apply(vector), true);
+
+    if (movement_blocking_token_types.indexOf(tokenType)>=0) return;
+    if (!mapManager.isFloor(partyPos.apply(mm).apply(vector))) return;
+    if (!checkMobPositionByPosition(-1, partyPos.apply(mm).apply(vector))) return;
+    if (!checkDoorOpen(partyPos.apply(mm).apply(vector))) return;
+
+    partyPos.add(vector);
     checkPositionQuest(partyPos.x+"/"+partyPos.y);
     savegame.saveGameValue("position", {
         "x":partyPos.x,

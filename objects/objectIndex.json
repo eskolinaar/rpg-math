@@ -1304,5 +1304,14 @@
         "type":"token",
         "de": "Hebel",
         "en": "Lever"
+    },
+    "167":{
+        "id":"167",
+        "name":"WallLever",
+        "mesh":"WallLever.glb",
+        "symbol":"walllever.png",
+        "type":"token",
+        "de": "Wand-Hebel",
+        "en": "WallLever"
     }
 }
