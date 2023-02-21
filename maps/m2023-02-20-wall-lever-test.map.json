@@ -15,7 +15,7 @@
 ],
 "token":[
   {"id":"165","x":12,"y":4,"rotation":"1","action":{"type":"door","keyname":"a"}},
-  {"id":"167","x":8,"y":2,"rotation":"0","action":{"type":"switch","keyname":"a"}},
+  {"id":"168","x":8,"y":2,"rotation":"0","action":{"type":"switch","keyname":"a"}},
   {"id":"96","x":10,"y":5,"rotation":"0","action":{"type":"visual"}}
 ],
 "quest":{"event":"","filter":"","amount":"","template":{"en":"","de":""}}, 
