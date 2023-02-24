@@ -1322,5 +1322,59 @@
         "type":"token",
         "de": "Wand-Knopf",
         "en": "Wall-Button"
+    },
+    "169":{
+        "id":"169",
+        "name":"MetalDoor",
+        "mesh":"MetalDoor.glb",
+        "symbol":"metaldoor.png",
+        "type":"token",
+        "de": "Metalltür",
+        "en": "MetalDoor"
+    },
+    "170":{
+        "id":"170",
+        "name":"CellarWall",
+        "mesh":"cellarwall.glb",
+        "symbol":"cellarwall.png",
+        "type":"wall",
+        "de": "Keller-Wand",
+        "en": "CellarWall"
+    },
+    "171":{
+        "id":"171",
+        "name":"EarthEntrance",
+        "mesh":"EarthEntrance.glb",
+        "symbol":"EarthEntrance.png",
+        "type":"floor",
+        "de": "Erd-Eingang",
+        "en": "EarthEntrance"
+    },
+    "172":{
+        "id":"172",
+        "name":"EarthHole",
+        "mesh":"EarthHole.glb",
+        "symbol":"EarthHole.png",
+        "type":"wall",
+        "de": "Erdloch",
+        "en": "EarthHole"
+    },
+    "173":{
+        "id":"173",
+        "name":"LadderDown",
+        "mesh":"LadderDown.glb",
+        "symbol":"LadderDown.png",
+        "type":"token",
+        "de": "Leiter (runter)",
+        "en": "Ladder (down)"
+    },
+    "174":{
+        "id":"174",
+        "name":"LadderUp",
+        "mesh":"LadderUp.glb",
+        "symbol":"LadderUp.png",
+        "type":"token",
+        "de": "Leiter (rauf)",
+        "en": "Ladder (up)"
     }
 }
