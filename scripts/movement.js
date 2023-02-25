@@ -2,7 +2,7 @@
 
 import {Vector, Position, notify} from './helper.js';
 import {mapManager, partyPos, scene, setPartyPosition, getCameraDiff, modifyCamera} from './World.js';
-import { startCombat, damage, select, playerDeath } from './combat.js';
+import {startCombat, damage, select, playerDeath, heal} from './combat.js';
 import {showMessage, isCheatingEnabled, savegame, i18n, mouseTiltX} from './game.js';
 import { Expression } from  './expression.js';
 import { Quest } from "./quests.js";
@@ -134,12 +134,7 @@ export function activateRegenerationLoop(delay) {
     clearInterval(regenerationLoop);
     regenerationLoop=setInterval(() => { 
         if (targetMob<0 && window.gamedata.player.current_life>0 && paused==false) { // no combat & player alive
-            if (parseInt(window.gamedata.player.current_life)<parseInt(window.gamedata.player.life)) {
-                window.gamedata.player.current_life=parseInt(window.gamedata.player.current_life)+1;
-            } else {
-                //console.log("regenerate, player is at full health ", window.gamedata.player.current_life, window.gamedata.player.life);   
-            }
-            $(".player_life").attr("value", window.gamedata.player.current_life);            
+            heal(1);
         }
     }, delay);
 }

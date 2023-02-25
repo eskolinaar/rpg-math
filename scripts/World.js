@@ -12,6 +12,7 @@ import {
     spectatorMode
 } from './movement.js';
 import { i18n, showMessage, mouseTiltX } from './game.js';
+import {heal} from "./combat.js";
 // import { Water } from './Water2.js';
 
 export var partyPos;
@@ -93,6 +94,9 @@ export function initWorld() {
 
     $("body").off("teleport");
     $("body").on("teleport", () => { resetCameraPosition(); });
+
+    $("body").off("heal");
+    $("body").on("heal", () => { heal(); });
 
     $("body").off("updateSettings");
     $("body").on("updateSettings", () => { updateSettings(); });
@@ -860,41 +864,16 @@ function createInstanceSubObjects(instancedMesh, objId) {
 }
 
 function createWater() {
-    // Water_1_M_Normal=textureLoader.load(
-    //     './scripts/Water_1_M_Normal.jpg',
-    //     undefined,
-    //     undefined,
-    //     error => {
-    //         console.log("Error loading texture './scripts/Water_1_M_Normal.jpg' " , error);
-    //     }
-    // );
-    // Water_2_M_Normal=textureLoader.load(
-    //     './scripts/Water_2_M_Normal.jpg',
-    //     undefined,
-    //     undefined,
-    //     error => {
-    //         console.log("Error loading texture './scripts/Water_2_M_Normal.jpg' " , error);
-    //     }
-    // );
-
-
     plane = new THREE.PlaneGeometry( 50, 50 );
-    // water = new Water( plane, {
-    //             color: '#ffffff',
-    //             scale: 4,
-    //             flowDirection: new THREE.Vector2( 0.3, 0.3 ),
-    //             textureWidth: 1024,
-    //             textureHeight: 1024,
-    //             normalMap0: Water_1_M_Normal,
-    //             normalMap1: Water_2_M_Normal
-    //         } );
+
     const watermaterial =  new THREE.MeshPhongMaterial();
     watermaterial.transparent=true;
-    watermaterial.opacity=0.25;
+    watermaterial.opacity=0.5;
     watermaterial.color=new THREE.Color("#4747d2");
     water = new THREE.Mesh(plane, watermaterial);
     water.position.x=14;
-    water.position.y=1.05;
+    water.position.y=parseFloat(mapManager.getMapWaterLevel());
+    console.log("createWater, at %o", water.position);
     water.position.z=20;
     water.renderOrder=-1;
     water.rotateX(Math.PI * - 0.5);

@@ -141,6 +141,22 @@ export function suffer(dmg) {
     }
 }
 
+export function heal(amount) {
+    if (parseInt(window.gamedata.player.current_life)<parseInt(window.gamedata.player.life)) {
+        if (amount===undefined) {
+            // heal full - maybe play animation
+            window.gamedata.player.current_life = parseInt(window.gamedata.player.life);
+        } else {
+            // heal by amount
+            window.gamedata.player.current_life = parseInt(window.gamedata.player.current_life) + parseInt(amount);
+            if (window.gamedata.player.current_life > parseInt(window.gamedata.player.life)) {
+                window.gamedata.player.current_life = parseInt(window.gamedata.player.life);
+            }
+        }
+    }
+    $(".player_life").attr("value", window.gamedata.player.current_life);
+}
+
 export function select(val) {
     if (paused) return;
 	console.log("select, ", val);

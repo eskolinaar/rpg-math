@@ -1376,5 +1376,23 @@
         "type":"token",
         "de": "Leiter (rauf)",
         "en": "Ladder (up)"
+    },
+    "175":{
+        "id":"175",
+        "name":"StairsUp",
+        "mesh":"StairsUp.glb",
+        "symbol":"StairsUp.png",
+        "type":"token",
+        "de": "Stiege (rauf)",
+        "en": "Stairs (up)"
+    },
+    "176":{
+        "id":"176",
+        "name":"StairsDown",
+        "mesh":"StairsDown.glb",
+        "symbol":"StairsDown.png",
+        "type":"token",
+        "de": "Leiter (runter)",
+        "en": "Stairs (down"
     }
 }

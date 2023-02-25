@@ -113,6 +113,7 @@ export class MapManager {
 		});
 
 		this.fog_data=data_obj.fog;
+		this.water_level=data_obj.water_level;
 		this.updateFog();
 
 		if (data_obj.light==undefined) {
@@ -166,6 +167,7 @@ export class MapManager {
 		$(".level_introtext").text(intro_i18n);
 		$("button.needs_map").show();
     }
+
 
 	updateFog() {
 		let fog_multiplicator=parseInt($(".fog_multiplicator").eq(0).val());
@@ -232,6 +234,11 @@ export class MapManager {
 
 	getMapLight() {
 		return this.light;
+	}
+
+	getMapWaterLevel() {
+		if (this.water_level===undefined) return 1.05;
+		return this.water_level;
 	}
 
 	getMapLightColor() {
