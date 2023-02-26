@@ -1,0 +1,10 @@
+{
+  "mode":"mapChangeOnQuestComplete",
+  "maps":[
+    {
+      "file": "m2023-02-26-ch1-home.map.json",
+      "de": "Aufbruch von Zuhause",
+      "en": "Home sweet home"
+    }
+  ]
+}

@@ -49,6 +49,11 @@ function showFeedbackMessage(message) {
     setTimeout( () => $(".feedback_message").remove() , 2000);
 }
 
+function orEmpty(value) {
+    if (value===undefined || value==null) return "";
+    return value;
+}
+
 function repaintField(ctx) {
     let field_x = 0;
     let field_y = 0;
@@ -405,7 +410,7 @@ $(document).ready(function () {
             $("#token_x").val("");
             $("#token_y").val("");
             $("#token_type").val("");
-            $("#token_direction").val("");
+            $("#token_rotation").val("");
             $("#token_keyname").val("");
             $("#token_travel_mapname").val("");
             $("#token_travel_x").val("");
@@ -421,10 +426,10 @@ $(document).ready(function () {
             if (token.x!==undefined) $("#token_x").val(token.x);
             if (token.y!==undefined) $("#token_y").val(token.y);
             if (token.action!==undefined && token.action.type!==undefined) $("#token_type").val(token.action.type);
-            if (token.direction!==undefined) $("#token_direction").val(token.direction);
+            $("#token_rotation").val(orEmpty(token.rotation));
             if (token.action !== undefined) {
-                if (token.action.keyname !== undefined) $("#token_keyname").val(token.action.keyname);
-                if (token.action.map !== undefined) $("#token_travel_mapname").val(token.action.map);
+                $("#token_keyname").val(orEmpty(token.action?.keyname));
+                $("#token_travel_mapname").val(orEmpty(token.action?.map));
                 if (token.action.x !== undefined) $("#token_travel_x").val(token.action.x);
                 if (token.action.y !== undefined) $("#token_travel_y").val(token.action.y);
                 if (token.action.direction !== undefined) $("#token_travel_direction").val(token.action.direction);

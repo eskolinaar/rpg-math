@@ -1393,6 +1393,33 @@
         "symbol":"StairsDown.png",
         "type":"token",
         "de": "Leiter (runter)",
-        "en": "Stairs (down"
+        "en": "Stairs (down)"
+    },
+    "177":{
+        "id":"177",
+        "name":"Archway",
+        "mesh":"Archway.glb",
+        "symbol":"Archway.png",
+        "type":"token",
+        "de": "Durchgang",
+        "en": "Archway"
+    },
+    "178":{
+        "id":"178",
+        "name":"CellarArchway",
+        "mesh":"CellarArchway.glb",
+        "symbol":"CellarArchway.png",
+        "type":"token",
+        "de": "Durchgang (Keller)",
+        "en": "Archway (Cellar)"
+    },
+    "179":{
+        "id":"179",
+        "name":"WayStone",
+        "mesh":"WayStone.glb",
+        "symbol":"WayStone.png",
+        "type":"token",
+        "de": "Wegweiser",
+        "en": "WayStone"
     }
 }
