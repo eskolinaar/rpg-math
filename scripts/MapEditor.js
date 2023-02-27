@@ -243,19 +243,67 @@ function createJSONStringFromMap() {
     mapdata.light=$("#light").val();
     mapdata.water_level=$("#water_level").val();
 
-    msg='{ \n"version":"21.01.001", \n"mapname":"'+$("#mapname").val()+'", \n"height": "30", \n"width": "30",';
-    msg+='\n"fog": '+JSON.stringify(mapdata.fog)+',';
-    msg+='\n"light": '+JSON.stringify(mapdata.light)+',';
-    msg+='\n"water_level": '+JSON.stringify(mapdata.water_level)+',';
-    msg+='\n"x" : "'+parseInt($("#char_x").val())+'", \n"y" : "'+parseInt($("#char_y").val())+'", \n"direction" : "'+parseInt($("#char_direction").val())+'", \n"fielddata":[';
-    msg+=field.join(",");       
-    msg+='], \n"mobs":'+JSON.stringify(mapdata.mobs);
-    msg+=', \n"token":'+JSON.stringify(mapdata.token);
-    msg+=', \n"quest":'+JSON.stringify(mapdata.quest);
-    msg+=', \n"introtext": '+JSON.stringify(mapdata.introtext);
-    msg+='\n}';
+    let jsontpl=`{
+        "version":"21.01.001",
+        "mapname":"${$("#mapname").val()}",
+        "height": "30",
+        "width": "30",
+        "fog":${JSON.stringify(mapdata.fog)},
+        "light": ${JSON.stringify(mapdata.light)},
+        "water_level": ${JSON.stringify(mapdata.water_level)},
+        "x" : ${parseInt($("#char_x").val())},
+        "y" : ${parseInt($("#char_y").val())},
+        "direction" : ${parseInt($("#char_direction").val())},
+        "fielddata":[
+            ${createJSONStringFromFielddata()}
+        ],
+        "mobs":[
+            ${createJSONStringFromMobs()}
+        ],
+        "token":[
+            ${createJSONStringFromToken()}
+        ],
+        "quest":${JSON.stringify(mapdata.quest)},
+        "introtext": ${JSON.stringify(mapdata.introtext)}
+    }`;
+    return jsontpl;
+}
 
-    return msg;
+// adds line breaks to output of mob data
+function createJSONStringFromMobs() {
+    let msg_mobs_strings=[];
+    mapdata.mobs.forEach((el) => {
+        msg_mobs_strings.push(JSON.stringify(el));
+    });
+    return msg_mobs_strings.join(", \n            ");
+}
+
+// adds line breaks to output of token data
+function createJSONStringFromToken() {
+    let msg_token_strings=[];
+    mapdata.token.forEach((el) => {
+        msg_token_strings.push(JSON.stringify(el));
+    });
+    return msg_token_strings.join(", \n            ");
+}
+
+// adds padding and line breaks to output of fielddata
+function createJSONStringFromFielddata() {
+    let out="";
+    let col=0;
+    const pad="   ";
+    field.forEach((el, idx, arr) => {
+        out+=pad.substring(el.toString().length) + el.toString();
+        if (idx !== arr.length - 1) {
+            out+=",";
+        }
+        col++;
+        if (col>=mapdata.width) {
+            col=0;
+            out+="\n            ";
+        }
+    });
+    return out.substring(0, out.length-1);
 }
 
 function updateLocalStorageIndexHtml() {
@@ -271,6 +319,93 @@ function updateLocalStorageIndexHtml() {
         out += "<li>" + maps[map].mapname + "</li>";
     }
     $("#localStorage_mapview").html(out);
+}
+
+function selectEntity(entitytype, field_x, field_y) {
+    if (entitytype==="token") {
+        for (let i = 0; i < mapdata.token.length; ++i) {
+            if (mapdata.token[i].x == field_x && mapdata.token[i].y == field_y) {
+                clearActiveListItem();
+                $("#token ul li").eq(i).addClass("active");
+                updateTokenDetails();
+                return true;
+            }
+        }
+    }
+    if (entitytype==="mobs") {
+        for (i = 0; i < mapdata.mobs.length; ++i) {
+            if (mapdata.mobs[i].x == field_x && mapdata.mobs[i].y == field_y) {
+                $("#mobs ul li").eq(i).addClass("active");
+                updateMobDetails();
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+function updateTokenDetails() {
+    // update details form
+    let tid=$("#token ul li.active").attr("data-id");
+    let token=mapdata.token[tid];
+    if (token!=undefined) {
+        $("#token_x").val("");
+        $("#token_y").val("");
+        $("#token_type").val("");
+        $("#token_rotation").val("");
+        $("#token_keyname").val("");
+        $("#token_travel_mapname").val("");
+        $("#token_travel_x").val("");
+        $("#token_travel_y").val("");
+        $("#token_travel_direction").val("");
+        $("#token_message_en").val("");
+        $("#token_message_de").val("");
+        $("#token_label_off_de").val("");
+        $("#token_label_on_de").val("");
+        $("#token_label_off_en").val("");
+        $("#token_label_on_en").val("");
+
+        if (token.x!==undefined) $("#token_x").val(token.x);
+        if (token.y!==undefined) $("#token_y").val(token.y);
+        if (token.action!==undefined && token.action.type!==undefined) $("#token_type").val(token.action.type);
+        $("#token_rotation").val(orEmpty(token.rotation));
+        if (token.action !== undefined) {
+            $("#token_keyname").val(orEmpty(token.action?.keyname));
+            $("#token_travel_mapname").val(orEmpty(token.action?.map));
+            if (token.action.x !== undefined) $("#token_travel_x").val(token.action.x);
+            if (token.action.y !== undefined) $("#token_travel_y").val(token.action.y);
+            if (token.action.direction !== undefined) $("#token_travel_direction").val(token.action.direction);
+            if (token.action.message !== undefined) {
+                if (token.action.message.en == undefined) token.action.message.en = "";
+                if (token.action.message.de == undefined) token.action.message.de = "";
+                if (token.action.message.en !== undefined) $("#token_message_en").val(token.action.message.en);
+                if (token.action.message.de !== undefined) $("#token_message_de").val(token.action.message.de);
+            }
+            if (token.action.labels !== undefined) {
+                if (token.action.labels?.off.de !== undefined) $("#token_label_off_de").val(token.action.labels.off.de);
+                if (token.action.labels?.on.de !== undefined) $("#token_label_on_de").val(token.action.labels.on.de);
+                if (token.action.labels?.off.en !== undefined) $("#token_label_off_en").val(token.action.labels.off.en);
+                if (token.action.labels?.on.en !== undefined) $("#token_label_on_en").val(token.action.labels.on.en);
+            }
+        }
+    }
+}
+
+function updateMobDetails() {
+    clearActiveListItem();
+
+    // update details form
+    let mid=$("#mobs ul li.active").attr("data-id");
+    let mob=mapdata.mobs[mid];
+    console.log("mob clicked", mob);
+    if (mob!=undefined) {
+        if (mob.x!==undefined) $("#mob_x").val(mob.x); else $("#mob_x").val("");
+        if (mob.y!==undefined) $("#mob_y").val(mob.y); else $("#mob_y").val("");
+        if (mob.life!==undefined) $("#mob_life").val(mob.life); else $("#mob_life").val("");
+        if (mob.mode!==undefined) $("#mob_mode").val(mob.mode); else $("#mob_mode").val("");
+        if (mob.movement!==undefined) $("#mob_movement").val(mob.movement); else $("#mob_movement").val("");
+        if (mob.rotation!==undefined) $("#mob_rotation").val(mob.rotation); else $("#mob_rotation").val("");
+    }
 }
 
 $(document).ready(function () {
@@ -363,22 +498,9 @@ $(document).ready(function () {
         clearActiveListItem();
     });
 
-    $("#mobs").on("click", "ul li", function () {
-        clearActiveListItem();
+    $("#mobs").on("click", "ul li", () => {
         $(this).addClass("active");
-
-        // update details form
-        let mid=$("#mobs ul li.active").attr("data-id");
-        let mob=mapdata.mobs[mid];
-        console.log("mob clicked", mob);
-        if (mob!=undefined) {
-            if (mob.x!==undefined) $("#mob_x").val(mob.x); else $("#mob_x").val("");
-            if (mob.y!==undefined) $("#mob_y").val(mob.y); else $("#mob_y").val("");
-            if (mob.life!==undefined) $("#mob_life").val(mob.life); else $("#mob_life").val("");
-            if (mob.mode!==undefined) $("#mob_mode").val(mob.mode); else $("#mob_mode").val("");
-            if (mob.movement!==undefined) $("#mob_movement").val(mob.movement); else $("#mob_movement").val("");
-            if (mob.rotation!==undefined) $("#mob_rotation").val(mob.rotation); else $("#mob_rotation").val("");
-        }
+        updateMobDetails();
     });
 
     $("#mob_details").on("keyup", "input", function (e) {
@@ -398,55 +520,10 @@ $(document).ready(function () {
         console.log("change", e, mob, fname, val);
     });
 
-    $("#token").on("click", "ul li", function () {
+    $("#token").on("click", "ul li", (el,elx) => {
         clearActiveListItem();
-        $(this).addClass("active");
-
-        // update details form
-        let tid=$("#token ul li.active").attr("data-id");
-        let token=mapdata.token[tid];
-        console.log("token clicked", token);
-        if (token!=undefined) {
-            $("#token_x").val("");
-            $("#token_y").val("");
-            $("#token_type").val("");
-            $("#token_rotation").val("");
-            $("#token_keyname").val("");
-            $("#token_travel_mapname").val("");
-            $("#token_travel_x").val("");
-            $("#token_travel_y").val("");
-            $("#token_travel_direction").val("");
-            $("#token_message_en").val("");
-            $("#token_message_de").val("");
-            $("#token_label_off_de").val("");
-            $("#token_label_on_de").val("");
-            $("#token_label_off_en").val("");
-            $("#token_label_on_en").val("");
-
-            if (token.x!==undefined) $("#token_x").val(token.x);
-            if (token.y!==undefined) $("#token_y").val(token.y);
-            if (token.action!==undefined && token.action.type!==undefined) $("#token_type").val(token.action.type);
-            $("#token_rotation").val(orEmpty(token.rotation));
-            if (token.action !== undefined) {
-                $("#token_keyname").val(orEmpty(token.action?.keyname));
-                $("#token_travel_mapname").val(orEmpty(token.action?.map));
-                if (token.action.x !== undefined) $("#token_travel_x").val(token.action.x);
-                if (token.action.y !== undefined) $("#token_travel_y").val(token.action.y);
-                if (token.action.direction !== undefined) $("#token_travel_direction").val(token.action.direction);
-                if (token.action.message !== undefined) {
-                    if (token.action.message.en == undefined) token.action.message.en = "";
-                    if (token.action.message.de == undefined) token.action.message.de = "";
-                    if (token.action.message.en !== undefined) $("#token_message_en").val(token.action.message.en);
-                    if (token.action.message.de !== undefined) $("#token_message_de").val(token.action.message.de);
-                }
-                if (token.action.labels !== undefined) {
-                    if (token.action.labels?.off.de !== undefined) $("#token_label_off_de").val(token.action.labels.off.de);
-                    if (token.action.labels?.on.de !== undefined) $("#token_label_on_de").val(token.action.labels.on.de);
-                    if (token.action.labels?.off.en !== undefined) $("#token_label_off_en").val(token.action.labels.off.en);
-                    if (token.action.labels?.on.en !== undefined) $("#token_label_on_en").val(token.action.labels.on.en);
-                }
-            }
-        }
+        $(el.target).addClass("active");
+        updateTokenDetails();
     });
 
     $("#token_details").on("keyup", "input", function (e) {
@@ -500,16 +577,16 @@ $(document).ready(function () {
         if (mousedown==1) {
             if (objectIndex[selected_tile_index].type=="mob") return;
             if (objectIndex[selected_tile_index].type=="token") return;
-            var relativeX = e.pageX - $(this).parent().parent()[0].offsetLeft;
-            var relativeY = e.pageY - this.offsetTop;
+            let relativeX = e.pageX - $(this).parent().parent()[0].offsetLeft;
+            let relativeY = e.pageY - this.offsetTop;
 
             field_x=Math.floor(relativeX/size_x);
             field_y=Math.floor(relativeY/size_y);
             field[field_y*fields_x+field_x]=selected_tile_index;
 
-            var canvas = document.getElementById('maincanvas');
-            var ctx = canvas.getContext('2d');
-            for (var i = 0; i < field.length; ++i) {
+            let canvas = document.getElementById('maincanvas');
+            let ctx = canvas.getContext('2d');
+            for (let i = 0; i < field.length; ++i) {
                 field_x=i%fields_x;
                 field_y=Math.floor(i/fields_x);
 
@@ -518,11 +595,11 @@ $(document).ready(function () {
 
             ctx.drawImage(char_pos_indicator, (parseInt(mapdata.x)-1)*size_x, (parseInt(mapdata.y)-1)*size_y, size_x, size_y);
 
-            for (var i = 0; i < mapdata.mobs.length; ++i) {
+            for (let i = 0; i < mapdata.mobs.length; ++i) {
                 mob=mapdata.mobs[i];
                 ctx.drawImage(tiles[parseInt(mob.id)], mob.x*size_x, mob.y*size_y, size_x, size_y);
             } 
-            for (var i = 0; i < mapdata.token.length; ++i) {
+            for (let i = 0; i < mapdata.token.length; ++i) {
                 tok=mapdata.token[i];
                 ctx.drawImage(tiles[parseInt(tok.id)], tok.x*size_x, tok.y*size_y, size_x, size_y);
             }   
@@ -530,30 +607,36 @@ $(document).ready(function () {
     });
 
     $("canvas#maincanvas").mousedown(function (e) {
+        let i;
         if ($("#mobs ul li.active").length<1 && $("#token ul li.active").length<1) {
-            var relativeX = e.pageX - $(this).parent().parent()[0].offsetLeft;
+            let relativeX = e.pageX - $(this).parent().parent()[0].offsetLeft;
             let relativeY = e.pageY - this.offsetTop;
 
             let field_x=Math.floor(relativeX/size_x);
             let field_y=Math.floor(relativeY/size_y);
-            for (var i = 0; i < mapdata.mobs.length; ++i) {
-                if (mapdata.mobs[i].x==field_x && mapdata.mobs[i].y==field_y) {
-                    $("#mobs ul li").eq(i).addClass("active");
-                    return;
+            let activePane=$("#menu li.chosen").attr("data-target");
+
+            if (activePane=="mobs") {
+                for (i = 0; i < mapdata.mobs.length; ++i) {
+                    if (mapdata.mobs[i].x == field_x && mapdata.mobs[i].y == field_y) {
+                        $("#mobs ul li").eq(i).addClass("active");
+                        return;
+                    }
                 }
             }
-            for (var i = 0; i < mapdata.token.length; ++i) {
-                if (mapdata.token[i].x==field_x && mapdata.token[i].y==field_y) {
-                    $("#token ul li").eq(i).addClass("active");
-                    return;
+            if (activePane=="token") {
+                for (i = 0; i < mapdata.token.length; ++i) {
+                    if (mapdata.token[i].x == field_x && mapdata.token[i].y == field_y) {
+                        $("#token ul li").eq(i).addClass("active");
+                        return;
+                    }
                 }
-            }        
-            if (objectIndex[selected_tile_index].type=="mob") return;
-            if (objectIndex[selected_tile_index].type=="token") return;
-            let activePane=$("#menu li.chosen").attr("data-target");
-            if (activePane!="fielddata") return;
-
-            mousedown=1;
+            }
+            if (activePane=="fielddata") {
+                if (objectIndex[selected_tile_index].type=="mob") return;
+                if (objectIndex[selected_tile_index].type=="token") return;
+                mousedown=1;
+            }
         }
     });
 
@@ -571,12 +654,15 @@ $(document).ready(function () {
         let activePane=$("#menu li.chosen").attr("data-target");
 
         if (activePane=="mobs") {
+            if (selectEntity("mobs", field_x, field_y)) return;
             if (moveActiveEntityInstance("mobs", field_x, field_y)) return;
             if (createNewEntityInstance("mobs", field_x, field_y)) return;
             return;
         }
 
         if (activePane=="token") {
+            console.log("maincanvas token click, ", field_x, field_y);
+            if (selectEntity("token", field_x, field_y)) return;
             if (moveActiveEntityInstance("token", field_x, field_y)) return;
             if (createNewEntityInstance("token", field_x, field_y)) return;
             return;
