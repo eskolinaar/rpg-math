@@ -2,9 +2,14 @@
   "mode":"mapChangeOnQuestComplete",
   "maps":[
     {
-      "file": "m2023-02-26-ch1-home.map.json",
+      "file": "m2023-02-26-ch1.1-home.map.json",
       "de": "Aufbruch von Zuhause",
       "en": "Home sweet home"
+    },
+    {
+      "file": "m2023-02-28-ch1.2-woods.map.json",
+      "de": "Durch den Wald",
+      "en": "The wood"
     }
   ]
 }

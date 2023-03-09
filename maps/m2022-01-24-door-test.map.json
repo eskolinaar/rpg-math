@@ -22,7 +22,20 @@
       }
     }
   },
-  {"id":"165","x":12,"y":4,"rotation":"1","action":{"type": "door","keyname":"a"}}
+  {
+    "id":"165",
+    "x":12,
+    "y":4,
+    "rotation":"1",
+    "action":{
+      "type": "door",
+      "keyname":"a",
+      "message":{
+        "en":"Using the lever might open the door",
+        "de":"Vielleicht öffnet der Hebel die Tür"
+      }
+    }
+  }
 ],
 "quest":{"event":"","filter":"","amount":"","template":{"en":"","de":""}}, 
 "introtext": {"de":"","en":""}

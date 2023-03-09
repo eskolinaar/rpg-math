@@ -226,6 +226,11 @@ function downloadFile(filedata) {
   $("body")[0].removeChild(lnk);
 }
 
+function check(number, fallback) {
+    if (isNaN(number)) return fallback;
+    return number;
+}
+
 function createJSONStringFromMap() {
     console.log("saving...");
     mapdata.introtext={};
@@ -251,8 +256,8 @@ function createJSONStringFromMap() {
         "fog":${JSON.stringify(mapdata.fog)},
         "light": ${JSON.stringify(mapdata.light)},
         "water_level": ${JSON.stringify(mapdata.water_level)},
-        "x" : ${parseInt($("#char_x").val())},
-        "y" : ${parseInt($("#char_y").val())},
+        "x" : ${check(parseInt($("#char_x").val()), 1)},
+        "y" : ${check(parseInt($("#char_y").val()), 1)},
         "direction" : ${parseInt($("#char_direction").val())},
         "fielddata":[
             ${createJSONStringFromFielddata()}
@@ -303,7 +308,19 @@ function createJSONStringFromFielddata() {
             out+="\n            ";
         }
     });
-    return out.substring(0, out.length-1);
+    return fixTrailingSemicolon(out);
+}
+
+function fixTrailingSemicolon(json) {
+    let semicolonPos=json.lastIndexOf(",");
+    let endstring=json.substring(0, semicolonPos);
+    if (isNaN(parseInt(endstring))) {
+        console.log("fixTrailingSemicolon, removing semicolon");
+        return json.substring(0, json.lastIndexOf(",")).trimEnd();
+    } else {
+        console.log("fixTrailingSemicolon, trim only");
+        return json.trimEnd();
+    }
 }
 
 function updateLocalStorageIndexHtml() {
@@ -335,6 +352,7 @@ function selectEntity(entitytype, field_x, field_y) {
     if (entitytype==="mobs") {
         for (i = 0; i < mapdata.mobs.length; ++i) {
             if (mapdata.mobs[i].x == field_x && mapdata.mobs[i].y == field_y) {
+                clearActiveListItem();
                 $("#mobs ul li").eq(i).addClass("active");
                 updateMobDetails();
                 return true;
@@ -392,7 +410,7 @@ function updateTokenDetails() {
 }
 
 function updateMobDetails() {
-    clearActiveListItem();
+    //clearActiveListItem();
 
     // update details form
     let mid=$("#mobs ul li.active").attr("data-id");
@@ -499,6 +517,7 @@ $(document).ready(function () {
     });
 
     $("#mobs").on("click", "ul li", () => {
+        clearActiveListItem();
         $(this).addClass("active");
         updateMobDetails();
     });
@@ -792,7 +811,12 @@ $(document).ready(function () {
                     updateLocalStorageIndexHtml();
                     return;
                 } else {
-                    loadMapFromData(JSON.parse(maps[map].mapdata));
+                    try {
+                        loadMapFromData(JSON.parse(maps[map].mapdata));
+                    } catch (e) {
+                        console.error("#loadfrombrowser, could not load map because of ", e);
+                        console.error(maps[map].mapdata);
+                    }
                     return;
                 }
             }

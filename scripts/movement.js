@@ -168,6 +168,7 @@ function step(vector) {
     if (!checkMobPositionByPosition(-1, partyPos.apply(mm).apply(vector))) return;
     if (!checkDoorOpen(partyPos.apply(mm).apply(vector))) return;
 
+
     partyPos.add(vector);
     checkPositionQuest(partyPos.x+"/"+partyPos.y);
     savegame.saveGameValue("position", {
@@ -426,6 +427,10 @@ function checkDoorOpen(position) {
                 // so get state first, then evaluate
                 let doorState = token.isOpen;
                 reevaluateCurrentDoorState(token);
+                if (!doorState && !token.isOpen && token.action?.message!==undefined) {
+                    // show clue on why door is closed
+                    mapManager.showSimpleMessage(token.action.message, false, undefined, undefined);
+                }
                 return doorState;
             }
             return true; // is no door

@@ -1421,5 +1421,41 @@
         "type":"token",
         "de": "Wegweiser",
         "en": "WayStone"
+    },
+    "180":{
+        "id":"180",
+        "name":"SkeletonDoor",
+        "mesh":"SkeletonDoor.glb",
+        "symbol":"SkeletonDoor.png",
+        "type":"token",
+        "de": "Skelett Tür",
+        "en": "Skeleton Door"
+    },
+    "181":{
+        "id":"181",
+        "name":"SkeletonKey",
+        "mesh":"SkeletonKey.glb",
+        "symbol":"SkeletonKey.png",
+        "type":"token",
+        "de": "Skelett Schlüssel",
+        "en": "Skeleton-Key"
+    },
+    "182":{
+        "id":"182",
+        "name":"SpiderDoor",
+        "mesh":"SpiderDoor.glb",
+        "symbol":"SpiderDoor.png",
+        "type":"token",
+        "de": "Spinnentor",
+        "en": "SpiderDoor"
+    },
+    "183":{
+        "id":"183",
+        "name":"Earthsea",
+        "mesh":"Earthsea.glb",
+        "symbol":"Earthsea.png",
+        "type":"wall",
+        "de": "Höhlengewässer",
+        "en": "Earthsea"
     }
 }
