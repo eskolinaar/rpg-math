@@ -1457,5 +1457,22 @@
         "type":"wall",
         "de": "Höhlengewässer",
         "en": "Earthsea"
+    },
+    "184":{
+        "id":"184",
+        "name":"MageTower",
+        "mesh":"MageTower.glb",
+        "symbol":"MageTower.png",
+        "type":"token",
+        "de": "Magierturm",
+        "en": "MageTower"
+    },
+    "185":{
+        "id":"185",
+        "name":"GemSpider",
+        "mesh":"GemSpider.glb",
+        "symbol":"GemSpider.png",
+        "type":"mob",
+        "life":"3"
     }
 }
