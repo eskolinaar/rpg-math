@@ -96,7 +96,7 @@
     "17":{
         "id":"17",
         "name":"Golem",
-        "mesh":"golem5.glb",
+        "mesh":"golem2023.glb",
         "symbol":"golem.png",
         "type":"mob",
         "life":"8"
@@ -1472,6 +1472,14 @@
         "name":"GemSpider",
         "mesh":"GemSpider.glb",
         "symbol":"GemSpider.png",
+        "type":"mob",
+        "life":"3"
+    },
+    "186":{
+        "id":"186",
+        "name":"Ant",
+        "mesh":"Ant.glb",
+        "symbol":"Ant.png",
         "type":"mob",
         "life":"3"
     }
