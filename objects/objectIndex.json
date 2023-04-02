@@ -181,7 +181,7 @@
     "29":{
         "id":"29",
         "name":"book",
-        "mesh":"book.glb",
+        "mesh":"book2023.glb",
         "symbol":"book.png",
         "type":"token",
         "de": "Buch",
@@ -1482,5 +1482,61 @@
         "symbol":"Ant.png",
         "type":"mob",
         "life":"3"
+    },
+    "187":{
+        "id":"187",
+        "name":"RockWall",
+        "mesh":"RockWall.glb",
+        "symbol":"RockWall.png",
+        "type":"wall",
+        "de": "Felswand",
+        "en": "RockWall",
+        "orientation":"calc"
+    },
+    "188": {
+        "id":"188",
+        "name":"greentree2023",
+        "symbol":"greentree.png",
+        "mesh":"greentree2023.glb",
+        "type":"wall",
+        "orientation":"calc"
+    },
+    "189": {
+        "id":"189",
+        "name":"mountaintop",
+        "symbol":"mountaintop.png",
+        "mesh":"mountaintop.glb",
+        "type":"token",
+        "de": "Felsspitze",
+        "en": "MountainTop",
+        "orientation":"calc"
+    },
+    "190": {
+        "id":"190",
+        "name":"cavetop",
+        "symbol":"cavetop.png",
+        "mesh":"cavetop.glb",
+        "type":"token",
+        "de": "Höhlendecke",
+        "en": "cavetop",
+        "orientation":"calc"
+    },
+    "191": {
+        "id":"191",
+        "name":"DeskWithChairs",
+        "symbol":"DeskWithChairs.png",
+        "mesh":"DeskWithChairs.glb",
+        "type":"token",
+        "de": "Tisch mit Stühlen",
+        "en": "DeskWithChairs"
+    },
+    "192": {
+        "id":"192",
+        "name":"stool",
+        "symbol":"stool.png",
+        "mesh":"stool.glb",
+        "type":"token",
+        "de": "Hocker",
+        "en": "stool"
     }
 }

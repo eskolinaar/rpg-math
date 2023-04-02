@@ -381,6 +381,8 @@ function loadMeshObject(idx) {
         if (meshQueue.length>0) loadMeshObject(meshQueue[0]); else createScene();        
     }, undefined, ( e ) => {
         console.error( e );
+        $(".error_text_placeholder").text(e);
+        showMessage("error_message");
     } );
 
 }
@@ -681,6 +683,7 @@ function addToken(idx, wall, x, y, rot) {
         meshObject.position.z=y;
         meshObject.rotation.y=rot*rad;
 
+
         // opacity
         let skin=getSkin(meshObject);
         meshObject.skin=skin;
@@ -814,6 +817,7 @@ function createInstances(objId, objCount) {
                     objCount
                 );
                 instancedMesh.depthWrite=false;
+                instancedMesh.needsUpdate=false;
                 createInstanceSubObjects(instancedMesh, objId);
             }
         }

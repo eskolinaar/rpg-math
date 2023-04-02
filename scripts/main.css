@@ -4,6 +4,10 @@ canvas#three_outputcanvas {
     left:0px;
 }
 
+body.mobile {
+	background-image:url('../objects/marmor_cut_lq.jpg');
+}
+
 body.mobile canvas#three_outputcanvas {
 	top:calc(56px + 6vw);
 }
