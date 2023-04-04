@@ -144,7 +144,14 @@ function createNewEntityInstance(entityName, field_x, field_y) {
         el.id=selected_tile_index;
         el.x=field_x;
         el.y=field_y;
-        el.life=objectIndex[el.id].life;
+        if (entityName=="token") {
+            console.log("createNewEntityInstance, adding token ", el);
+            el.action={};
+            el.action.type=objectIndex[el.id]?.action_type;
+            console.log("createNewEntityInstance, chose type ", el, objectIndex[el.id], objectIndex[el.id]?.action_type);
+        } else {
+            el.life=objectIndex[el.id].life;
+        }
         mapdata[entityName].push(el);
         repaint();
         updateListHtml(entityName);
@@ -675,7 +682,7 @@ $(document).ready(function () {
         if (activePane=="mobs") {
             if (selectEntity("mobs", field_x, field_y)) return;
             if (moveActiveEntityInstance("mobs", field_x, field_y)) return;
-            if (createNewEntityInstance("mobs", field_x, field_y)) return;
+            createNewEntityInstance("mobs", field_x, field_y);
             return;
         }
 
@@ -683,7 +690,7 @@ $(document).ready(function () {
             console.log("maincanvas token click, ", field_x, field_y);
             if (selectEntity("token", field_x, field_y)) return;
             if (moveActiveEntityInstance("token", field_x, field_y)) return;
-            if (createNewEntityInstance("token", field_x, field_y)) return;
+            createNewEntityInstance("token", field_x, field_y);
             return;
         }
 

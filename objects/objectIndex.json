@@ -107,6 +107,7 @@
         "mesh":"wood_blocks.glb",
         "symbol":"WoodBlocks.png",
         "type":"token",
+        "action_type": "pick",
         "de": "Holz",
         "en": "log"
     },
@@ -148,6 +149,7 @@
         "mesh":"potion.glb",
         "symbol":"potion.png",
         "type":"token",
+        "action_type": "pick",
         "de": "Trank",
         "en": "potion"
     },
@@ -157,6 +159,7 @@
         "mesh":"key3.glb",
         "symbol":"key3_purple.png",
         "type":"token",
+        "action_type": "pick",
         "de": "Schlüssel",
         "en": "key"
     },
@@ -166,6 +169,7 @@
         "mesh":"key2.glb",
         "symbol":"key2_blue.png",
         "type":"token",
+        "action_type": "pick",
         "de": "Schlüssel",
         "en": "key"
     },
@@ -175,6 +179,7 @@
         "mesh":"portal.glb",
         "symbol":"portal.png",
         "type":"token",
+        "action_type": "travel",
         "de": "Portal",
         "en": "portal"
     },
@@ -184,6 +189,7 @@
         "mesh":"book2023.glb",
         "symbol":"book.png",
         "type":"token",
+        "action_type": "pick",
         "de": "Buch",
         "en": "book"
     },
@@ -193,6 +199,7 @@
         "mesh":"gem.glb",
         "symbol":"gem.png",
         "type":"token",
+        "action_type": "pick",
         "de": "Edelstein",
         "en": "gem"
     },  
@@ -202,6 +209,7 @@
         "mesh":"box.glb",
         "symbol":"box.png",
         "type":"token",
+        "action_type": "obstacle",
         "de": "Kiste",
         "en": "box"
     },
@@ -211,6 +219,7 @@
         "mesh":"key.glb",
         "symbol":"key_stone.png",
         "type":"token",
+        "action_type": "pick",
         "de": "Schlüssel",
         "en": "key"
     },
@@ -244,6 +253,7 @@
         "mesh":"chest06-2021.glb",
         "symbol":"chest6.png",
         "type":"token",
+        "action_type": "pick",
         "de": "Kiste",
         "en": "chest"
     },
@@ -277,6 +287,7 @@
         "mesh":"TravelIndicator.glb",
         "symbol":"TravelIndicator.png",
         "type":"token",
+        "action_type": "travel",
         "de": "Wegpunkt",
         "en": "waypoint"
     },
@@ -308,6 +319,7 @@
         "mesh":"carrot.glb",
         "symbol":"carrot.png",
         "type":"token",
+        "action_type": "pick",
         "de": "Karotte",
         "en": "carrot"
     },
@@ -349,6 +361,7 @@
         "symbol":"ForceField.png",
         "mesh":"ForceField.glb",
         "type":"token",
+        "action_type": "door",
         "opacity": "0.5",
         "de": "Kraftfeld",
         "en": "forcefield"
@@ -359,6 +372,7 @@
         "symbol":"Door2Wing.png",
         "mesh":"Door2Wing4.glb",
         "type":"token",
+        "action_type": "door",
         "de": "Tor",
         "en": "door"
     },
@@ -392,6 +406,7 @@
         "symbol":"button.png",
         "mesh":"button.glb",
         "type":"token",
+        "action_type": "switch",
         "de": "Schalter",
         "en": "lever"
     },
@@ -425,6 +440,7 @@
         "symbol":"Well.png",
         "mesh":"Well.glb",
         "type":"token",
+        "action_type": "obstacle",
         "orientation":"calc",
         "de": "Brunnen",
         "en": "well"
@@ -435,6 +451,7 @@
         "symbol":"Bell.png",
         "mesh":"Bell.glb",
         "type":"token",
+        "action_type": "obstacle",
         "orientation":"calc",
         "de": "Glocke",
         "en": "bell"
@@ -444,6 +461,7 @@
         "name":"cage",
         "symbol":"Cage.png",
         "mesh":"Cage.glb",
+        "action_type": "obstacle",
         "type":"token",
         "de": "Käfig",
         "en": "cage"
@@ -454,6 +472,7 @@
         "symbol":"boulder.png",
         "mesh":"boulder.glb",
         "type":"token",
+        "action_type": "obstacle",
         "de": "Felsen",
         "en": "boulder"
     },
@@ -463,6 +482,7 @@
         "symbol":"paw.png",
         "mesh":"paw.glb",
         "type":"token",
+        "action_type": "visual",
         "de": "Pfotenabdruck",
         "en": "paw print"
     },
@@ -488,6 +508,7 @@
         "symbol":"campfire.png",
         "mesh":"campfire.glb",
         "type":"token",
+        "action_type": "obstacle",
         "de": "Lagerfeuer",
         "en": "campfire"
     },
@@ -497,6 +518,7 @@
         "symbol":"crystal.png",
         "mesh":"crystal.glb",
         "type":"token",
+        "action_type": "pick",
         "de": "Kristall",
         "en": "crystal"
     },
@@ -506,6 +528,7 @@
         "symbol":"stoneportal.png",
         "mesh":"stoneportal.glb",
         "type":"token",
+        "action_type": "travel",
         "de": "Steinportal",
         "en": "stoneportal"
     },
@@ -515,6 +538,7 @@
         "symbol":"cookingpot.png",
         "mesh":"cookingpot.glb",
         "type":"token",
+        "action_type": "obstacle",
         "de": "Kochtopf",
         "en": "cookingpot"
     },
@@ -524,6 +548,7 @@
         "symbol":"egg_twig.png",
         "mesh":"egg_twig.glb",
         "type":"token",
+        "action_type": "pick",
         "de": "Ei",
         "en": "egg"
     },
@@ -533,6 +558,7 @@
         "symbol":"egg_rainbow.png",
         "mesh":"egg_rainbow.glb",
         "type":"token",
+        "action_type": "pick",
         "de": "Ei",
         "en": "egg"
     },
@@ -542,6 +568,7 @@
         "symbol":"egg_rabbit.png",
         "mesh":"egg_rabbit.glb",
         "type":"token",
+        "action_type": "pick",
         "de": "Ei",
         "en": "egg"
     },
@@ -551,6 +578,7 @@
         "symbol":"egg_monster.png",
         "mesh":"egg_monster.glb",
         "type":"token",
+        "action_type": "pick",
         "de": "Ei",
         "en": "egg"
     },
@@ -560,6 +588,7 @@
         "symbol":"egg_k1.png",
         "mesh":"egg_k1.glb",
         "type":"token",
+        "action_type": "pick",
         "de": "Ei",
         "en": "egg"
     },
@@ -569,6 +598,7 @@
         "symbol":"egg_k2.png",
         "mesh":"egg_k2.glb",
         "type":"token",
+        "action_type": "pick",
         "de": "Ei",
         "en": "egg"
     },
@@ -578,6 +608,7 @@
         "symbol":"egg_twig2.png",
         "mesh":"egg_twig2.glb",
         "type":"token",
+        "action_type": "pick",
         "de": "Ei",
         "en": "egg"
     },
@@ -587,6 +618,7 @@
         "symbol":"apple.png",
         "mesh":"apple.glb",
         "type":"token",
+        "action_type": "pick",
         "de": "Apfel",
         "en": "apple"
     },
@@ -596,6 +628,7 @@
         "symbol":"sign.png",
         "mesh":"sign.glb",
         "type":"token",
+        "action_type": "message",
         "de": "Wegweiser",
         "en": "sign"
     },
@@ -605,6 +638,7 @@
         "symbol":"sword.png",
         "mesh":"sword.glb",
         "type":"token",
+        "action_type": "obstacle",
         "de": "Schwert",
         "en": "sword"
     },
@@ -614,6 +648,7 @@
         "symbol":"house.png",
         "mesh":"house.glb",
         "type":"token",
+        "action_type": "obstacle",
         "de": "Haus",
         "en": "house"
     },
@@ -623,6 +658,7 @@
         "symbol":"letter.png",
         "mesh":"letter.glb",
         "type":"token",
+        "action_type": "pick",
         "de": "Brief",
         "en": "letter"
     },
@@ -672,6 +708,7 @@
         "symbol":"tent.png",
         "mesh":"tent.glb",
         "type":"token",
+        "action_type": "obstacle",
         "de": "Zelt",
         "en": "tent"
     },
@@ -713,6 +750,7 @@
         "symbol":"ring.png",
         "mesh":"ring.glb",
         "type":"token",
+        "action_type": "pick",
         "de": "Ring",
         "en": "ring"
     },
@@ -730,6 +768,7 @@
         "symbol":"strawberry.png",
         "mesh":"strawberry.glb",
         "type":"token",
+        "action_type": "pick",
         "de": "Erdbeere",
         "en": "strawberry"
     },
@@ -739,6 +778,7 @@
         "symbol":"grass.png",
         "mesh":"grass.glb",
         "type":"token",
+        "action_type": "visual",
         "de": "Gras",
         "en": "grass"
     },
@@ -860,6 +900,7 @@
         "symbol":"SandPillar.png",
         "mesh":"SandPillar.glb",
         "type":"token",
+        "action_type": "obstacle",
         "de": "Sockel",
         "en": "pillar"
     },
@@ -893,6 +934,7 @@
         "mesh":"pumpkin.glb",
         "symbol":"pumpkin.png",
         "type":"token",
+        "action_type": "pick",
         "de": "Kürbis",
         "en": "pumpkin"
     },
@@ -909,6 +951,7 @@
         "mesh":"Treat.glb",
         "symbol":"treat.png",
         "type":"token",
+        "action_type": "pick",
         "de": "Süßigkeit",
         "en": "bonbon"
     },
@@ -950,6 +993,7 @@
         "mesh":"cheese.glb",
         "symbol":"cheese.png",
         "type":"token",
+        "action_type": "pick",
         "de": "Käse",
         "en": "cheese"
     },
@@ -983,6 +1027,7 @@
         "mesh":"bread.glb",
         "symbol":"bread.png",
         "type":"token",
+        "action_type": "pick",
         "de": "Brot",
         "en": "bread"
     },
@@ -992,6 +1037,7 @@
         "mesh":"door4directions.glb",
         "symbol":"door4directions.png",
         "type":"token",
+        "action_type": "door",
         "de": "Tor",
         "en": "door"
     },
@@ -1009,6 +1055,7 @@
         "mesh":"gift2022.glb",
         "symbol":"gift.png",
         "type":"token",
+        "action_type": "pick",
         "de": "Geschenk",
         "en": "present"
     },
@@ -1018,6 +1065,7 @@
         "mesh":"gift2022_yellow.glb",
         "symbol":"gift_yellow.png",
         "type":"token",
+        "action_type": "pick",
         "de": "Geschenk",
         "en": "present"
     },
@@ -1027,6 +1075,7 @@
         "mesh":"gift2022_green.glb",
         "symbol":"gift_green.png",
         "type":"token",
+        "action_type": "pick",
         "de": "Geschenk",
         "en": "present"
     },
@@ -1067,6 +1116,7 @@
         "mesh":"house2022.glb",
         "symbol":"house2022.png",
         "type":"token",
+        "action_type": "obstacle",
         "de": "Haus",
         "en": "house"
     },
@@ -1076,6 +1126,7 @@
         "mesh":"barrel.glb",
         "symbol":"barrel.png",
         "type":"token",
+        "action_type": "obstacle",
         "de": "Fass",
         "en": "barrel"
     },
@@ -1124,6 +1175,7 @@
         "mesh":"bed.glb",
         "symbol":"bed.png",
         "type":"token",
+        "action_type": "obstacle",
         "de": "Bett",
         "en": "bed"
     },
@@ -1133,6 +1185,7 @@
         "mesh":"desk.glb",
         "symbol":"desk.png",
         "type":"token",
+        "action_type": "obstacle",
         "de": "Tisch",
         "en": "desk"
     },
@@ -1142,6 +1195,7 @@
         "mesh":"chair.glb",
         "symbol":"chair.png",
         "type":"token",
+        "action_type": "obstacle",
         "de": "Sessel",
         "en": "chair"
     },
@@ -1151,6 +1205,7 @@
         "mesh":"wardrobe.glb",
         "symbol":"wardrobe.png",
         "type":"token",
+        "action_type": "obstacle",
         "de": "Schrank",
         "en": "wardrobe"
     },
@@ -1160,6 +1215,7 @@
         "mesh":"hay.glb",
         "symbol":"hay.png",
         "type":"token",
+        "action_type": "obstacle",
         "de": "Heuballen",
         "en": "hay"
     },
@@ -1169,6 +1225,7 @@
         "mesh":"chest2023.glb",
         "symbol":"chest2023.png",
         "type":"token",
+        "action_type": "container",
         "de": "Kiste",
         "en": "chest"
     },
@@ -1186,6 +1243,7 @@
         "mesh":"healingwell.glb",
         "symbol":"healingwell.png",
         "type":"token",
+        "action_type": "obstacle",
         "de": "Heilbrunnen",
         "en": "healing well"
     },
@@ -1195,6 +1253,7 @@
         "mesh":"redrings.glb",
         "symbol":"redrings.png",
         "type":"token",
+        "action_type": "travel",
         "de": "Ringportal",
         "en": "ring portal"
     },
@@ -1204,6 +1263,7 @@
         "mesh":"bench.glb",
         "symbol":"bench.png",
         "type":"token",
+        "action_type": "obstacle",
         "de": "Bank",
         "en": "bench"
     },
@@ -1213,6 +1273,7 @@
         "mesh":"ladder.glb",
         "symbol":"ladder.png",
         "type":"token",
+        "action_type": "visual",
         "de": "Leiter",
         "en": "ladder"
     },
@@ -1222,6 +1283,7 @@
         "mesh":"bathtub.glb",
         "symbol":"bathtub.png",
         "type":"token",
+        "action_type": "obstacle",
         "de": "Badewanne",
         "en": "bathtub"
     },
@@ -1239,6 +1301,7 @@
         "mesh":"chest022023.glb",
         "symbol":"chest022023.png",
         "type":"token",
+        "action_type": "container",
         "de": "Schatzkiste",
         "en": "treasure"
     },
@@ -1248,6 +1311,7 @@
         "mesh":"star.glb",
         "symbol":"star.png",
         "type":"token",
+        "action_type": "pick",
         "de": "Stern",
         "en": "star"
     },
@@ -1257,6 +1321,7 @@
         "mesh":"coin.glb",
         "symbol":"coin.png",
         "type":"token",
+        "action_type": "pick",
         "de": "Münze",
         "en": "coin"
     },
@@ -1266,6 +1331,7 @@
         "mesh":"krapfen.glb",
         "symbol":"krapfen.png",
         "type":"token",
+        "action_type": "pick",
         "de": "Krapfen",
         "en": "doughnut"
     },
@@ -1275,6 +1341,7 @@
         "mesh":"SimpleDoor.glb",
         "symbol":"SimpleDoor.png",
         "type":"token",
+        "action_type": "door",
         "de": "Tür",
         "en": "Door"
     },
@@ -1284,6 +1351,7 @@
         "mesh":"buzzer.glb",
         "symbol":"buzzer.png",
         "type":"token",
+        "action_type": "switch",
         "de": "Buzzer",
         "en": "Buzzer"
     },
@@ -1293,6 +1361,7 @@
         "mesh":"GridDoor2.glb",
         "symbol":"GridDoor.png",
         "type":"token",
+        "action_type": "door",
         "de": "Gitter",
         "en": "GridDoor"
     },
@@ -1302,6 +1371,7 @@
         "mesh":"lever.glb",
         "symbol":"lever.png",
         "type":"token",
+        "action_type": "switch",
         "de": "Hebel",
         "en": "Lever"
     },
@@ -1311,6 +1381,7 @@
         "mesh":"WallLever.glb",
         "symbol":"walllever.png",
         "type":"token",
+        "action_type": "switch",
         "de": "Wand-Hebel",
         "en": "WallLever"
     },
@@ -1320,6 +1391,7 @@
         "mesh":"WallButton.glb",
         "symbol":"WallButton.png",
         "type":"token",
+        "action_type": "switch",
         "de": "Wand-Knopf",
         "en": "Wall-Button"
     },
@@ -1329,6 +1401,7 @@
         "mesh":"MetalDoor.glb",
         "symbol":"metaldoor.png",
         "type":"token",
+        "action_type": "door",
         "de": "Metalltür",
         "en": "MetalDoor"
     },
@@ -1365,6 +1438,7 @@
         "mesh":"LadderDown.glb",
         "symbol":"LadderDown.png",
         "type":"token",
+        "action_type": "travel",
         "de": "Leiter (runter)",
         "en": "Ladder (down)"
     },
@@ -1374,6 +1448,7 @@
         "mesh":"LadderUp.glb",
         "symbol":"LadderUp.png",
         "type":"token",
+        "action_type": "travel",
         "de": "Leiter (rauf)",
         "en": "Ladder (up)"
     },
@@ -1383,6 +1458,7 @@
         "mesh":"StairsUp.glb",
         "symbol":"StairsUp.png",
         "type":"token",
+        "action_type": "travel",
         "de": "Stiege (rauf)",
         "en": "Stairs (up)"
     },
@@ -1392,6 +1468,7 @@
         "mesh":"StairsDown.glb",
         "symbol":"StairsDown.png",
         "type":"token",
+        "action_type": "travel",
         "de": "Leiter (runter)",
         "en": "Stairs (down)"
     },
@@ -1401,6 +1478,7 @@
         "mesh":"Archway.glb",
         "symbol":"Archway.png",
         "type":"token",
+        "action_type": "visual",
         "de": "Durchgang",
         "en": "Archway"
     },
@@ -1410,6 +1488,7 @@
         "mesh":"CellarArchway.glb",
         "symbol":"CellarArchway.png",
         "type":"token",
+        "action_type": "visual",
         "de": "Durchgang (Keller)",
         "en": "Archway (Cellar)"
     },
@@ -1419,6 +1498,7 @@
         "mesh":"WayStone.glb",
         "symbol":"WayStone.png",
         "type":"token",
+        "action_type": "message",
         "de": "Wegweiser",
         "en": "WayStone"
     },
@@ -1428,6 +1508,7 @@
         "mesh":"SkeletonDoor.glb",
         "symbol":"SkeletonDoor.png",
         "type":"token",
+        "action_type": "door",
         "de": "Skelett Tür",
         "en": "Skeleton Door"
     },
@@ -1437,6 +1518,7 @@
         "mesh":"SkeletonKey.glb",
         "symbol":"SkeletonKey.png",
         "type":"token",
+        "action_type": "pick",
         "de": "Skelett Schlüssel",
         "en": "Skeleton-Key"
     },
@@ -1446,6 +1528,7 @@
         "mesh":"SpiderDoor.glb",
         "symbol":"SpiderDoor.png",
         "type":"token",
+        "action_type": "door",
         "de": "Spinnentor",
         "en": "SpiderDoor"
     },
@@ -1464,6 +1547,7 @@
         "mesh":"MageTower.glb",
         "symbol":"MageTower.png",
         "type":"token",
+        "action_type": "visual",
         "de": "Magierturm",
         "en": "MageTower"
     },
@@ -1507,6 +1591,7 @@
         "symbol":"mountaintop.png",
         "mesh":"mountaintop.glb",
         "type":"token",
+        "action_type": "visual",
         "de": "Felsspitze",
         "en": "MountainTop",
         "orientation":"calc"
@@ -1517,6 +1602,7 @@
         "symbol":"cavetop.png",
         "mesh":"cavetop.glb",
         "type":"token",
+        "action_type": "visual",
         "de": "Höhlendecke",
         "en": "cavetop",
         "orientation":"calc"
@@ -1527,6 +1613,7 @@
         "symbol":"DeskWithChairs.png",
         "mesh":"DeskWithChairs.glb",
         "type":"token",
+        "action_type": "obstacle",
         "de": "Tisch mit Stühlen",
         "en": "DeskWithChairs"
     },
@@ -1536,6 +1623,7 @@
         "symbol":"stool.png",
         "mesh":"stool.glb",
         "type":"token",
+        "action_type": "obstacle",
         "de": "Hocker",
         "en": "stool"
     }
