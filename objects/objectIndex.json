@@ -430,7 +430,7 @@
         "id":"58",
         "name":"bridge",
         "symbol":"Bridge.png",
-        "mesh":"Bridge.glb",
+        "mesh":"bridge.glb",
         "type":"floor",
         "orientation":"connect"
     },
@@ -1098,7 +1098,7 @@
     "137":{
         "id":"137",
         "name":"snowfloor",
-        "mesh":"snowfloor.glb",
+        "mesh":"SnowFloor.glb",
         "symbol":"snowfloor.png",
         "type":"floor"
     },
@@ -1535,7 +1535,7 @@
     "183":{
         "id":"183",
         "name":"Earthsea",
-        "mesh":"Earthsea.glb",
+        "mesh":"EarthSea.glb",
         "symbol":"Earthsea.png",
         "type":"wall",
         "de": "Höhlengewässer",
@@ -1581,7 +1581,7 @@
         "id":"188",
         "name":"greentree2023",
         "symbol":"greentree.png",
-        "mesh":"greentree2023.glb",
+        "mesh":"GreenTree2023.glb",
         "type":"wall",
         "orientation":"calc"
     },
