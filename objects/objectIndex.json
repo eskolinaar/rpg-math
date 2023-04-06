@@ -80,7 +80,7 @@
     "15":{
         "id":"15",
         "name":"Watcher",       
-        "mesh":"Watcher03-2023.glb",
+        "mesh":"watcher03-2023.glb",
         "symbol":"Watcher_bonerig_b28_v2.png",
         "type":"mob",
         "life":"3"

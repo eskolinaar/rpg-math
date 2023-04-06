@@ -1,7 +1,7 @@
 "use strict";
 
 import {Vector, Position, notify} from './helper.js';
-import {mapManager, partyPos, scene, setPartyPosition, getCameraDiff, modifyCamera} from './World.js';
+import {mapManager, partyPos, scene, setPartyPosition, getCameraDiff, modifyCamera, scaleOut} from './World.js';
 import {startCombat, damage, select, playerDeath, heal} from './combat.js';
 import {showMessage, isCheatingEnabled, savegame, i18n, mouseTiltX} from './game.js';
 import { Expression } from  './expression.js';
@@ -19,7 +19,7 @@ export var directions = {
     8: new Vector(0, -1)
 };
 
-export var movement_blocking_token_types = ["obstacle", "switch", "quest", "message", "travel", "container"];
+export var movement_blocking_token_types = ["obstacle", "switch", "quest", "message", "travel", "container","pick"];
 
 export var mm=new Vector(-1, -1);
 export var targetMob=-1;
@@ -533,8 +533,11 @@ function pickToken(tok, i) {
     if (tok?.action?.keyname!=undefined) {
         mapManager.saveVariableState(tok.action.keyname, 1);
     }
-    scene.remove(tok.object);
-    mapManager.removeToken(i);   
+    scaleOut(tok.object);
+    mapManager.removeToken(i);
+    setTimeout(() => {
+        scene.remove(tok.object);
+    }, 300);
 }
 
 export function resetTargetMob() {

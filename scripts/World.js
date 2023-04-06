@@ -13,6 +13,7 @@ import {
 } from './movement.js';
 import { i18n, showMessage, mouseTiltX } from './game.js';
 import {heal} from "./combat.js";
+import {Resize} from "./resize.js";
 // import { Water } from './Water2.js';
 
 export var partyPos;
@@ -50,6 +51,7 @@ let tokenObj=null;
 let dummy;
 let mouseTiltFactor;
 var canvas_emptyheight;
+var resizer;
 
 export function initWorld() {
     partyPos=new Position(17, 13);
@@ -631,6 +633,12 @@ export function render() {
             tokenObj = mapManager.getToken(i);
             if (tokenObj.mixer != undefined) tokenObj.mixer.update(delta);
         }
+
+        if (resizer!=undefined) {
+            if (!resizer.tick(clock.getElapsedTime())) {
+                resizer=undefined;
+            }
+        }
     } else { // begin no animation
         if (onTop == 0 && spectatorMode == false) { // when being in top down view. apply no camera changes   && spectatorMode
             if (camera == undefined) return;
@@ -736,6 +744,12 @@ function addToken(idx, wall, x, y, rot) {
         console.error( e );
     } );
 
+}
+
+export function scaleOut(obj) {
+    let t=clock.getElapsedTime();
+    console.log("scaleOut, starting at ", t, obj.scale.x);
+    resizer=new Resize(t, 0.3, obj.scale.x, obj);
 }
 
 function createScene() {
