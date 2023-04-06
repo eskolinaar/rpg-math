@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../scripts/ext/jquery-3.6.0.min.js"></script>
+    <script>
+        let objectsLi;
+
+        $(document).ready(() => {
+            objectsLi=document.getElementById("objects");
+
+            $.get( "../objects/objectIndex.json", function( objectIndex ) {
+                console.log(objectIndex);
+
+                for (const objId in objectIndex) {
+                    objectsLi.innerHTML+="<li data-id='"+objId+"'><span>"+objId+"</span> "+objectIndex[objId].mesh+"</li>";
+                }
+
+                for (const objId in objectIndex) {
+                    $.ajax({
+                        url: "../objects/models/"+objectIndex[objId].mesh,
+                        dataType: 'text',
+
+                        success: function (result) {
+                            $("#objects li[data-id="+objId+"]").addClass("passed");
+                        },
+                        error: function (result, errStatus, errorMessage) {
+                            $("#objects li[data-id="+objId+"]").addClass("failed");
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+    <style>
+        * { font-family: monospace; }
+        ul, li { list-style-type: none; margin:0; padding:0; }
+
+        span {
+            display:inline-block;
+            width:40px;
+            border-radius:5px;
+            padding:5px;
+            margin:3px;
+            text-align:center;
+            background-color: #cecaca;
+        }
+
+        li.passed span { background-color: #7ede7e; }
+        li.failed span { background-color: #b25353; }
+    </style>
+</head>
+<body>
+    <h1>ObjectIndex Test</h1>
+    <p>Testing if every object is available.</p>
+    <ul id="objects"></ul>
+</body>
+</html>
