@@ -221,6 +221,9 @@ export function mobWalk() {
             } else if (getDistance(mobPos)>getDistance(mobPos.apply(directions[mob.rotation+3]))) {
                 mob.rotation++;
                 if (mob.rotation>3) mob.rotation=0;
+            } else if (getDistance(mobPos)>getDistance(mobPos.apply(directions[mob.rotation]))) {
+                mob.rotation++;
+                if (mob.rotation>3) mob.rotation=0;
             }
             checkCombat();
             continue;
@@ -376,6 +379,17 @@ function checkTokenPosition(position, trigger) {
                 } else
                 if (token.action.type=="switch") {
                     mapManager.showSwitchDialog(token);
+                } else
+                if (token.action.type=="alarm") {
+                    let targets=token.action.targets.split(",");
+                    mapManager.getMobData().forEach((mob, idx) => {
+                        if (mob?.mobId !== undefined) {
+                            if (targets.indexOf(mob.mobId)>=0) {
+                                mob.mode = "";
+                                mob.movement = "aggressive";
+                            }
+                        }
+                    });
                 } else
                 if (token.action.type=="container") {
                     if (token.action?.once!==undefined && token.action?.triggered) {
