@@ -16,7 +16,6 @@ TOKEN:
     // travel - this token will send you to another place when walked on. like a map change or teleport
     // visual - this token looks good. maybe. it has no further function in game
 
-
     // Token with direction/rotation.
     // This is by default a pick-Token
     {"id":"36","x":12,"y":12,"rotation":2},
@@ -25,6 +24,7 @@ TOKEN:
     {"id":"67","x":18,"y":8,"action":{"type":"pick","keyname":"crystal"}},
 
     // pickup token with custom event
+    // see eventTypes down below
     {"id":"133","x":11,"y":17,"action":{"type":"pick","event":"progress"}},
 
     // switch
@@ -88,8 +88,18 @@ TOKEN:
 
     // token that cannot be walked on. just like a wall
     {"id":"59","x":8,"y":12,"action":{"type":"obstacle"}},
+
 ]
 
+    EVENT types:
+    - heal .. heals the character
+    - alarm .. sets (specific) mobs to agressive
+    - kill .. whenever a mob is killed
+    - pick .. whenever an object is picked up
+    - [custom] .. any alphanumeric key can be used as a event qualifier.
+                  one can use that to track quest progress
+    - message .. when a npc mob is talked to
+    - position .. reaching a specific position on the map (used for quests)
 
 
 QUESTEN:
@@ -188,5 +198,6 @@ MONSTER:
 
 MAP:
 ======
-
+When more maps are tied together, variables are not reset when changing map
+this attribut can override this behaviour
 "resetValues": "a",
