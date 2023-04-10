@@ -103,6 +103,9 @@ export function initWorld() {
     $("body").off("updateSettings");
     $("body").on("updateSettings", () => { updateSettings(); });
 
+    $("body").off("alarm");
+    $("body").on("alarm", (ev, filter) => { alarm(filter); });
+
     // scene.remove(m.object);
 
     if (window.location.hash=="#bc_map") {
@@ -274,6 +277,25 @@ function respawn(e) {
         mapManager.resetMobData();
         spawnAllMapMobs();
     }
+}
+
+function alarm(filter) {
+    if (filter==undefined) {
+        mapManager.getMobData().forEach((mob, idx) => {
+            mob.mode = "";
+            mob.movement = "aggressive";
+        });
+        return;
+    }
+    let targets=filter.split(",");
+    mapManager.getMobData().forEach((mob, idx) => {
+        if (mob?.mobId !== undefined) {
+            if (targets.indexOf(mob.mobId)>=0) {
+                mob.mode = "";
+                mob.movement = "aggressive";
+            }
+        }
+    });
 }
 
 function spell() {

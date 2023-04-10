@@ -18,7 +18,7 @@
             {"id":"17","mobId":"3","x":16,"y":16,"life":"8","mode":"peaceful","movement":"none", "rotation": "1"}
         ],
         "token":[
-            {"id":"181","x":13,"y":14,"action":{"type":"alarm", "targets": "1,3" }}
+            {"id":"181","x":13,"y":14,"action":{"type":"pick", "event":"alarm", "filter": "1,3" }}
         ],
         "quest":{"event":"","filter":"","amount":"","template":{"en":"","de":""}},
         "introtext": {"de":"","en":""}

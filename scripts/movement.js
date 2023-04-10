@@ -380,17 +380,6 @@ function checkTokenPosition(position, trigger) {
                 if (token.action.type=="switch") {
                     mapManager.showSwitchDialog(token);
                 } else
-                if (token.action.type=="alarm") {
-                    let targets=token.action.targets.split(",");
-                    mapManager.getMobData().forEach((mob, idx) => {
-                        if (mob?.mobId !== undefined) {
-                            if (targets.indexOf(mob.mobId)>=0) {
-                                mob.mode = "";
-                                mob.movement = "aggressive";
-                            }
-                        }
-                    });
-                } else
                 if (token.action.type=="container") {
                     if (token.action?.once!==undefined && token.action?.triggered) {
                         console.log("checkTokenPosition, skipping already opened container %o", token);
@@ -542,7 +531,11 @@ function pickToken(tok, i) {
     }
     $("body").trigger({ type:"token", filter:tok.id });
     if (tok?.action?.event!==undefined) {
-        $("body").trigger({ type:tok.action.event });
+        if (tok?.action?.filter!==undefined) {
+            $("body").trigger( tok.action.event, tok.action.filter );
+        } else {
+            $("body").trigger( tok.action.event );
+        }
     }
     if (tok?.action?.keyname!=undefined) {
         mapManager.saveVariableState(tok.action.keyname, 1);
