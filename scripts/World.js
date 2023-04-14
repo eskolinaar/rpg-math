@@ -106,6 +106,10 @@ export function initWorld() {
     $("body").off("alarm");
     $("body").on("alarm", (ev, filter) => { alarm(filter); });
 
+    $("body").off("movement");
+    $("body").on("movement", (ev, filter) => { triggerMovementWaypoint(filter); });
+
+
     // scene.remove(m.object);
 
     if (window.location.hash=="#bc_map") {
@@ -294,6 +298,21 @@ function alarm(filter) {
                 mob.mode = "";
                 mob.movement = "aggressive";
             }
+        }
+    });
+}
+
+// when "movement" event is triggered, all mobs are traversed
+// to find out which mob should have his waypoint set
+function triggerMovementWaypoint(filter) {
+    mapManager.getMobData().forEach((mob, idx) => {
+        if (mob?.movement !== undefined && mob?.waypoints!==undefined && mob.movement=="scripted") {
+            mob.waypoints.forEach((wp) => {
+                if (wp.eventfilter==filter) {
+                    console.log("triggerMovementWaypoint, found wp", wp);
+                    mob.targetPos=new Position(wp.x, wp.y);
+                }
+            });
         }
     });
 }

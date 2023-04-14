@@ -200,31 +200,110 @@ export function mobWalk() {
         let mob=mapManager.getMob(i);
         let mobPos=new Position(mob.x, mob.y);
 
-        if (mob.movement != undefined && mob.movement=="none") continue;
-
         if (mob.rotation>3) mob.rotation=0;
         if (mob.rotation<0) mob.rotation=3;
+
+        //
+        // NONE mode
+        //
+        if (mob.movement != undefined && mob.movement=="none") continue;
+
+        //
+        // SCRIPTED mode
+        //
+        if (mob.movement != undefined && mob.movement=="scripted") {
+            if (mob.targetPos===undefined) continue;
+
+            if (canMobWalk(mob, mobPos, i)) {
+                if (getDistance(mobPos, mob.targetPos)>getDistance( mobPos.apply(directions[mob.rotation+2]), mob.targetPos)) {
+                    [mob.x, mob.y] = mobPos.apply(directions[mob.rotation + 2]).asArray();
+                    continue;
+                }
+            }
+            if (getDistance(mobPos, mob.targetPos)>getDistance(mobPos.apply(directions[mob.rotation+1]), mob.targetPos)) {
+                mob.rotation--;
+                if (mob.rotation<0) mob.rotation=3;
+            } else if (getDistance(mobPos, mob.targetPos)>getDistance(mobPos.apply(directions[mob.rotation+3]), mob.targetPos)) {
+                mob.rotation++;
+                if (mob.rotation>3) mob.rotation=0;
+            } else if (getDistance(mobPos, mob.targetPos)>getDistance(mobPos.apply(directions[mob.rotation]), mob.targetPos)) {
+                mob.rotation++;
+                if (mob.rotation>3) mob.rotation=0;
+            }
+
+            if (getDistance(mobPos, mob.targetPos)<1) {
+                mob.targetPos=undefined;
+            }
+            checkCombat();
+            continue;
+        }
 
         //
         // AGRESSIVE mode
         //
         if (mob.movement != undefined && mob.movement=="aggressive") {
             if (canMobWalk(mob, mobPos, i)) {
-                if (getDistance(mobPos)>getDistance(mobPos.apply(directions[mob.rotation+2]))) {
+                if (getDistance(mobPos, partyPos.apply(mm))>getDistance( mobPos.apply(directions[mob.rotation+2]), partyPos.apply(mm))) {
                     [mob.x, mob.y] = mobPos.apply(directions[mob.rotation + 2]).asArray();
                     continue;
                 }
             }
-            if (getDistance(mobPos)>getDistance(mobPos.apply(directions[mob.rotation+1]))) {
+            if (getDistance(mobPos, partyPos.apply(mm))>getDistance(mobPos.apply(directions[mob.rotation+1]), partyPos.apply(mm))) {
                 mob.rotation--;
                 if (mob.rotation<0) mob.rotation=3;
-            } else if (getDistance(mobPos)>getDistance(mobPos.apply(directions[mob.rotation+3]))) {
+            } else if (getDistance(mobPos, partyPos.apply(mm))>getDistance(mobPos.apply(directions[mob.rotation+3]), partyPos.apply(mm))) {
                 mob.rotation++;
                 if (mob.rotation>3) mob.rotation=0;
-            } else if (getDistance(mobPos)>getDistance(mobPos.apply(directions[mob.rotation]))) {
+            } else if (getDistance(mobPos, partyPos.apply(mm))>getDistance(mobPos.apply(directions[mob.rotation]), partyPos.apply(mm))) {
                 mob.rotation++;
                 if (mob.rotation>3) mob.rotation=0;
             }
+            checkCombat();
+            continue;
+        }
+
+        //
+        // PATROL mode
+        //
+        if (mob.movement != undefined && mob.movement=="patrol") {
+            if (mob.targetPos===undefined) {
+                if (mob.waypoints===undefined) continue;
+                mob.targetPos=new Position(mob.waypoints[0].x, mob.waypoints[0].y);
+            }
+
+            if (canMobWalk(mob, mobPos, i)) {
+                if (getDistance(mobPos, mob.targetPos)>getDistance( mobPos.apply(directions[mob.rotation+2]), mob.targetPos)) {
+                    [mob.x, mob.y] = mobPos.apply(directions[mob.rotation + 2]).asArray();
+                    continue;
+                }
+            }
+            if (getDistance(mobPos, mob.targetPos)>getDistance(mobPos.apply(directions[mob.rotation+1]), mob.targetPos)) {
+                mob.rotation--;
+                if (mob.rotation<0) mob.rotation=3;
+            } else if (getDistance(mobPos, mob.targetPos)>getDistance(mobPos.apply(directions[mob.rotation+3]), mob.targetPos)) {
+                mob.rotation++;
+                if (mob.rotation>3) mob.rotation=0;
+            } else if (getDistance(mobPos, mob.targetPos)>getDistance(mobPos.apply(directions[mob.rotation]), mob.targetPos)) {
+                mob.rotation++;
+                if (mob.rotation>3) mob.rotation=0;
+            }
+
+            if (getDistance(mobPos, mob.targetPos)<1) {
+                let waypointIndex=0;
+                mob.waypoints.forEach((wp, idx) => {
+                    if (wp.x==mob.targetPos.x && wp.y==mob.targetPos.y) {
+                        waypointIndex=idx;
+                    }
+                });
+                if (waypointIndex>=mob.waypoints.length-1) {
+                    mob.targetPos=new Position(mob.waypoints[0].x, mob.waypoints[0].y);
+                    // console.log("(first) new wp is ", mob.targetPos, mob);
+                } else {
+                    mob.targetPos=new Position(mob.waypoints[waypointIndex+1].x, mob.waypoints[waypointIndex+1].y);
+                    // console.log("(next) new wp is ", mob.targetPos, mob);
+                }
+            }
+
             checkCombat();
             continue;
         }
@@ -323,9 +402,9 @@ function rotateLeftOrRight(mob) {
     if (mob.rotation<0) mob.rotation=3;
 }
 
-function getDistance(mob) {
-    let dist=Math.abs(mob.x-partyPos.x+1)+Math.abs(mob.y-partyPos.y+1);
-    console.log("getDistance", mob, partyPos, dist);
+function getDistance(mob, targetPos) {
+    let dist=Math.abs(mob.x-targetPos.x)+Math.abs(mob.y-targetPos.y);
+    //console.log("getDistance", mob, targetPos, dist);
     return dist;
 }
 
