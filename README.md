@@ -1,8 +1,8 @@
 # rpg-math
 
-[![Banner](/objects/symbol/banner.jpg)](https://rpg.maurer1108.at)
+[![Banner](/objects/symbol/banner.jpg)](https://maurer1108.net)
 
-**Live Version: https://rpg.maurer1108.at**
+**Live Version: [https://rpg.maurer1108.at](https://maurer1108.net)**
 ---
 <br><br>
 ## What is it
