@@ -41,6 +41,7 @@ function initVariables() {
 
     canvas = document.getElementById('maincanvas');
     ctx = canvas.getContext('2d');
+    updateWaypoints();
 }
 
 function showFeedbackMessage(message) {
@@ -86,6 +87,18 @@ function repaintToken() {
     }
 }
 
+function repaintWaypoints() {
+    let waypoints = getWaypoints();
+    let waypoint_png = document.getElementById("waypoint_symbol");
+    let mapname = getDefaultMapname();
+    for (const waypoint of waypoints) {
+        if (mapname === waypoint.mapname) {
+            ctx.drawImage(waypoint_png, waypoint.x * size_x, waypoint.y * size_y, size_x, size_y);
+        }
+    }
+}
+
+
 function repaint() {
     if (canvas == null) return;
     if (ctx == null) return;
@@ -96,9 +109,13 @@ function repaint() {
     if (shouldPaintOnTop("token")) {
         repaintMobs();
         repaintToken();
-    } else {
+    } else if (shouldPaintOnTop("mobs")) {
         repaintToken();
         repaintMobs();
+    } else {
+        repaintMobs();
+        repaintToken();
+        repaintWaypoints();
     }
 }
 
@@ -149,8 +166,10 @@ function createNewEntityInstance(entityName, field_x, field_y) {
             el.action={};
             el.action.type=objectIndex[el.id]?.action_type;
             console.log("createNewEntityInstance, chose type ", el, objectIndex[el.id], objectIndex[el.id]?.action_type);
-        } else {
+        } else { // mob
             el.life=objectIndex[el.id].life;
+            if (objectIndex[el.id].movement!==undefined) el.movement = objectIndex[el.id].movement;
+            if (objectIndex[el.id].mode!==undefined) el.mode = objectIndex[el.id].mode;
         }
         mapdata[entityName].push(el);
         repaint();
@@ -175,6 +194,34 @@ function updateListHtml(entityName) {
         out+=generateListItem(i, mapdata[entityName][i]);
     }
     $("#"+entityName+" ul").html(out);    
+}
+
+function saveWaypoint(mapname, x, y, note) {
+    let waypoints = getWaypoints();
+    waypoints.push({ mapname:mapname, x:x, y:y, note:note });
+    localStorage.setItem("waypoints", JSON.stringify(waypoints));
+}
+
+function getWaypoints() {
+    let ls_waypoints = localStorage.getItem("waypoints");
+    let waypoints = null;
+    if (ls_waypoints == null) {
+        waypoints = [];
+    } else {
+        waypoints = JSON.parse(ls_waypoints);
+    }
+    return waypoints;
+}
+
+function updateWaypoints() {
+    let waypoints = getWaypoints();
+    let mapname = getDefaultMapname();
+    let out="";
+    for (const waypoint of waypoints) {
+        out+="<li class='"+(mapname===waypoint.mapname?"currentMap":"")+"' data-mapname='"+waypoint.mapname+"' data-x='"+waypoint.x+"' data-y='"+waypoint.y+"' data-note='"+waypoint.note+"'>"+waypoint.mapname+"<br>"+waypoint.note+"<br>"+waypoint.x+" / "+waypoint.y+"</li>";
+    }
+    out+="";
+    $("#waypoints ul").html(out);
 }
 
 function loadMapFromFile(filename) {
@@ -219,6 +266,7 @@ function loadMapFromData(data) {
     updateListHtml("mobs");
     updateListHtml("token");
     repaint();
+    updateWaypoints();
     showFeedbackMessage("File was successfully loaded!");
 }
 
@@ -226,7 +274,7 @@ function downloadFile(filedata) {
   var lnk = document.createElement("a");
   let today = (new Date()).toISOString().substr(0, 10);
   let ms = (new Date()).toISOString().substr(20, 3);
-  lnk.download = "m"+today+"-"+ms+".map.json";
+  lnk.download = getDefaultMapname();
   lnk.href = "data:application/json,"+filedata;
   $("body")[0].appendChild(lnk);
   lnk.click();
@@ -367,6 +415,20 @@ function selectEntity(entitytype, field_x, field_y) {
         }
     }
     return false;
+}
+
+function getDefaultMapname() {
+    let today = (new Date()).toISOString().substring(0, 10);
+    let ms = (new Date()).toISOString().substr(20, 3);
+    let mapname=$("#waypoint_mapname").val();
+    console.log("getDefaultMapname ", $("#waypoint_mapname"), mapname);
+    if (mapname==="") {
+        mapname = "m"+today+"-"+ms+".map.json";
+    }
+    if (mapname.substring(mapname.length-9)!==".map.json") {
+        mapname+=".map.json";
+    }
+    return mapname;
 }
 
 function updateTokenDetails() {
@@ -523,9 +585,12 @@ $(document).ready(function () {
         clearActiveListItem();
     });
 
-    $("#mobs").on("click", "ul li", () => {
+    $("#mobs").on("click", "ul li", (el) => {
+        let target = el.target;
+        if (target.tagName === "SPAN") target=target.parentNode;
+        console.log("clicked mob on list", target);
         clearActiveListItem();
-        $(this).addClass("active");
+        $(target).addClass("active"); // make sure its not the span
         updateMobDetails();
     });
 
@@ -550,6 +615,46 @@ $(document).ready(function () {
         clearActiveListItem();
         $(el.target).addClass("active");
         updateTokenDetails();
+    });
+
+    $("#waypoints").on("click", "ul li", (el) => {
+        let el_target = $(el.target);
+        if ($("#waypoints").hasClass("deletemode")) {
+            console.log("waypoint should be deleted. nyi", el.target);
+            let mapname = el_target.attr("data-mapname");
+            let x = el_target.attr("data-x");
+            let y = el_target.attr("data-y");
+            let note = el_target.attr("data-note");
+
+            let waypoint_data = getWaypoints();
+            let waypoints_new = [];
+            for (const waypoint of waypoint_data) {
+                if (!(mapname === waypoint.mapname
+                    && x === waypoint.x
+                    && y === waypoint.y
+                    && note === waypoint.note)
+                ) {
+                    waypoints_new.push(waypoint);
+                }
+            }
+            localStorage.setItem("waypoints", JSON.stringify(waypoints_new));
+            updateWaypoints();
+
+        } else {
+            // when a waypoint is clicked in token view, travel data is loaded
+
+            $("#token_travel_mapname").val(el_target.attr("data-mapname"));
+            $("#token_travel_x").val(el_target.attr("data-x"));
+            $("#token_travel_y").val(el_target.attr("data-y"));
+
+            if ($("#token_travel_direction").val()==="") {
+                $("#token_travel_direction").val("1");
+            }
+            if ($("#token_type").val()==="") {
+                $("#token_type").val("travel");
+            }
+
+        }
     });
 
     $("#token_details").on("keyup", "input", function (e) {
@@ -701,16 +806,40 @@ $(document).ready(function () {
         }
 
         if (activePane=="start") {
-            console.log("changing starting position via click nyi");
             mapdata.x=field_x+1;
             mapdata.y=field_y+1; 
             $("#char_x").val(field_x+1);
             $("#char_y").val(field_y+1);
-            repaint();   
+            repaint();
+        }
 
+        if (activePane=="waypoints") {
+            $("#waypoint_x").val(field_x);
+            $("#waypoint_y").val(field_y);
+
+            let mapname=$("#waypoint_mapname").val();
+            if (mapname === undefined) {
+                $("#waypoint_mapname").val(getDefaultMapname());
+            }
         }
 
         repaint();                      
+    });
+
+    $("button#waypoint_savebutton").click(function () {
+        saveWaypoint(
+            getDefaultMapname(),
+            $("#waypoint_x").val(),
+            $("#waypoint_y").val(),
+            $("#waypoint_note").val()
+        );
+        updateWaypoints();
+        repaint();
+    });
+
+    // waypoint_deletetogglebutton
+    $("button#waypoint_deletetogglebutton").click(function () {
+        $("#waypoints").toggleClass("deletemode");
     });
 
     $("button#savefilebutton").click(function () {       
@@ -725,11 +854,18 @@ $(document).ready(function () {
             maps = JSON.parse(maps);
         }
 
-        let today = (new Date()).toISOString().substr(0, 10);
-        let ms = (new Date()).toISOString().substr(20, 3);
-        let mapname = "m"+today+"-"+ms+".map.json";
-
-        maps.push({ mapname:mapname, mapdata:createJSONStringFromMap() });
+        let mapname = getDefaultMapname();
+        let mapdata = createJSONStringFromMap();
+        let found = 0;
+        for (const map of maps) {
+            if (map.mapname == mapname) {
+                map.mapdata=mapdata;
+                found++;
+            }
+        }
+        if (found<1) {
+            maps.push({ mapname:mapname, mapdata:mapdata });
+        }
         localStorage.setItem("maps", JSON.stringify(maps));
         updateLocalStorageIndexHtml();
         showFeedbackMessage("Map was successfully saved to '"+mapname+"'!");
@@ -819,6 +955,8 @@ $(document).ready(function () {
                     return;
                 } else {
                     try {
+                        $("#waypoint_mapname").val(maps[map].mapname);
+                        console.log("loading map", maps[map].mapname);
                         loadMapFromData(JSON.parse(maps[map].mapdata));
                     } catch (e) {
                         console.error("#loadfrombrowser, could not load map because of ", e);
@@ -833,6 +971,7 @@ $(document).ready(function () {
 
     $("#loadpredefined").on("click", "li", function() {
         console.log("loadpredefined", this, this.innerText);
+        $("#waypoint_mapname").val(this.innerText);
         loadMapFromFile("maps/"+this.innerText);
     });
 

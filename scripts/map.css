@@ -76,6 +76,7 @@ p#savebutton {
     border-radius: 3px;
     box-shadow: 0 0 3px #888;
     background-color: #d5d5d5;
+    float:right;
 }
 
 .feedback_message {
@@ -106,7 +107,7 @@ p {
     width: 100%;
 }
 
-#loadfrombrowser.deletemode {
+#loadfrombrowser.deletemode, #waypoints.deletemode {
     background-color: #ffafaf;
 }
 
@@ -140,7 +141,7 @@ span {
     bottom: 1px;
 }
 
-#mobs ul, ul#localStorage_mapview, ul#predefined_mapview {
+#mobs ul, ul#localStorage_mapview, ul#predefined_mapview, #waypoints ul {
 	margin:0;
 	padding:0px;
 }
@@ -211,3 +212,76 @@ button {
 .buttonlink:hover {
     background-color: #bbb;
 }
+
+    ul#menu {
+        display:block;
+        position:absolute;
+        left:0;
+        top:0;
+        bottom:0;
+        width:150px;
+        background-color:#bbb;
+        margin:0;
+        padding:0;
+    }
+
+    ul#menu li {
+        text-align: left;
+        padding: 20px;
+        list-style-type: none;
+        margin: 0;
+        border: 1px solid #ddd;
+        box-shadow: 0 0 15px #eee inset;
+        margin: 1px;
+        color: #444;
+        font-family: arial;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    ul#menu li:hover {
+        box-shadow: 0 0 15px #fff inset;
+        color: #000;
+        background-color: #ccc;
+        border: 1px solid #fff;
+    }
+
+    ul#menu li.chosen {
+        box-shadow: 0 0 15px #fff inset;
+        color: #000;
+        background-color: #ddd;
+        border: 1px solid #fff;
+    }
+
+    div#mainview {
+        left: 150px;
+    }
+
+    #maincanvas {
+        background-color:#fff;
+    }
+
+    body {
+        background-color:#eee;
+    }
+
+    textarea {
+        height: 200px;
+    }
+
+    #right { display:none; }
+
+    #waypoints ul li {
+        font-family: verdana;
+        font-size: 12px;
+        list-style-type: none;
+        margin: 2px;
+        padding: 4px 9px;
+        background-color: #fff;
+        cursor: pointer;
+        border:1px solid #fff;
+    }
+
+    #waypoints ul li.currentMap {
+        border-right: 5px solid #888;
+    }

@@ -6,65 +6,6 @@
     <script type="text/javascript" src="scripts/ext/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="./scripts/MapEditor.js"></script>
     <link rel="stylesheet" type="text/css" href="scripts/map.css">
-    <style>
-        ul#menu {
-            display:block;
-            position:absolute;
-            left:0;
-            top:0;
-            bottom:0;
-            width:300px;
-            background-color:#bbb;
-            margin:0;
-            padding:0;
-        }
-
-        ul#menu li {
-            text-align: left;
-            padding: 20px;      
-            list-style-type: none;
-            margin: 0;
-            border: 1px solid #ddd;
-            box-shadow: 0 0 15px #eee inset;
-            margin: 1px;
-            color: #444;
-            font-family: arial;
-            font-size: 14px;
-            cursor: pointer;
-        }
-
-        ul#menu li:hover {
-            box-shadow: 0 0 15px #fff inset;
-            color: #000;
-            background-color: #ccc;
-            border: 1px solid #fff;
-        }
-
-        ul#menu li.chosen {
-            box-shadow: 0 0 15px #fff inset;
-            color: #000;
-            background-color: #ddd;
-            border: 1px solid #fff;         
-        }
-
-        div#mainview {
-            left: 300px;
-        }
-
-        #maincanvas {
-            background-color:#fff;
-        }
-
-        body {
-            background-color:#eee;  
-        }
-
-        textarea {
-            height: 200px;
-        }
-
-        #right { display:none; }
-    </style>
     <title>rpg-math - Map Editor</title>
 </head>
 <body> 
@@ -75,6 +16,7 @@
         <li data-target="fielddata">Fielddata</li>
         <li data-target="mobs">Mobs</li>
         <li data-target="token">Token</li>
+        <li data-target="waypoints">Waypoints</li>
         <li data-target="start">Start</li>
         <li data-target="quest">Quest</li>
         <li data-target="export">Export</li>
@@ -83,7 +25,7 @@
         <div class="pane" data-pane="overview">
             <div class="section">
                 <label>Load from file</label>
-                <input type="file" class="map_editor_file_upload" name="map_editor_file_upload"></p>
+                <input type="file" class="map_editor_file_upload" name="map_editor_file_upload">
             </div>
             <div class="section" id="loadfrombrowser">
                 <label>Load from browser (localStorage)</label>
@@ -140,7 +82,7 @@
                 <textarea id="introtext_de" placeholder="Kannst du das f&uuml;r mich machen?"></textarea>
             </div>
         </div>        
-        <div class="pane" data-pane="fielddata,mobs,token,start">
+        <div class="pane" data-pane="fielddata,mobs,token,start,waypoints">
             <canvas id="maincanvas" height="900" width="1000"></canvas>
             <!-- rest right -->
             <div id="imagepreload" class="section" data-pane="fielddata,mobs,token">
@@ -171,9 +113,9 @@
                 <span>Y</span>
                 <input id="token_y" data-fieldname="y" type="text" placeholder="y">
                 <span>Rotation</span>
-                <input id="token_rotation" data-fieldname="rotation" type="text" placeholder="1=Osten, 2=Norden, 3=Westen, 4=Süden">
+                <input id="token_rotation" data-fieldname="rotation" type="text" placeholder="1=Osten, 2=Norden, 3=Westen, 4=Süden" list="rotation_list">
                 <span>Type</span>
-                <input id="token_type" data-fieldname="action.type" type="text" placeholder="pick, message, obstacle, switch, door, travel, quest">
+                <input id="token_type" data-fieldname="action.type" type="text" placeholder="pick, message, obstacle, switch, door, travel, quest" list="token_type_list">
                 <span>Message-DE</span>
                 <input id="token_message_de" data-fieldname="action.message.de" type="text" placeholder="Schaut gut aus">
                 <span>Message-EN</span>
@@ -195,10 +137,7 @@
                 <span>Target-Y (travel)</span>
                 <input id="token_travel_y" data-fieldname="action.y" type="text" placeholder="1..30">
                 <span>Target-Direction (travel)</span>
-                <input id="token_travel_direction" data-fieldname="action.direction" type="text" placeholder="1, 2, 3, 4">
-
-
-
+                <input id="token_travel_direction" data-fieldname="action.direction" type="text" placeholder="1, 2, 3, 4" list="rotation_list">
             </div>
             <div id="char" class="section" data-pane="start">
                 <label>Char</label>
@@ -218,14 +157,19 @@
                 <span>Y</span>
                 <input id="mob_y" data-fieldname="y" type="text" placeholder="y">
                 <span>Life</span>
-                <input id="mob_life" data-fieldname="life" type="text" placeholder="1-20">
+                <input id="mob_life" data-fieldname="life" type="text" placeholder="1-20" list="moblife_list">
                 <span>Mode</span>
-                <input id="mob_mode" data-fieldname="mode" type="text" placeholder="peaceful">
+                <input id="mob_mode" data-fieldname="mode" type="text" placeholder="peaceful" list="mode_list">
                 <span>Movement</span>
-                <input id="mob_movement" data-fieldname="movement" type="text" placeholder="none">
+                <input id="mob_movement" data-fieldname="movement" type="text" placeholder="none" list="movement_list">
                 <span>Rotation</span>
-                <input id="mob_rotation" data-fieldname="rotation" type="text" placeholder="0|1|2|3">
+                <input id="mob_rotation" data-fieldname="rotation" type="text" placeholder="0|1|2|3" list="rotation_list">
                 <span>add quest ...</span>
+            </div>
+            <div id="waypoints" class="section" data-pane="waypoints,token">
+                <label>Waypoints</label>
+                <ul></ul>
+                <button id="waypoint_deletetogglebutton">Delete</button>
             </div>
         </div>
         <div class="pane" data-pane="quest">
@@ -241,7 +185,21 @@
                 <label>Quest text DE</label>
                 <input id="quest_text_de" type="text" placeholder="{} von {} gesammelt/besiegt">
             </div> 
-        </div>      
+        </div>
+        <div class="pane" data-pane="export,waypoints,overview">
+            <div id="waypoint_form" class="section">
+                <img id="waypoint_symbol" src="objects/symbol/waypoint.png">
+                <label>Name of current map</label>
+                <input type="text" id="waypoint_mapname" placeholder="mYYYY-MM-DD_xxx.map.json">
+                <label>Name of waypoint</label>
+                <input type="text" id="waypoint_note" placeholder="ex.: exit to northgard">
+                <label>X</label>
+                <input type="text" id="waypoint_x" placeholder="1..30">
+                <label>Y</label>
+                <input type="text" id="waypoint_y" placeholder="1..30"><br><br>
+                <button id="waypoint_savebutton">Save waypoint</button>
+            </div>
+        </div>
         <div class="pane" data-pane="export">
             <div id="save2browser" class="section">
                 <label>Save to browser (localStorage)</label>
@@ -265,5 +223,37 @@
     </div>
 <div id="right">
 </div>
+    <datalist id="token_type_list">
+        <option value="pick">
+        <option value="message">
+        <option value="obstacle">
+        <option value="switch">
+        <option value="door">
+        <option value="travel">
+        <option value="quest">
+    </datalist>
+    <datalist id="movement_list">
+        <option value="none">
+    </datalist>
+    <datalist id="mode_list">
+        <option value="peaceful">
+    </datalist>
+    <datalist id="rotation_list">
+        <option value="1">
+        <option value="2">
+        <option value="3">
+        <option value="4">
+    </datalist>
+    <datalist id="moblife_list">
+        <option value="3">
+        <option value="4">
+        <option value="5">
+        <option value="6">
+        <option value="7">
+        <option value="8">
+        <option value="9">
+        <option value="10">
+    </datalist>
+    moblife_list
 </body>
 </html>         

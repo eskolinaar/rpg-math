@@ -311,7 +311,8 @@
         "mesh":"rudi.glb",
         "symbol":"rudi.png",
         "type":"mob",
-        "life":"3"
+        "life":"3",
+        "mode":"peaceful"
     },
     "44":{
         "id":"44",
@@ -329,7 +330,8 @@
         "mesh":"bruno.glb",
         "symbol":"bruno.png",
         "type":"mob",
-        "life":"3"
+        "life":"3",
+        "mode":"peaceful"
     },
     "46":{
         "id":"46",
@@ -492,7 +494,8 @@
         "symbol":"sorceress.png",
         "mesh":"sorceress.glb",
         "type":"mob",
-        "life": "5"
+        "life": "5",
+        "mode":"peaceful"
     },
     "65": {
         "id":"65",
@@ -500,7 +503,8 @@
         "symbol":"hedgehog.png",
         "mesh":"hedgehog.glb",
         "type":"mob",
-        "life": "3"
+        "life": "3",
+        "mode":"peaceful"
     },
     "66": {
         "id":"66",
@@ -961,7 +965,8 @@
         "mesh":"Ratman.glb",
         "symbol":"ratman.png",
         "type":"mob",
-        "life":"4"
+        "life":"4",
+        "mode":"peaceful"
     },
     "122":{
         "id":"122",
@@ -969,7 +974,9 @@
         "mesh":"ratman_white.glb",
         "symbol":"ratman_white.png",
         "type":"mob",
-        "life":"4"
+        "life":"4",
+        "mode":"peaceful"
+
     },
     "123":{
         "id":"123",
@@ -977,7 +984,8 @@
         "mesh":"ratman_black.glb",
         "symbol":"ratman_black.png",
         "type":"mob",
-        "life":"4"
+        "life":"4",
+        "mode":"peaceful"
     },
     "124":{
         "id":"124",
@@ -1003,7 +1011,8 @@
         "mesh":"ratman_brown.glb",
         "symbol":"ratman_brown.png",
         "type":"mob",
-        "life":"4"
+        "life":"4",
+        "mode":"peaceful"
     },
     "127":{
         "id":"127",
@@ -1011,7 +1020,8 @@
         "mesh":"wuschi.glb",
         "symbol":"wuschi.png",
         "type":"mob",
-        "life":"4"
+        "life":"4",
+        "mode":"peaceful"
     },
     "128":{
         "id":"128",
@@ -1093,7 +1103,8 @@
         "mesh":"rudi_xmas.glb",
         "symbol":"rudi_xmas.png",
         "type":"mob",
-        "life":"3"
+        "life":"3",
+        "mode":"peaceful"
     },
     "137":{
         "id":"137",
@@ -1108,7 +1119,8 @@
         "mesh":"tentacle.glb",
         "symbol":"tentacle.png",
         "type":"mob",
-        "life":"3"
+        "life":"3",
+        "movement": "none"
     },
     "139":{
         "id":"139",
@@ -1144,7 +1156,8 @@
         "mesh":"wizard.glb",
         "symbol":"wizard.png",
         "type":"mob",
-        "life":"5"
+        "life":"5",
+        "mode":"peaceful"
     },
     "143":{
         "id":"143",
@@ -1152,7 +1165,8 @@
         "mesh":"wizard_blue.glb",
         "symbol":"wizard_blue.png",
         "type":"mob",
-        "life":"5"
+        "life":"5",
+        "mode":"peaceful"
     },
     "144":{
         "id":"144",
