@@ -440,8 +440,6 @@ function checkTokenPosition(position, trigger) {
                     if (token.action.map==undefined) {
                         console.log("checkTokenPosition, travel to ", parseInt(token.action.x), parseInt(token.action.y));
                         setPartyPosition(new Position(parseInt(token.action.x), parseInt(token.action.y)));
-                        // TODO: adjust all maps to be +1/+1 so token.x can equal token.action.x
-                        //setPartyPosition(new Position(parseInt(token.action.x)+1, parseInt(token.action.y)+1));
                     } else {
                         // map change
                         mapManager.disposeMobs();

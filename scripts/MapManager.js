@@ -61,7 +61,24 @@ export class MapManager {
 			this.charPos=new Position(parseInt(position.x), parseInt(position.y));
 			if (position.dir!==undefined) { window.gamedata.direction=parseInt(position.dir); updateCompass(); }
 			onMapLoaded();
-		});
+		}).fail(() => {
+            console.log("loadMap, loading failed. trying fallback. load from localStorage ", mapName);
+            // load map from localstorage as a fallback
+            // this is for testing purposes only. maybe i should check some more here
+            let maps=localStorage.getItem("maps");
+            if (maps == null) return;
+            maps = JSON.parse(maps);
+            for (var map in maps) {
+                console.log("loadMap, fallback trying ["+maps[map].mapname+"] vs ["+mapName+"]", maps[map].mapname, mapName);
+                if (mapName==maps[map].mapname) {
+                    console.log("loadMapWithPosition, loading from localstorage", maps[map].mapname);
+                    this.loadMapInternal(JSON.parse(maps[map].mapdata));
+                    this.charPos=new Position(parseInt(position.x), parseInt(position.y));
+                    if (position.dir!==undefined) { window.gamedata.direction=parseInt(position.dir); updateCompass(); }
+                    onMapLoaded();
+                }
+            }
+        });
 	}
 
 	loadMapFromData(rawMapData) {

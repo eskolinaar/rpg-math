@@ -654,6 +654,16 @@ $(document).ready(function () {
                 $("#token_type").val("travel");
             }
 
+            let tokenDataId = $("#token ul li.active").attr("data-id");
+
+            if (mapdata.token[tokenDataId].action === undefined) {
+                mapdata.token[tokenDataId].action = {};
+            }
+            mapdata.token[tokenDataId].action.x = parseInt(el_target.attr("data-x"));
+            mapdata.token[tokenDataId].action.y = parseInt(el_target.attr("data-y"));
+            mapdata.token[tokenDataId].action.map = el_target.attr("data-mapname");
+            mapdata.token[tokenDataId].action.type = "travel";
+
         }
     });
 

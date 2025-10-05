@@ -1640,5 +1640,25 @@
         "action_type": "obstacle",
         "de": "Hocker",
         "en": "stool"
+    },
+    "193": {
+        "id":"193",
+        "name":"grains",
+        "symbol":"grains.png",
+        "mesh":"grains.glb",
+        "type":"token",
+        "action_type": "obstacle",
+        "de": "Getreide",
+        "en": "grains"
+    },
+    "194": {
+        "id":"194",
+        "name":"portal2025",
+        "symbol":"PortalTwirl2025.png",
+        "mesh":"Portal2025.glb",
+        "type":"token",
+        "action_type": "obstacle",
+        "de": "Portal",
+        "en": "portal"
     }
 }
