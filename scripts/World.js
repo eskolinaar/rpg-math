@@ -373,6 +373,19 @@ function spell() {
     } );
 }
 
+function createMapLights() {
+    let lights = mapManager.getLightsData();
+    console.log("loading lights:", lights);
+    for (var t=0;t<lights.length;t++) {
+        let lightData=lights[t];
+        let newlight = new THREE.PointLight( lightData.color, lightData.intensity * getBrightness(),  7); // soft white newlight
+        newlight.position.x=lightData.x;
+        newlight.position.z=lightData.y;
+        newlight.position.y=lightData.z;
+        scene.add( newlight );
+    }
+}
+
 function spawnAllMapToken() {
     for (var t=0;t<mapManager.getTokenData().length;t++) {
         let token=mapManager.getTokenData()[t];
@@ -807,6 +820,8 @@ function createScene() {
     }
 
     $(".startup_progress").html("<p>"+i18n("level_build")+"</p>");
+
+    createMapLights();
 
     // spawn field objects -- old version
     createFieldObjects();

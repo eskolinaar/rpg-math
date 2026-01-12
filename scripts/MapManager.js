@@ -103,6 +103,8 @@ export class MapManager {
 		if (this.map==undefined) this.map=[];
         this.map=data_obj.fielddata;
 
+        if (data_obj.lights!=undefined) this.lights=data_obj.lights; else this.mobs=new Array();
+
         if (data_obj.mobs!=undefined) this.mobs=data_obj.mobs; else this.mobs=new Array();
 		this.allMobs=JSON.parse(JSON.stringify(this.mobs));
         if (data_obj.token!=undefined) this.token=data_obj.token; else this.token=new Array();
@@ -329,6 +331,11 @@ export class MapManager {
 	getToken(idx) {
 		return this.token[idx];
 	}
+
+    getLightsData() {
+        if (this.lights===undefined) return [];
+        return this.lights;
+    }
 
 	getTokenData() {
 		return this.token;

@@ -267,6 +267,7 @@ function loadMapFromData(data) {
     updateListHtml("token");
     repaint();
     updateWaypoints();
+    console.log("loadMapFromData", mapdata.lights, mapdata);
     showFeedbackMessage("File was successfully loaded!");
 }
 
@@ -323,6 +324,7 @@ function createJSONStringFromMap() {
         "token":[
             ${createJSONStringFromToken()}
         ],
+        "lights":${mapdata.lights===undefined?"[]":JSON.stringify(mapdata.lights)},
         "quest":${JSON.stringify(mapdata.quest)},
         "introtext": ${JSON.stringify(mapdata.introtext)}
     }`;
