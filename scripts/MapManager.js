@@ -58,7 +58,7 @@ export class MapManager {
 		for (let i=0;i<30*30;i++) { this.map.push(0); }
 		$.get( "maps/"+this.mapName, (data) => {
 			this.loadMapInternal(data);
-			this.charPos=new Position(parseInt(position.x), parseInt(position.y));
+			this.charPos=new Position(parseInt(position.x)+1, parseInt(position.y)+1);
 			if (position.dir!==undefined) { window.gamedata.direction=parseInt(position.dir); updateCompass(); }
 			onMapLoaded();
 		}).fail(() => {
@@ -73,7 +73,7 @@ export class MapManager {
                 if (mapName==maps[map].mapname) {
                     console.log("loadMapWithPosition, loading from localstorage", maps[map].mapname);
                     this.loadMapInternal(JSON.parse(maps[map].mapdata));
-                    this.charPos=new Position(parseInt(position.x), parseInt(position.y));
+                    this.charPos=new Position(parseInt(position.x)+1, parseInt(position.y)+1);
                     if (position.dir!==undefined) { window.gamedata.direction=parseInt(position.dir); updateCompass(); }
                     onMapLoaded();
                 }

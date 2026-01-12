@@ -14,7 +14,6 @@ import {
 import { i18n, showMessage, mouseTiltX } from './game.js';
 import {heal} from "./combat.js";
 import {Resize} from "./resize.js";
-// import { Water } from './Water2.js';
 
 export var partyPos;
 export var damageLight;
@@ -44,8 +43,6 @@ var mobspeed;
 var plane;
 var textureLoader;
 var water;
-var Water_1_M_Normal;
-var Water_2_M_Normal;
 let spellEffect=null;
 let tokenObj=null;
 let dummy;
